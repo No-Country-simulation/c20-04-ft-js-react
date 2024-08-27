@@ -5,5 +5,6 @@ import authrouter from "./routers/auth.routers.js";
 
 const app = express();
 app.use(morgan("dev"));
-app.use("api/auth",authrouter)
+app.use(express.json())
+app.use("/api",authrouter)
 export default app;
