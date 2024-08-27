@@ -1,0 +1,30 @@
+{
+  "name": "c20-04-ft-js-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/No-Country-simulation/c20-04-ft-js-react.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/No-Country-simulation/c20-04-ft-js-react/issues"
+  },
+  "homepage": "https://github.com/No-Country-simulation/c20-04-ft-js-react#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.4",
+    "mongose": "^0.0.2-security",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.4"
+  }
+}
