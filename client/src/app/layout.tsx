@@ -4,6 +4,9 @@ import "./globals.css";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/theme";
 
+//redux
+import { ReduxProvider } from "@/redux/Provider/ReduxProvider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,7 +25,9 @@ export default function RootLayout({
         {/* Aplica el tema de Material UI */}
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <ReduxProvider>
           {children}
+          </ReduxProvider>
         </ThemeProvider>
       </body>
     </html>
