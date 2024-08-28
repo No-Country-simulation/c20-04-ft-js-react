@@ -1,0 +1,1 @@
+// Por convención, los nombres de componentes de React usan PascalCase
