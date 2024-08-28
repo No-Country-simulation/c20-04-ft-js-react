@@ -26,7 +26,7 @@ export default function RootLayout({
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <ReduxProvider>
-          {children}
+            {children}
           </ReduxProvider>
         </ThemeProvider>
       </body>
