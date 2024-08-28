@@ -4,6 +4,6 @@ import { resgister,login } from "../controllers/auth.controllers.js";
 const rou= Router()
 rou.post("/resgister", resgister);
 rou.post("/login",login);
-rou.put("/loguot");
+rou.post("/loguot");
 
 export default rou
