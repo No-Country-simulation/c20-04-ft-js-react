@@ -1,5 +1,5 @@
-import Header from './components/Header';
-import SideNavBar from './components/SideNavBar';
+import Header from '@/components/Header/Header';
+import SideNavBar from '../components/shared/SideNavBar';
 
 export default function Home() {
   return (
