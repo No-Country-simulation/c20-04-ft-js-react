@@ -1,6 +1,8 @@
 import app from "./app.js"
 import { conecDB } from "./db.js"
 
+const PORT = 4000
+
 conecDB();
-app.listen(3000)
-console.log("server on 3000")
+app.listen(PORT)
+console.log(`server running at port: ${PORT}`)
