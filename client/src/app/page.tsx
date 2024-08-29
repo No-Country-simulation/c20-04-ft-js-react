@@ -1,13 +1,16 @@
-import Header from '@/components/Header/Header';
+import Header from '@/components/header/Header';
 import SideNavBar from '../components/shared/SideNavBar';
 
 export default function Home() {
   return (
-    <>
+    <main className='min-h-dvh max-w-screen-xl mx-auto'>
       <Header />
-      <main className='flex'>
+      <div className='flex'>
         <SideNavBar />
-      </main>
-    </>
+        <div className=''>
+          hola
+        </div>
+      </div>
+    </main>
   );
 }
