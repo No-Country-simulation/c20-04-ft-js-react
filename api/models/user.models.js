@@ -25,7 +25,23 @@ const userSchema =new mongoose.Schema({
     biografy: {
         type: Object,
         default : {}
-    }
+    },
+    followers: {
+        type: Array,
+        default: []
+    },
+    following: {
+        type: Array,
+        default: []
+    },
+    collec_amount: {
+        type: Array,
+        default: []
+    },
+    status: {
+        type: Boolean,
+        default: true
+    },
 
 },
     { timestamps: true }
