@@ -1,7 +1,7 @@
 // Por convención, los nombres de componentes de React usan PascalCase
-export default function NavBar() {
+export default function Header() {
     return (
-        <nav className="flex flex-row border-2 border-neutral-300 w-full items-center justify-between">
+        <header className="flex flex-row border-2 border-neutral-300 w-full items-center justify-between">
             <div className="flex flex-row items-center">
                 <p className="bg-neutral-400 rounded-full text-xl mx-8 p-2 my-2">Logo</p>
                 <p className="text-2xl">PawPal Community</p>
@@ -25,6 +25,6 @@ export default function NavBar() {
                     </svg>
                 </button>
             </div>
-        </nav>
+        </header>
     )
 }
