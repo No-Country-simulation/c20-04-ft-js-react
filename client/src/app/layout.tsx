@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import theme from "@/theme";
+import ThemeManager from "@/components/root/ThemeManager";
 
 //redux
 import { ReduxProvider } from "@/redux/Provider/ReduxProvider";
@@ -23,12 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         {/* Aplica el tema de Material UI */}
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <ReduxProvider>
+        <ReduxProvider>
+          <ThemeManager>
             {children}
-          </ReduxProvider>
-        </ThemeProvider>
+          </ThemeManager>
+        </ReduxProvider>
       </body>
     </html>
   );
