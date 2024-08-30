@@ -1,8 +1,17 @@
-import Header from '@/components/header/Header';
-import SideNavBar from '../components/shared/SideNavBar';
-import ThemeSwitcher from '@/components/shared/ThemeSwitcher';
+import Header from '@/components/header/Header'
+import SideNavBar from '../components/shared/SideNavBar'
+import { useAppSelector } from '@/redux/hooks'
+import { redirect } from 'next/navigation'
 
-export default function Home() {
+export default function Page() {
+  const user = useAppSelector((state) => state.userReducer.user)
+  console.log(user)
+
+  if (user?.username) {
+    redirect('/home')
+  } else {
+    redirect('/login')
+  }
   return (
     <main className='min-h-dvh max-w-screen-xl mx-auto'>
       <Header />
@@ -10,8 +19,6 @@ export default function Home() {
         <SideNavBar />
         <div className=''>
           hola
-          {/* Puedes eliminar esete componente solo esta para probar el cambio de temas */}
-          <ThemeSwitcher />
         </div>
       </div>
     </main>
