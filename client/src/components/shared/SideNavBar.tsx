@@ -1,36 +1,45 @@
+'use client'
 import { IoHomeOutline } from 'react-icons/io5';
 import { CiUser, CiMail } from 'react-icons/ci';
 import { IoSettingsOutline, IoLogOutOutline } from 'react-icons/io5';
 
-const routes = [
-  {
-    name: 'Home',
-    path: '/',
-    icon: IoHomeOutline
-  },
-  {
-    name: 'Mensajes',
-    path: '/messages',
-    icon: CiMail
-  },
-  {
-    name: 'Perfil',
-    path: '/me',
-    icon: CiUser
-  },
-  {
-    name: 'Configuracíon',
-    path: '/settings',
-    icon: IoSettingsOutline
-  },
-  {
-    name: 'Cerrar sesión',
-    path: '/log-out',
-    icon: IoLogOutOutline
-  }
-];
+//? redux
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+
 
 export default function SideNavBar() {
+
+  const userName = useSelector((state: RootState)=> state.userReducer.user?.username)
+
+
+  const routes = [
+    {
+      name: 'Home',
+      path: '/',
+      icon: IoHomeOutline
+    },
+    {
+      name: 'Mensajes',
+      path: '/messages',
+      icon: CiMail
+    },
+    {
+      name: 'Profile',
+      path: `/profile/${userName}`,
+      icon: CiUser
+    },
+    {
+      name: 'Configuracíon',
+      path: '/settings',
+      icon: IoSettingsOutline
+    },
+    {
+      name: 'Cerrar sesión',
+      path: '/log-out',
+      icon: IoLogOutOutline
+    }
+  ];
   return (
     <section className='border border-neutral-300 px-5 py-10 h-full border-t-0'>
       <input

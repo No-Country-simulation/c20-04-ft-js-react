@@ -1,7 +1,11 @@
-import React from 'react'
+'use client'
 
-export default function Profile() {
+interface profileProps {
+  username: string;
+}
+
+export default function Profile({username}: profileProps) {
   return (
-    <div>Profile</div>
+    <div>welcome to your profile user {username}</div>
   )
 }
