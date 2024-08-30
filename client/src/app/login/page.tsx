@@ -1,10 +1,15 @@
 "use client"
 
+import {useRouter} from 'next/navigation'
 import { Button, styled, TextField, IconButton, InputAdornment, formGroupClasses } from "@mui/material";
 import { useLoginMutation } from "@/redux/apiSlices/authApi";
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+//redux
+import { setUser } from "@/redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 const Input = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-root": {
@@ -32,6 +37,9 @@ interface DataFormInterface {
 }
 
 export default function PageLogin() {
+  const dispatch = useDispatch()
+  const router = useRouter()
+  
   const [showPassword, setShowPassword] = useState(false);
   const [dataForm, setDataForm] = useState<DataFormInterface>({ email: '', password: '' });
   const [errors, setErrors] = useState<Partial<DataFormInterface>>({});
@@ -78,7 +86,12 @@ export default function PageLogin() {
   const postLogin = async (dataForm: DataFormInterface) => {
     try {
       const response = await login(dataForm).unwrap(); // Llama a la mutación y espera la respuesta
+      if(response.username){
+        dispatch(setUser(response))
       console.log('Usuario autenticado:', response);
+      router.push('/home')
+
+      }
     } catch (err) {
       console.error('Error al iniciar sesión:', err);
     }
@@ -142,7 +155,7 @@ export default function PageLogin() {
           </Link>
           <p className="text-sm text-gray-600">
             ¿No tienes una cuenta?{" "}
-            <Link href="/auth/register" className="text-[#A14CEB] hover:underline">
+            <Link href="/register" className="text-[#A14CEB] hover:underline">
               Regístrate
             </Link>
           </p>

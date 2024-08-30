@@ -2,7 +2,6 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     user: {},
-    counter: 0
 }
 
 const userSlice = createSlice({
@@ -11,12 +10,12 @@ const userSlice = createSlice({
     initialState,
     //aca los distintos seteadores del estado, que usaremos para cambiar el valor de lo que ocupemos, con lo que recibimos por payload
     reducers: {
-        updateCounter: (state,action)=> {
-            state.counter = state.counter + action.payload
+        setUser: (state,action)=> {
+            state.user = action.payload
         },
     }
 })
 
-export const {updateCounter} = userSlice.actions
+export const {setUser} = userSlice.actions
 // este export es para poder usarlo en la store
 export default userSlice.reducer
