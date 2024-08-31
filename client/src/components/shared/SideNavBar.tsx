@@ -41,7 +41,7 @@ export default function SideNavBar() {
     }
   ];
   return (
-    <section className='border border-neutral-300 px-5 py-10 h-full border-t-0'>
+    <section className='h-[93svh] border border-neutral-300 px-5 py-10 border-t-0 border-b-0'>
       <input
         className='border border-neutral-300 rounded-full py-2 px-4 mb-10 outline-none transition-colors focus:border-black'
         type='search'
