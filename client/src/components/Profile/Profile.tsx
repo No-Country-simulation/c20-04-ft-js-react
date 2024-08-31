@@ -15,6 +15,19 @@ export default function Profile({username}: profileProps) {
       </div>
 
       {/* segunda parte del perfil */}
+      <div className="mt-5 w-[90%] mx-auto">
+        {/* image and name container */}
+        <div>
+        <figure className="w-20 h-20 rounded-full bg-[#000]">
+          <img className="w-full h-full rounded-full" src="" alt="" />
+        </figure>
+        <p className="">name of the user</p>
+        </div>
+
+        {/* her it goes the follow, following and edit profile/message part */}
+        
+        
+      </div>
     </div>
   )
 }
