@@ -1,5 +1,6 @@
-import Header from '@/components/Header/Header'
+import Header from '@/components/header/Header'
 import SideNavBar from '@/components/shared/SideNavBar'
+import ThemeSwitcher from '@/components/shared/ThemeSwitcher'
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         <SideNavBar />
         <div className=''>
           hola
+          <ThemeSwitcher />
         </div>
       </div>
     </main>

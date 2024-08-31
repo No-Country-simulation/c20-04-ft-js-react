@@ -1,5 +1,5 @@
-import Header from '@/components/header/Header'
-import SideNavBar from '../components/shared/SideNavBar'
+'use client'
+
 import { useAppSelector } from '@/redux/hooks'
 import { redirect } from 'next/navigation'
 
@@ -13,14 +13,6 @@ export default function Page() {
     redirect('/login')
   }
   return (
-    <main className='min-h-dvh max-w-screen-xl mx-auto'>
-      <Header />
-      <div className='flex'>
-        <SideNavBar />
-        <div className=''>
-          hola
-        </div>
-      </div>
-    </main>
-  );
+    <div>loading...</div>
+  )
 }
