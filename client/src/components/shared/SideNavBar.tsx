@@ -1,32 +1,34 @@
-import { IoHomeOutline } from 'react-icons/io5';
-import { CiUser, CiMail } from 'react-icons/ci';
-import { IoSettingsOutline, IoLogOutOutline } from 'react-icons/io5';
+import HomeIcon from "@/icons/HomeIcon";
+import LogOutIcon from "@/icons/LogOutIcon";
+import MailIcon from "@/icons/MailIcon";
+import SettingsIcon from "@/icons/SettingsIcon";
+import UserIcon from "@/icons/UserIcon";
 
 const routes = [
   {
     name: 'Home',
     path: '/',
-    icon: IoHomeOutline
+    icon: HomeIcon
   },
   {
     name: 'Mensajes',
     path: '/messages',
-    icon: CiMail
+    icon: MailIcon
   },
   {
     name: 'Perfil',
     path: '/me',
-    icon: CiUser
+    icon: UserIcon
   },
   {
     name: 'Configuracíon',
     path: '/settings',
-    icon: IoSettingsOutline
+    icon: SettingsIcon
   },
   {
     name: 'Cerrar sesión',
     path: '/log-out',
-    icon: IoLogOutOutline
+    icon: LogOutIcon
   }
 ];
 
@@ -46,7 +48,7 @@ export default function SideNavBar() {
             href={route.path}
             className='flex gap-x-4 py-2 px-4 items-center font-semibold rounded-full border border-transparent transition text-black/60 hover:text-black hover:border-neutral-300'
           >
-            <route.icon className='size-8' />
+            <route.icon />
             <span>{route.name}</span>
           </a>
         ))}
