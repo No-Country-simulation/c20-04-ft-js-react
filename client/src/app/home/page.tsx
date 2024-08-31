@@ -1,6 +1,8 @@
-import Header from '@/components/header/Header'
+
+import Header from '@/components/Header/Header'
 import SideNavBar from '@/components/shared/SideNavBar'
 import ThemeSwitcher from '@/components/shared/ThemeSwitcher'
+import { Box } from '@mui/material'
 
 export default function Home() {
   return (
@@ -8,11 +10,12 @@ export default function Home() {
       <Header />
       <div className='flex'>
         <SideNavBar />
-        <div className=''>
-          hola
-          <ThemeSwitcher />
-        </div>
+        <Box p={5} gap={4} sx={{
+          display: 'flex', flexDirection: 'column', width: '100% ', borderRight: '1px solid #e0e0e0'
+        }}>
+          < ThemeSwitcher />
+        </Box>
       </div>
-    </main>
+    </main >
   )
 }
