@@ -1,13 +1,13 @@
 "use client"
 
-import {useRouter} from 'next/navigation'
-import { Button, styled, TextField, IconButton, InputAdornment, formGroupClasses } from "@mui/material";
-import { useLoginMutation } from "@/redux/apiSlices/authApi";
+import { useRouter } from 'next/navigation'
+import { Button, styled, TextField, IconButton, InputAdornment, formGroupClasses, CircularProgress } from "@mui/material";
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 //redux
+import { useLoginMutation } from "@/redux/apiSlices/authApi";
 import { setUser } from "@/redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 
@@ -31,7 +31,7 @@ const ButtonSubmit = styled(Button)(({ theme }) => ({
   textTransform: "none",
 }));
 
-interface DataFormInterface {
+interface FormDataInterface {
   email: string;
   password: string;
 }
@@ -39,10 +39,10 @@ interface DataFormInterface {
 export default function PageLogin() {
   const dispatch = useDispatch()
   const router = useRouter()
-  
+
   const [showPassword, setShowPassword] = useState(false);
-  const [dataForm, setDataForm] = useState<DataFormInterface>({ email: '', password: '' });
-  const [errors, setErrors] = useState<Partial<DataFormInterface>>({});
+  const [formData, setFormData] = useState<FormDataInterface>({ email: '', password: '' });
+  const [errors, setErrors] = useState<Partial<FormDataInterface>>({});
 
   const [login, { isLoading, isSuccess, error }] = useLoginMutation();
 
@@ -50,7 +50,7 @@ export default function PageLogin() {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
-    setDataForm(prevState => ({
+    setFormData(prevState => ({
       ...prevState,
       [id]: value,
     }));
@@ -63,15 +63,15 @@ export default function PageLogin() {
   const handleSubtmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newErrors: Partial<DataFormInterface> = {};
+    const newErrors: Partial<FormDataInterface> = {};
 
-    if (!dataForm.email) {
+    if (!formData.email) {
       newErrors.email = 'El correo electrónico es obligatorio';
-    } else if (!/\S+@\S+\.\S+/.test(dataForm.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'El correo electrónico no es válido';
     }
 
-    if (!dataForm.password) {
+    if (!formData.password) {
       newErrors.password = 'La contraseña es obligatoria';
     }
 
@@ -80,23 +80,19 @@ export default function PageLogin() {
       return;
     }
 
-    postLogin(dataForm)
+    postLogin(formData)
   };
 
-  const postLogin = async (dataForm: DataFormInterface) => {
+  const postLogin = async (dataForm: FormDataInterface) => {
     try {
       const response = await login(dataForm).unwrap(); // Llama a la mutación y espera la respuesta
-      if(response.username){
-        dispatch(setUser(response))
       console.log('Usuario autenticado:', response);
+      dispatch(setUser(response))
       router.push('/home')
-
-      }
     } catch (err) {
       console.error('Error al iniciar sesión:', err);
     }
   }
-
 
   return (
     <div className="bg-[#CEC5FD] min-h-screen flex items-center justify-center p-4">
@@ -115,7 +111,7 @@ export default function PageLogin() {
             type="email"
             label="Correo electrónico"
             id="email"
-            value={dataForm?.email}
+            value={formData?.email}
             onChange={handleInputChange}
             className="w-full"
             error={!!errors.email}
@@ -126,7 +122,7 @@ export default function PageLogin() {
             label="Contraseña"
             id="password"
             className="w-full"
-            value={dataForm?.password}
+            value={formData?.password}
             onChange={handleInputChange}
             error={!!errors.password}
             helperText={errors.password}
@@ -144,8 +140,12 @@ export default function PageLogin() {
               ),
             }}
           />
-          <ButtonSubmit type="submit" className="w-full bg-[#A14CEB] hover:bg-[#8A3CD1] text-white">
-            Iniciar sesión
+          <ButtonSubmit
+            type="submit"
+            className="w-full bg-[#A14CEB] hover:bg-[#8A3CD1] text-white"
+            disabled={isLoading}
+          >
+            {isLoading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Iniciar sesión"}
           </ButtonSubmit>
         </form>
 
