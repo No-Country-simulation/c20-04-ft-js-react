@@ -1,13 +1,18 @@
-import HomeIcon from "@/icons/HomeIcon";
-import LogOutIcon from "@/icons/LogOutIcon";
-import MailIcon from "@/icons/MailIcon";
-import SettingsIcon from "@/icons/SettingsIcon";
-import UserIcon from "@/icons/UserIcon";
+'use client'
+
+import HomeIcon from '@/icons/HomeIcon'
+import LogOutIcon from '@/icons/LogOutIcon'
+import MailIcon from '@/icons/MailIcon'
+import SettingsIcon from '@/icons/SettingsIcon'
+import UserIcon from '@/icons/UserIcon'
+import SearchBarr from './SearchBarr'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const routes = [
   {
     name: 'Home',
-    path: '/',
+    path: '/home',
     icon: HomeIcon
   },
   {
@@ -17,7 +22,7 @@ const routes = [
   },
   {
     name: 'Perfil',
-    path: '/me',
+    path: '/profile',
     icon: UserIcon
   },
   {
@@ -30,29 +35,36 @@ const routes = [
     path: '/log-out',
     icon: LogOutIcon
   }
-];
+]
 
 export default function SideNavBar() {
-  return (
-    <section className='h-[93svh] border border-neutral-300 px-5 py-10 border-t-0 border-b-0'>
-      <input
-        className='border border-neutral-300 rounded-full py-2 px-4 mb-10 outline-none transition-colors focus:border-black'
-        type='search'
-        placeholder='Buscar'
-      />
+  const pathname = usePathname()
 
-      <nav className='grid gap-y-5'>
-        {routes.map((route) => (
-          <a
-            key={route.path}
-            href={route.path}
-            className='flex gap-x-4 py-2 px-4 items-center font-semibold rounded-full border border-transparent transition text-black/60 hover:text-black hover:border-neutral-300'
+  return (
+    <section
+      className='border-neutral-300 dark:border-neutral-700 px-3 md:px-5 py-2 md:py-10 
+      border-t md:border-t-0 md:border-x order-last md:order-none absolute md:static bottom-0 md:bottom-auto w-full md:w-auto'
+    >
+      <div className='hidden md:block'>
+        <SearchBarr />
+      </div>
+
+      <nav className='flex justify-between md:flex-col md:gap-5'>
+        {routes.map(({ icon: Icon, ...props }, i) => (
+          <Link
+            key={props.path}
+            href={props.path}
+            className={
+              'flex gap-x-4 py-2 px-4 items-center font-semibold rounded-md md:rounded-full border border-transparent transition hover:text-black dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-700 ' +
+              (pathname === props.path ? 'text-black dark:text-white ' : 'text-black/50 dark:text-white/50 ') +
+              (i + 1 === routes.length ? 'hidden md:flex' : '')
+            }
           >
-            <route.icon />
-            <span>{route.name}</span>
-          </a>
+            <Icon />
+            <span className='hidden md:inline'>{props.name}</span>
+          </Link>
         ))}
       </nav>
     </section>
-  );
+  )
 }
