@@ -2,8 +2,8 @@ import User from "../models/user.models.js"
 import crip from "bcryptjs";
 import { createAccess } from "../libs/jwt.js";
 
-export const resgister = async (req, res) => {
-    const { email, password, username, role } = req.body
+export const register = async (req, res) => {
+    const { email, password, username } = req.body
     const exitUser = await User.findOne({ "email": email })
     if (exitUser) {
         return res.status(409).json({ message: "email register" })
@@ -14,7 +14,7 @@ export const resgister = async (req, res) => {
             email,
             password: hash,
             username,
-            role
+            role: "user"
         })
         console.log(newuser);
 
