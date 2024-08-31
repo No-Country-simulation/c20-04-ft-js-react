@@ -9,7 +9,7 @@ export default function Header() {
     const theme = useTheme();
 
     return (
-        <AppBar position="static" color="default" elevation={0} sx={{ backgroundColor: "#fff", border: '1px solid #e0e0e0', borderTop: "none" }}>
+        <AppBar position="static" color="default" elevation={0} sx={{ height: "7svh", display: 'flex', justifyContent: "center", backgroundColor: "#fff", border: '1px solid #e0e0e0', borderTop: "none" }}>
             <Toolbar sx={{ justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     {/* <Box>Imagen del logo de PawPañ Community</Box> */}
