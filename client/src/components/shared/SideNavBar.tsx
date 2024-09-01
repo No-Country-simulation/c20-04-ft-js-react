@@ -1,5 +1,9 @@
 'use client'
 
+//? redux
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+
 import HomeIcon from '@/icons/HomeIcon'
 import LogOutIcon from '@/icons/LogOutIcon'
 import MailIcon from '@/icons/MailIcon'
@@ -9,35 +13,39 @@ import SearchBarr from './SearchBarr'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-const routes = [
-  {
-    name: 'Home',
-    path: '/home',
-    icon: HomeIcon
-  },
-  {
-    name: 'Mensajes',
-    path: '/messages',
-    icon: MailIcon
-  },
-  {
-    name: 'Perfil',
-    path: '/profile',
-    icon: UserIcon
-  },
-  {
-    name: 'Configuracíon',
-    path: '/settings',
-    icon: SettingsIcon
-  },
-  {
-    name: 'Cerrar sesión',
-    path: '/log-out',
-    icon: LogOutIcon
-  }
-]
 
 export default function SideNavBar() {
+
+  const userName = useSelector((state: RootState)=> state.userReducer.user?.username)
+
+  const routes = [
+    {
+      name: 'Home',
+      path: '/',
+      icon: HomeIcon
+    },
+    {
+      name: 'Mensajes',
+      path: '/messages',
+      icon: MailIcon
+    },
+    {
+      name: 'Profile',
+      path: `/profile/${userName}`,
+      icon: UserIcon
+    },
+    {
+      name: 'Configuracíon',
+      path: '/settings',
+      icon: SettingsIcon
+    },
+    {
+      name: 'Cerrar sesión',
+      path: '/log-out',
+      icon: LogOutIcon
+    }
+  ];
+
   const pathname = usePathname()
 
   return (
@@ -67,4 +75,7 @@ export default function SideNavBar() {
       </nav>
     </section>
   )
+
+
 }
+
