@@ -23,11 +23,11 @@ export default function Profile({username}: profileProps) {
       {/* segunda parte del perfil */}
       <div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px]">
         {/* image and name container */}
-        <div className="max-w-[140px]">
+        <div className="">
         <figure className="w-20 h-20 rounded-full bg-[#000]">
           <img className="w-full h-full rounded-full" src="" alt="" />
         </figure>
-        <p className="max-w-[120px] mt-[0.8rem]">Luis Manzano</p>
+        <p className="max-w-[120px] mt-[0.8rem] overflow-hidden">Luis Manzano</p>
         </div>
 
         {/* her it goes the follow, following and edit profile/message part */}
