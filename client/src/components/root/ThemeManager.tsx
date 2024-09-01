@@ -49,8 +49,6 @@ export default function ThemeManager({ children }: { children: React.ReactNode }
     }
   }, [theme, isDarkSystem])
 
-  console.log({ theme })
-
   const MUITheme = getMUITheme(themeMode)
 
   return (
