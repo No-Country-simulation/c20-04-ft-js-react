@@ -60,7 +60,11 @@ export default function Register() {
   const dispatch = useDispatch();
 
   // Definimos los estados necesarios
-  const [formData, setFormData] = useState<FormDataInterface>({ email: "", username: "", password: "" });
+  const [formData, setFormData] = useState<FormDataInterface>({
+    email: "",
+    username: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errors, setErrors] = useState<Partial<ErrorFormInterface>>({});
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
@@ -80,7 +84,7 @@ export default function Register() {
     }));
     setErrors((prevState) => ({
       ...prevState,
-      [id]: '',
+      [id]: "",
     }));
   };
 
@@ -100,11 +104,20 @@ export default function Register() {
     // Validación de la contraseña
     if (!formData.password) {
       newErrors.password = "La contraseña es obligatoria";
+    } else if (formData.password.length < 9) {
+      newErrors.password = "La contraseña debe tener al menos 9 caracteres";
+    }
+    // Validacion contraseña al menos una mayuscula
+    else if (!/[A-Z]/.test(formData.password)) {
+      newErrors.password = "La contraseña debe tener al menos una mayúscula";
     }
 
     // Validación del nombre de usuario
     if (!formData.username) {
       newErrors.username = "El nombre de usuario es obligatorio";
+    } else if (formData.username.length < 4) {
+      newErrors.username =
+        "El nombre de usuario debe tener al menos 4 caracteres";
     }
 
     // Validamos que se haya aceptado los términos y condiciones
@@ -127,7 +140,7 @@ export default function Register() {
     try {
       const response = await register(dataForm).unwrap();
       console.log("Usuario registrado:", response);
-      dispatch(setUser(response))
+      dispatch(setUser(response));
     } catch (err) {
       console.error("Error al registrarse:", err);
     }
@@ -211,7 +224,11 @@ export default function Register() {
             className="w-full bg-[#A14CEB] hover:bg-[#8A3CD1] text-white"
             disabled={isLoading}
           >
-            {isLoading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Registrarse"}
+            {isLoading ? (
+              <CircularProgress size={24} sx={{ color: "white" }} />
+            ) : (
+              "Registrarse"
+            )}
           </ButtonSubmit>
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
