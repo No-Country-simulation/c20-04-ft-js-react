@@ -16,12 +16,12 @@ import { usePathname } from 'next/navigation'
 
 export default function SideNavBar() {
 
-  const userName = useSelector((state: RootState)=> state.userReducer.user?.username)
+  const userName = useSelector((state: RootState) => state.userReducer.user?.username)
 
   const routes = [
     {
       name: 'Home',
-      path: '/',
+      path: '/home',
       icon: HomeIcon
     },
     {

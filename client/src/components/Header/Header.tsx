@@ -12,9 +12,14 @@ import {
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useTheme } from "@mui/material/styles";
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import Link from '@mui/material/Link';
 
 export default function Header() {
   const theme = useTheme();
+  const user = useSelector((state: RootState) => state.userReducer.user)
+  const username = user?.username
 
   return (
     <AppBar
@@ -47,29 +52,40 @@ export default function Header() {
           </Typography>
         </Box>
 
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <IconButton color="inherit" sx={{ mr: 1 }}>
-            <NotificationsIcon />
-          </IconButton>
-          <Avatar
-            alt="Luucianorepetti"
-            src="/placeholder.svg?height=32&width=32"
-            sx={{
-              backgroundColor: theme.palette.primary.main,
-              width: 40,
-              height: 40,
-              mr: 1,
-            }}
-          />
-          <Typography
-            variant="body1"
-            noWrap
-            component="div"
-            sx={{ fontSize: "1.2em", display: { xs: "none", sm: "block" } }}
-          >
-            @luucianorepetti
-          </Typography>
-        </Box>
+        {user && username ? (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton color="inherit" sx={{ mr: 1 }}>
+              <NotificationsIcon />
+            </IconButton>
+            <Avatar
+              alt={username?.toUpperCase()}
+              src="/placeholder.svg?height=32&width=32"
+              sx={{
+                backgroundColor: theme.palette.primary.main,
+                width: 40,
+                height: 40,
+                mr: 1,
+              }}
+            />
+            <Typography
+              variant="body1"
+              noWrap
+              component="div"
+              sx={{ fontSize: "1.2em", display: { xs: "none", sm: "block" } }}
+            >
+              @{username?.toLowerCase()}
+            </Typography>
+          </Box>
+        ) : (
+          <Box sx={{ display: "flex", alignItems: "center", gap: "1em" }}>
+            <Link href={"/login"}>
+              Iniciar Sesión
+            </Link>
+            <Link href={"/register"}>
+              Registrarse
+            </Link>
+          </Box>
+        )}
       </Toolbar>
     </AppBar>
   );
