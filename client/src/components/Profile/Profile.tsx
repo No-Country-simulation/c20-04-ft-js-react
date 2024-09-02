@@ -69,62 +69,69 @@ const itemData = [
 
 export default function Profile({username}: profileProps) {
   return (
-    <div className="max-w-7xl w-9/10 mx-auto">
-        <div className="flex gap-4 justify-end border-b-[4px] border-b-[#334155] align-center">
-        <p>@{username}</p>
-        <ProfileSettingsBtn/>
-        {/* linea que divide la primera parte del perfil */}
-      <div className="border-b-[4px] border-b-[#334155] mt-6"></div>
-      </div>
-
-      {/* segunda parte del perfil */}
-      <div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px]">
-        {/* image and name container */}
-        <div className="">
-        <figure className="w-20 h-20 rounded-full bg-[#000]">
-          <img className="w-full h-full rounded-full" src="" alt="" />
-        </figure>
-        <p className="max-w-[120px] mt-[0.8rem] overflow-hidden">Luis Manzano</p>
-        </div>
-
-        {/* her it goes the follow, following and edit profile/message part */}
-        <div className="flex flex-wrap justify-center items-end gap-4 max-w-[200px]">
-          <ShowFollowersBtn/>
-          <ShowFollowingBtn/>
-          <EditProfileBtn/>
-        </div>
-        
-      </div>
-
+    <div className="flex">
       <SideNavBar/>
+          <div className="max-w-[900px] flex-grow w-9/10 mx-auto ">
+
+<div className="flex gap-4 justify-end border-b-[4px] border-b-[#334155] align-center">
+<p>@{username}</p>
+<ProfileSettingsBtn/>
+{/* linea que divide la primera parte del perfil */}
+<div className="border-b-[4px] border-b-[#334155] mt-6"></div>
+</div>
+
+{/* segunda parte del perfil */}
+<div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px]">
+{/* image and name container */}
+<div className="">
+<figure className="w-20 h-20 rounded-full bg-[#000]">
+  <img className="w-full h-full rounded-full" src="" alt="" />
+</figure>
+<p className="max-w-[120px] mt-[0.8rem] overflow-hidden">Luis Manzano</p>
+</div>
+
+{/* her it goes the follow, following and edit profile/message part */}
+<div className="flex flex-wrap justify-center items-end gap-4 max-w-[200px]">
+  <ShowFollowersBtn/>
+  <ShowFollowingBtn/>
+  <EditProfileBtn/>
+</div>
+
+</div>
 
 
-      {/* tercera parte del perfil: botones de redireccion o muestreo: post, pets, about */}
-      {/* div para remarcar las lineas */}
-      <div className="mt-[3rem] border-t-4 border-b-4 border-black">
-        <div className="w-[90%] mx-auto flex justify-between">
+{/* tercera parte del perfil: botones de redireccion o muestreo: post, pets, about */}
+{/* div para remarcar las lineas */}
+<div className="mt-[3rem] border-t-4 border-b-4 border-black">
+<div className="w-[90%] mx-auto flex justify-between lg:justify-start gap-[4rem]">
 
-        <button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">posts</button>
-        <button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">pets</button>
-        <button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">about</button>
+<button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">posts</button>
+<button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">pets</button>
+<button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">about</button>
 
-        </div>
-      </div>
+</div>
+</div>
 
-      <ImageList sx={{ mt: 4, width: '90%', mx: 'auto'} } cols={3} rowHeight={164}>
-      {itemData.map((item) => (
-        <ImageListItem key={item.img}
-        >
-          <img            srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-            src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-            alt={item.title}
-            loading="lazy"
-            className="rounded"
-          />
-        </ImageListItem>
-      ))}
-    </ImageList>
+<ImageList sx={{ mt: 4, maxWidth: '1000px'} } cols={3}>
+{itemData.map((item) => (
+<ImageListItem key={item.img}
+sx={{maxWidth: '320px'}}
+>
+  <img            srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+    src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+    alt={item.title}
+    loading="lazy"
+    className="rounded"
+  />
+</ImageListItem>
+))}
+</ImageList>
+
+
+</div>
 
     </div>
+
+
   )
 }
