@@ -1,0 +1,77 @@
+type Msg {
+    message : String
+}
+type User {
+    _id: String,
+    username: String ,
+    email: String,
+    role: String,
+    password: String,
+    followers: [String],
+    following: [String],
+    collec_amount: [String],
+    status: Boolean,
+    createdAt: String,
+    updatedAt: String,
+}
+type Tag{
+    tag :String
+}
+type Text{
+    text:String
+}
+type Url{
+    url:String
+}
+type Body{
+    text:Text
+    photoAndV:[Url]
+} 
+type Commet{
+    id_user:String,
+    text:String
+}
+type Post{
+    _id: String,
+    category: String,
+    tags: [Tag],
+    id_user: ID,
+    title: String,
+    body: Body,
+    status: Boolean,
+    createdAt: String,
+    report:  Int,
+    commet: Commet,
+}
+type Query {
+    getMsg : Msg
+    getUser : User
+    getPost : [Post]
+}
+type Mutation{
+    RegisterUser(registerInput:RegisterInput): User!,
+    loginUser(loginInput:LoginInput):User!
+    Modprofile(profileInput:ProfileInput):User!
+    PostC(postInpit:PostInpit):Post
+    PostM(postInpit:PostInpit):Post
+}
+input LoginInput{
+    email:String!
+    password:String!
+}
+input RegisterInput {
+    username:String!,
+    email:String!,
+    role:String!,
+    password:String!,
+}
+input ProfileInput {
+    username:String,
+    email:String,
+    password:String,
+}
+input PostInpit {
+    category:String!,
+    body:String
+    _id: ID
+}

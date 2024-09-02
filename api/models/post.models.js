@@ -1,32 +1,46 @@
 import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
-    username: {
+    category: {
         type: String,
-        require: true,
-        trim: true,
-        /*unique: true*/
+        required:true
     },
-    email: {
+    tags: {
+        tag: {
+            type: String,
+            default: ""
+        }
+    },
+    id_user: {
         type: String,
-        require: true,
-        trim: true,
-        unique: true
+        required: true
     },
-    role: {
-        type: String,
-        require: true,
-        trim: true,
+    title: {
+        type: String
     },
-    passware: {
-        type: String,
-        require: true
+    body: {
+        text: {
+            type: String,
+            default: ""
+        },
+        img: {
+            type: String,
+            default: ""
+        },
+        vd: {
+            type: String,
+            default: ""
+        }
     },
-    biografy: {
-        type: Object
-    }
-
+    status: {
+        type: Boolean,
+        default:true
+    },
+    report: {
+        type: Number,
+        default: 0
+    },
 },
     { timestamps: true }
 )
-export default mongoose.model("User", userSchema)
+export default mongoose.model("Post", postSchema)
