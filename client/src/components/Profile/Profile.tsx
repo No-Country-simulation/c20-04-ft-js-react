@@ -71,7 +71,7 @@ export default function Profile({username}: profileProps) {
   return (
     <div className="flex">
       <SideNavBar/>
-          <div className="max-w-[900px] flex-grow w-9/10 mx-auto ">
+          <div className="max-w-[900px] flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
 
 <div className="flex gap-4 justify-end border-b-[4px] border-b-[#334155] align-center">
 <p>@{username}</p>
@@ -81,7 +81,7 @@ export default function Profile({username}: profileProps) {
 </div>
 
 {/* segunda parte del perfil */}
-<div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px]">
+<div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px] md:mx-0 md:ml-[3rem] lg:max-w-[550px]">
 {/* image and name container */}
 <div className="">
 <figure className="w-20 h-20 rounded-full bg-[#000]">
@@ -91,7 +91,7 @@ export default function Profile({username}: profileProps) {
 </div>
 
 {/* her it goes the follow, following and edit profile/message part */}
-<div className="flex flex-wrap justify-center items-end gap-4 max-w-[200px]">
+<div className="flex flex-wrap justify-center items-end gap-4 max-w-[200px] lg:flex-nowrap lg:max-w-[350px]">
   <ShowFollowersBtn/>
   <ShowFollowingBtn/>
   <EditProfileBtn/>
