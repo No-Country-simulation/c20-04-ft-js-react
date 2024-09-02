@@ -6,17 +6,12 @@ const postSchema = new mongoose.Schema({
         required:true
     },
     tags: {
-        tag: {
-            type: String,
-            default: ""
-        }
+        type : Array,
+        default:[]
     },
     id_user: {
         type: String,
         required: true
-    },
-    title: {
-        type: String
     },
     body: {
         text: {

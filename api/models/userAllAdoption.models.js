@@ -2,30 +2,38 @@ import mongoose from "mongoose";
 
 const infoadopSchema = new mongoose.Schema({
     id_user: {
-        type: String
+        type: String,
+        required:true
     },
     info: {
         name: {
-            type: String
+            type: String,
+            default:""
         },
         vivianda: {
-            type: String
+            type: String,
+            default:""
         },
         estilo_de_vida: {
-            type: String
+            type: String,
+            default:""
         },
         espacio_a_el_air_libre: {
-            type: String
+            type: String,
+            default:""
         },
         motivo: {
-            type: String
+            type: String,
+            default:""
         },
         mascotas_otras: {
-            type: String
+            type: String,
+            default:""
         }
     },
     id_adoption: {
-        type: String
+        type: String,
+        required:true
     }
 
 },

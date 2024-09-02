@@ -2,18 +2,26 @@ import mongoose from "mongoose";
 
 const profileShema = new mongoose.Schema({
     tags: {
-        type: String
+        type: Array,
+        default: []
     },
     description: {
-        type: String
+        type: String,
+        default:""
     },
-    conttext: {},
     address: {
-        type: String
+        type: String,
+        default:""
     },
     contact: {
-        type: String
+        type: String,
+        default:""
+    },
+    id_user: {
+        type: String,
+        required:true
     }
+
 },
     { timestamps: true }
 )

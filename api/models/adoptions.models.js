@@ -2,22 +2,24 @@ import mongoose from "mongoose";
 
 const adopSchema = new mongoose.Schema({
     tags: {
-        tag: {
-            type: String
-        }
+        type: Array,
+        default: []
     },
     id_user: {
-        type: String
+        type: String,
+        required: true
     },
     title: {
         type: String
     },
     body: {
         text: {
-            type: String
+            type: String,
+            required: true
         },
         img: {
-            type: String
+            type: String,
+            required: true
         },
         vd: {
             type: String
@@ -27,25 +29,18 @@ const adopSchema = new mongoose.Schema({
         }
     },
     status: {
-        type: String
-    },
-    created_at: {
-        type: String
+        type: Boolean,
+        default: true
     },
     report: {
-        type: Boolean
+        type: Number,
+        default: 0
     },
     stadePet: {
-        type: String
+        type: Boolean,
+        required: true
     },
-    follow: {
-        text: {
-            type: String
-        },
-        ing: {
-            type: String
-        }
-    }
+
 },
     { timestamps: true }
 )

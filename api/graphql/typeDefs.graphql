@@ -13,6 +13,8 @@ type User {
     status: Boolean,
     createdAt: String,
     updatedAt: String,
+    posts:[Post]
+    comment:[Comment]
 }
 type Tag{
     tag :String
@@ -27,9 +29,12 @@ type Body{
     text:Text
     photoAndV:[Url]
 } 
-type Commet{
+type Comment{
     id_user:String,
-    text:String
+    text:String!
+    id_posts:String!
+    user:User
+    post:Post
 }
 type Post{
     _id: String,
@@ -41,19 +46,22 @@ type Post{
     status: Boolean,
     createdAt: String,
     report:  Int,
-    commet: Commet,
+    comment: Comment,
+    user: User
 }
 type Query {
     getMsg : Msg
     getUser : User
     getPost : [Post]
+    getMyPost : [Post]
 }
 type Mutation{
     RegisterUser(registerInput:RegisterInput): User!,
     loginUser(loginInput:LoginInput):User!
     Modprofile(profileInput:ProfileInput):User!
-    PostC(postInpit:PostInpit):Post
-    PostM(postInpit:PostInpit):Post
+    PostC(postInput:PostInput):Post
+    PostM(postInput:PostInput):Post
+    CommentC(commentInput:CommentInput):Comment
 }
 input LoginInput{
     email:String!
@@ -64,14 +72,19 @@ input RegisterInput {
     email:String!,
     role:String!,
     password:String!,
+    name:String!
 }
 input ProfileInput {
     username:String,
     email:String,
     password:String,
 }
-input PostInpit {
+input PostInput {
     category:String!,
     body:String
-    _id: ID
+    id_user: ID
+}
+input CommentInput {
+    text:String!
+    id_posts:String!
 }

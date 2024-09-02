@@ -34,10 +34,10 @@ export const userResolves = {
             const us = await newUser.save()
             const token = await createAccess(us._id)
             res.cookie("token", token, {
-                httpOnly: true, // Opcional: para prevenir el acceso al token desde el lado del cliente
-                secure: process.env.NODE_ENV === 'production', // Opcional: solo enviar cookies a través de HTTPS en producción
-                sameSite: 'lax', // Opcional: para evitar problemas con solicitudes cross-site
-                maxAge: 24 * 60 * 60 * 1000, // 1 día
+                httpOnly: true, 
+                secure: process.env.NODE_ENV === 'production', 
+                sameSite: 'lax', 
+                maxAge: 24 * 60 * 60 * 1000, 
                 path: '/'
             });
             console.log(res.cookie)
@@ -67,7 +67,7 @@ export const userResolves = {
                 maxAge: 24 * 60 * 60 * 1000, // 1 día
                 path: '/'
             });
-            console.log('Response Headers:', res.getHeaders());
+            //console.log('Response Headers:', res.getHeaders());
 
             return {
                 ...fondUser._doc,
@@ -76,7 +76,7 @@ export const userResolves = {
 
         },
         async Modprofile(_, { profileInput: { username, email, password } }, { user }) {
-            console.log(user);
+            //console.log(user);
             
             if (!user) {
                 throw new Error("Not authenticcated");

@@ -1,5 +1,5 @@
 import express from "express";
-import morgan from "morgan";
+//import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import authrouter from "./routers/auth.routers.js";
 import cors from 'cors'
@@ -18,7 +18,6 @@ async function aploloStart(typeDefs, resolvers) {
         typeDefs,
         resolvers,
         context: ({ req }) => {
-
             const token = req.cookies.token;
             return { token };
         },
@@ -54,7 +53,7 @@ async function aploloStart(typeDefs, resolvers) {
 
         await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
 
-    console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+    console.log(`🚀 Server ready at http://localhost:4000/`);
 };
 
 export default aploloStart;
