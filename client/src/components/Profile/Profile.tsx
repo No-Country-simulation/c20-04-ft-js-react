@@ -70,7 +70,9 @@ const itemData = [
 export default function Profile({username}: profileProps) {
   return (
     <div className="flex">
+      <div className="z-10 fixed bottom-0 w-[100%] md:static md:bottom-auto md:w-[auto]">
       <SideNavBar/>
+      </div>
           <div className="max-w-[900px] flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
 
 <div className="flex gap-4 justify-end border-b-[4px] border-b-[#334155] align-center">
