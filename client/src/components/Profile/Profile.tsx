@@ -14,6 +14,8 @@ import ImageListItem from '@mui/material/ImageListItem';
 
 interface profileProps {
   username: string;
+  name: string;
+  profilePicture: string;
 }
 
 const itemData = [
@@ -67,7 +69,7 @@ const itemData = [
   },
 ];
 
-export default function Profile({username}: profileProps) {
+export default function Profile({username, name, profilePicture,}: profileProps) {
   return (
     <div className="flex">
       <div className="z-10 fixed bottom-0 w-[100%] md:static md:bottom-auto md:w-[auto]">
@@ -87,9 +89,9 @@ export default function Profile({username}: profileProps) {
 {/* image and name container */}
 <div className="">
 <figure className="w-20 h-20 rounded-full bg-[#000]">
-  <img className="w-full h-full rounded-full" src="" alt="" />
+  <img className="w-full h-full rounded-full" src={profilePicture} alt="" />
 </figure>
-<p className="max-w-[120px] mt-[0.8rem] overflow-hidden">Luis Manzano</p>
+<p className="max-w-[120px] mt-[0.8rem] overflow-hidden">{name || "user's name"}</p>
 </div>
 
 {/* her it goes the follow, following and edit profile/message part */}
@@ -114,13 +116,13 @@ export default function Profile({username}: profileProps) {
 </div>
 </div>
 
-<ImageList sx={{ mt: 4, maxWidth: '1000px'} } cols={3}>
+<ImageList sx={{ mt: 4, maxWidth: '900px'} } cols={3}>
 {itemData.map((item) => (
 <ImageListItem key={item.img}
 sx={{maxWidth: '320px'}}
 >
   <img            srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-    src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+    src={`${item.img}`}
     alt={item.title}
     loading="lazy"
     className="rounded"
