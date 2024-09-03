@@ -40,7 +40,7 @@ export default function Post({ username, content, likes, comments }: PostProps) 
                     <Box sx={{ display: "flex", alignItems: "center", gap: "1em" }}>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                             <IconButton size="small">
-                                <PawIcon className="text-black dark:text-white w-[28px] h-[24px]" />
+                                <PawIcon className="text-black dark:text-white size-6" />
                             </IconButton>
                             <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
                                 {likes}
@@ -48,7 +48,7 @@ export default function Post({ username, content, likes, comments }: PostProps) 
                         </Box>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                             <IconButton size="small">
-                                <CommentIcon className="text-black dark:text-white w-[28px] h-[24px]" />
+                                <CommentIcon className="text-black dark:text-white size-6" />
                             </IconButton>
                             <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
                                 {comments}
