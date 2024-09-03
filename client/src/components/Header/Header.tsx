@@ -12,13 +12,12 @@ import {
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useTheme } from "@mui/material/styles";
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import Link from '@mui/material/Link';
+import { useAppSelector } from "@/redux/hooks";
 
 export default function Header() {
   const theme = useTheme();
-  const user = useSelector((state: RootState) => state.userReducer.user)
+  const user = useAppSelector(state => state.userReducer.user)
   const username = user?.username
 
   return (

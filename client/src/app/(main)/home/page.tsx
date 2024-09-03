@@ -1,10 +1,9 @@
 "use client";
 import Post from "@/components/Posts/Post";
 import ThemeSwitcher from "@/components/shared/ThemeSwitcher";
-import { RootState } from "@/redux/store";
+import { useAppSelector } from "@/redux/hooks";
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useSelector } from "react-redux";
 
 // tuve que pasar a use client para que funcione el useTheme y al ser un hook de mui no se puede importar
 //import type { Metadata } from "next";
@@ -14,8 +13,9 @@ import { useSelector } from "react-redux";
 
 export default function Home() {
   const theme = useTheme();
-  const user = useSelector((state: RootState) => state.userReducer.user)
+  const user = useAppSelector(state => state.userReducer.user)
   const username = user?.username
+
   return (
     <Box
       p={5}

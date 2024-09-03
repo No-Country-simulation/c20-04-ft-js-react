@@ -19,7 +19,7 @@ import Link from "next/link";
 //redux
 import { useRegisterMutation } from "@/redux/apiSlices/authApi";
 import { setUser } from "@/redux/slices/userSlice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from 'next/navigation'
 
 // Definimos la interfaz para los datos del formulario
@@ -58,7 +58,7 @@ const ButtonSubmit = styled(Button)(({ theme }) => ({
 }));
 
 export default function Register() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter()
 
   // Definimos los estados necesarios

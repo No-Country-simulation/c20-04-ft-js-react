@@ -9,7 +9,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 //redux
 import { useLoginMutation } from "@/redux/apiSlices/authApi";
 import { setUser } from "@/redux/slices/userSlice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from '@/redux/hooks';
 
 const Input = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-root": {
@@ -37,7 +37,7 @@ interface FormDataInterface {
 }
 
 export default function PageLogin() {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const router = useRouter()
 
   const [showPassword, setShowPassword] = useState(false);

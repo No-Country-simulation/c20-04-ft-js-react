@@ -1,9 +1,6 @@
 'use client'
 
-//? redux
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-
+import { useAppSelector } from '@/redux/hooks';
 import HomeIcon from '@/icons/HomeIcon'
 import LogOutIcon from '@/icons/LogOutIcon'
 import MailIcon from '@/icons/MailIcon'
@@ -12,11 +9,11 @@ import UserIcon from '@/icons/UserIcon'
 import SearchBarr from './SearchBarr'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Paper } from '@mui/material';
 
 
 export default function SideNavBar() {
-
-  const userName = useSelector((state: RootState) => state.userReducer.user?.username)
+  const userName = useAppSelector(state => state.userReducer.user?.username)
 
   const routes = [
     {
@@ -49,8 +46,8 @@ export default function SideNavBar() {
   const pathname = usePathname()
 
   return (
-    <section
-      className='md:h-[93svh] md:sticky md:top-[7svh] border-neutral-300 dark:border-neutral-700 px-3 md:px-5 py-2 md:py-10 
+    <Paper elevation={0} component='section'
+      className='z-50 md:h-[93svh] md:sticky md:top-[7svh] border-neutral-300 dark:border-neutral-700 px-3 md:px-5 py-2 md:py-10 
       border-t md:border-t-0 md:border-x order-last md:order-none fixed bottom-0 md:bottom-auto w-full md:w-auto'
     >
       <div className='hidden md:block'>
@@ -73,9 +70,7 @@ export default function SideNavBar() {
           </Link>
         ))}
       </nav>
-    </section>
+    </Paper>
   )
-
-
 }
 
