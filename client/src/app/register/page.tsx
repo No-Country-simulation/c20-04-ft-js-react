@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useRegisterMutation } from "@/redux/apiSlices/authApi";
 import { setUser } from "@/redux/slices/userSlice";
 import { useDispatch } from "react-redux";
+import { useRouter } from 'next/navigation'
 
 // Definimos la interfaz para los datos del formulario
 interface FormDataInterface {
@@ -58,9 +59,14 @@ const ButtonSubmit = styled(Button)(({ theme }) => ({
 
 export default function Register() {
   const dispatch = useDispatch();
+  const router = useRouter()
 
   // Definimos los estados necesarios
-  const [formData, setFormData] = useState<FormDataInterface>({ email: "", username: "", password: "" });
+  const [formData, setFormData] = useState<FormDataInterface>({
+    email: "",
+    username: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errors, setErrors] = useState<Partial<ErrorFormInterface>>({});
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
@@ -80,7 +86,7 @@ export default function Register() {
     }));
     setErrors((prevState) => ({
       ...prevState,
-      [id]: '',
+      [id]: "",
     }));
   };
 
@@ -100,11 +106,20 @@ export default function Register() {
     // Validación de la contraseña
     if (!formData.password) {
       newErrors.password = "La contraseña es obligatoria";
+    } else if (formData.password.length < 9) {
+      newErrors.password = "La contraseña debe tener al menos 9 caracteres";
+    }
+    // Validacion contraseña al menos una mayuscula
+    else if (!/[A-Z]/.test(formData.password)) {
+      newErrors.password = "La contraseña debe tener al menos una mayúscula";
     }
 
     // Validación del nombre de usuario
     if (!formData.username) {
       newErrors.username = "El nombre de usuario es obligatorio";
+    } else if (formData.username.length < 4) {
+      newErrors.username =
+        "El nombre de usuario debe tener al menos 4 caracteres";
     }
 
     // Validamos que se haya aceptado los términos y condiciones
@@ -126,21 +141,21 @@ export default function Register() {
   const postRegister = async (dataForm: FormDataInterface) => {
     try {
       const response = await register(dataForm).unwrap();
-      console.log("Usuario registrado:", response);
-      dispatch(setUser(response))
+      dispatch(setUser(response));
+      router.push('/home')
     } catch (err) {
       console.error("Error al registrarse:", err);
     }
   };
 
   return (
-    <div className="bg-[#CEC5FD] min-h-screen flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-md max-w-md w-full p-8">
+    <div className="bg-[#CEC5FD] dark:bg-[#674cf0] min-h-screen flex items-center justify-center p-4">
+      <div className="bg-white dark:bg-neutral-900 rounded-lg shadow-md max-w-md w-full p-8">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-neutral-100">
             Bienvenido a la comunidad Pawpal
           </h2>
-          <p className="text-sm text-gray-600 mt-2">
+          <p className="text-sm text-gray-600 dark:text-neutral-200 mt-2">
             Registrate para compartir tus mascotas!
           </p>
         </div>
@@ -152,7 +167,7 @@ export default function Register() {
             id="username"
             value={formData?.username}
             onChange={handleInputChange}
-            className="w-full"
+            className="w-full dark:bg-neutral-800 rounded-lg"
             error={!!errors.username}
             helperText={errors.username}
           />
@@ -163,7 +178,7 @@ export default function Register() {
             id="email"
             value={formData?.email}
             onChange={handleInputChange}
-            className="w-full"
+            className="w-full dark:bg-neutral-800 rounded-lg"
             error={!!errors.email}
             helperText={errors.email}
           />
@@ -171,7 +186,7 @@ export default function Register() {
             type={showPassword ? "text" : "password"}
             label="Contraseña"
             id="password"
-            className="w-full"
+            className="w-full dark:bg-neutral-800 rounded-lg"
             value={formData?.password}
             onChange={handleInputChange}
             error={!!errors.password}
@@ -211,10 +226,14 @@ export default function Register() {
             className="w-full bg-[#A14CEB] hover:bg-[#8A3CD1] text-white"
             disabled={isLoading}
           >
-            {isLoading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Registrarse"}
+            {isLoading ? (
+              <CircularProgress size={24} sx={{ color: "white" }} />
+            ) : (
+              "Registrarse"
+            )}
           </ButtonSubmit>
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-neutral-100">
               ¿Ya tienes una cuenta?
               <Link href="/login" className="text-[#A14CEB] ml-1">
                 Iniciar sesión
