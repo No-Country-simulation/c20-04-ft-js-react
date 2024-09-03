@@ -27,6 +27,9 @@ export default function Header() {
       color="default"
       elevation={0}
       sx={{
+        position: "sticky",
+        top: 0,
+        zIndex: "100",
         height: "7svh",
         display: "flex",
         justifyContent: "center",

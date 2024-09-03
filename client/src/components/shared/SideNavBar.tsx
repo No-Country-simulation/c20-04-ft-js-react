@@ -50,8 +50,8 @@ export default function SideNavBar() {
 
   return (
     <section
-      className='border-neutral-300 dark:border-neutral-700 px-3 md:px-5 py-2 md:py-10 
-      border-t md:border-t-0 md:border-x order-last md:order-none absolute md:static bottom-0 md:bottom-auto w-full md:w-auto'
+      className='md:h-[93svh] md:sticky md:top-[7svh] border-neutral-300 dark:border-neutral-700 px-3 md:px-5 py-2 md:py-10 
+      border-t md:border-t-0 md:border-x order-last md:order-none fixed bottom-0 md:bottom-auto w-full md:w-auto'
     >
       <div className='hidden md:block'>
         <SearchBarr />

@@ -15,7 +15,7 @@ const lightTheme = createTheme({
       light: '#a885ff',
       main: '#7f30f7',
       dark: '#300b6a',
-      contrastText: '#ffffff'
+      contrastText: '#262626'
     }
   }
 })
@@ -32,7 +32,7 @@ const darkTheme = createTheme({
       light: '#9c75fd',
       main: '#d7c3f5',
       dark: '#605a69',
-      contrastText: '#ffffff',
+      contrastText: '#262626',
     },
     mode: 'dark'
   }
