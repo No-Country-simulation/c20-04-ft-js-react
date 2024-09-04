@@ -1,41 +1,47 @@
 import mongoose from "mongoose";
 
-const postSchema = new mongoose.Schema({
-    category: {
-        type: String,
-        required:true
-    },
+const adopSchema = new mongoose.Schema({
     tags: {
-        type : Array,
-        default:[]
+        type: Array,
+        default: []
     },
     id_user: {
         type: String,
         required: true
     },
+    title: {
+        type: String
+    },
     body: {
         text: {
             type: String,
-            default: ""
+            required: true
         },
         img: {
             type: String,
-            default: ""
+            required: true
         },
         vd: {
-            type: String,
-            default: ""
+            type: String
+        },
+        description: {
+            type: String
         }
     },
     status: {
         type: Boolean,
-        default:true
+        default: true
     },
     report: {
         type: Number,
         default: 0
     },
+    stadePet: {
+        type: Boolean,
+        required: true
+    },
+
 },
     { timestamps: true }
 )
-export default mongoose.model("Post", postSchema)
+export default mongoose.model("Adop", adopSchema)
