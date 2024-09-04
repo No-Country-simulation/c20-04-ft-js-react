@@ -12,6 +12,10 @@ import SideNavBar from "../shared/SideNavBar";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
+//icons
+import { IoPawOutline } from "react-icons/io5";
+import { CiCircleQuestion } from "react-icons/ci";
+
 
 interface profileProps {
   username: string;
@@ -112,16 +116,19 @@ export default function Profile({
         {/* div para remarcar las lineas */}
         <div className="mt-[3rem] border-t-2 border-[#e2e5e9]">
   <div className="w-[90%] mx-auto flex justify-between lg:justify-start gap-[4rem] m-[.8rem]">
-    <button className="font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+    <button className="font-semibold text-[#68686c] flex gap-[.8rem] items-center justify-center rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
       Posts
     </button>
-    <button className="font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+    <button className="flex gap-[.8rem] items-center justify-center font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+    <IoPawOutline size={20}/>
       Pets
     </button>
-    <button className="font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+    <button className="flex gap-[.8rem] items-center justify-center font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
       About
+      <CiCircleQuestion size={30}/>
     </button>
-    <div className="items-center justify-center rounded hidden lg:flex lg:cursor-pointer hover:bg-[#e2e5e9] lg:w-[6.4rem] lg:h-[3rem]">
+    <div className="items-center gap-[.8rem] justify-center font-semibold text-[#68686c] rounded hidden lg:text-[1.4rem] lg:flex lg:cursor-pointer hover:bg-[#e2e5e9] lg:w-[6.4rem] lg:h-[3rem]">
+      Help
       <ProfileSettingsBtn />
     </div>
   </div>
