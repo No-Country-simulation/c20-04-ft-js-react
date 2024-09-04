@@ -12,6 +12,7 @@ import SideNavBar from "../shared/SideNavBar";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
+
 interface profileProps {
   username: string;
   name: string;
@@ -79,18 +80,13 @@ export default function Profile({
       <div className="z-10 fixed bottom-0 w-[100%] md:static md:bottom-auto md:w-[auto]">
         <SideNavBar />
       </div>
-      <div className="max-w-[900px] flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
-        <div className="flex gap-4 justify-end border-b-[4px] border-b-[#334155] align-center">
-          <p>@{username}</p>
-          <ProfileSettingsBtn />
-          {/* linea que divide la primera parte del perfil */}
-          <div className="border-b-[4px] border-b-[#334155] mt-6"></div>
-        </div>
+      <div className=" relative max-w-[900px] flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
+        
 
         {/* segunda parte del perfil */}
-        <div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px] md:mx-0 md:ml-[3rem] lg:max-w-[550px]">
+        <div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px] md:mx-0 md:ml-[3rem] lg:max-w-[650px]">
           {/* image and name container */}
-          <div className="">
+          <div className="lg:flex gap-[1rem] relative">
             <figure className="w-20 h-20 rounded-full bg-[#000]">
               <img
                 className="w-full h-full rounded-full"
@@ -98,9 +94,10 @@ export default function Profile({
                 alt=""
               />
             </figure>
-            <p className="max-w-[120px] mt-[0.8rem] overflow-hidden">
+            <p className="max-w-[120px] mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:max-w-[220px] lg:mt-0">
               {name || "user's name"}
             </p>
+            <p className="lg:w-[6.4rem] lg:h-[3rem] absolute bottom-[-15%] lg:left-[35%]">@{username}</p>
           </div>
 
           {/* her it goes the follow, following and edit profile/message part */}
@@ -113,19 +110,22 @@ export default function Profile({
 
         {/* tercera parte del perfil: botones de redireccion o muestreo: post, pets, about */}
         {/* div para remarcar las lineas */}
-        <div className="mt-[3rem] border-t-4 border-b-4 border-black">
-          <div className="w-[90%] mx-auto flex justify-between lg:justify-start gap-[4rem]">
-            <button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">
-              posts
-            </button>
-            <button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">
-              pets
-            </button>
-            <button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">
-              about
-            </button>
-          </div>
-        </div>
+        <div className="mt-[3rem] border-t-2 border-[#e2e5e9]">
+  <div className="w-[90%] mx-auto flex justify-between lg:justify-start gap-[4rem] m-[.8rem]">
+    <button className="font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+      Posts
+    </button>
+    <button className="font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+      Pets
+    </button>
+    <button className="font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+      About
+    </button>
+    <div className="items-center justify-center rounded hidden lg:flex lg:cursor-pointer hover:bg-[#e2e5e9] lg:w-[6.4rem] lg:h-[3rem]">
+      <ProfileSettingsBtn />
+    </div>
+  </div>
+</div>
 
         <ImageList sx={{ mt: 4, maxWidth: "900px" }} cols={3}>
           {itemData.map((item) => (
