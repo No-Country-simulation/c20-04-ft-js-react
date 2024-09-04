@@ -7,10 +7,15 @@ import ShowFollowingBtn from "./profileComponents/ShowFollowingBtn";
 import SendMessageBtn from "./profileComponents/SendMessageBtn";
 
 import SideNavBar from "../shared/SideNavBar";
+import About from "./profileComponents/About";
+import Pets from "./profileComponents/Pets";
+import ProfilePosts from "./profileComponents/ProfilePosts";
 
-//? mui material
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
+//icons
+import { IoPawOutline } from "react-icons/io5";
+import { CiCircleQuestion } from "react-icons/ci";
+import { useState } from "react";
+
 
 interface profileProps {
   username: string;
@@ -18,79 +23,46 @@ interface profileProps {
   profilePicture: string;
 }
 
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-    title: "Coffee",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-    title: "Hats",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-    title: "Honey",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-    title: "Basketball",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-    title: "Fern",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-    title: "Mushrooms",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-    title: "Tomato basil",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-    title: "Sea star",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-    title: "Bike",
-  },
-];
 
 export default function Profile({
   username,
   name,
   profilePicture,
 }: profileProps) {
+
+  const [selectedComponent, setSelectedComponent] = useState<string>("posts")
+
+  const changeDisplayCard = (component: string)=> {
+      setSelectedComponent(component)
+  }
+
+  const renderSelectedComponent = () => {
+    switch (selectedComponent) {
+      case "posts":
+        return (
+          <ProfilePosts/>
+        );
+      case "pets":
+        return <Pets />;
+      case "about":
+        return <About />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="flex">
       <div className="z-10 fixed bottom-0 w-[100%] md:static md:bottom-auto md:w-[auto]">
         <SideNavBar />
       </div>
-      <div className="max-w-[900px] flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
-        <div className="flex gap-4 justify-end border-b-[4px] border-b-[#334155] align-center">
-          <p>@{username}</p>
-          <ProfileSettingsBtn />
-          {/* linea que divide la primera parte del perfil */}
-          <div className="border-b-[4px] border-b-[#334155] mt-6"></div>
-        </div>
+      <div className=" relative max-w-[900px] flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
+        
 
         {/* segunda parte del perfil */}
-        <div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px] md:mx-0 md:ml-[3rem] lg:max-w-[550px]">
+        <div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px] md:mx-0 md:ml-[3rem] lg:max-w-[650px]">
           {/* image and name container */}
-          <div className="">
+          <div className="lg:flex gap-[1rem] relative">
             <figure className="w-20 h-20 rounded-full bg-[#000]">
               <img
                 className="w-full h-full rounded-full"
@@ -98,9 +70,10 @@ export default function Profile({
                 alt=""
               />
             </figure>
-            <p className="max-w-[120px] mt-[0.8rem] overflow-hidden">
+            <p className="max-w-[120px] mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:max-w-[220px] lg:mt-0">
               {name || "user's name"}
             </p>
+            <p className="lg:w-[6.4rem] lg:h-[3rem] absolute bottom-[-15%] lg:left-[35%]">@{username}</p>
           </div>
 
           {/* her it goes the follow, following and edit profile/message part */}
@@ -113,40 +86,35 @@ export default function Profile({
 
         {/* tercera parte del perfil: botones de redireccion o muestreo: post, pets, about */}
         {/* div para remarcar las lineas */}
-        <div className="mt-[3rem] border-t-4 border-b-4 border-black">
-          <div className="w-[90%] mx-auto flex justify-between lg:justify-start gap-[4rem]">
-            <button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">
-              posts
-            </button>
-            <button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">
-              pets
-            </button>
-            <button className="bg-[red] rounded h-[2rem] w-[3.6rem] m-[.4rem]">
-              about
-            </button>
-          </div>
+        <div className="mt-[3rem] border-t-2 border-[#e2e5e9]">
+  <div className="w-[90%] mx-auto flex justify-between lg:justify-start gap-[4rem] m-[.8rem]">
+    <button
+    onClick={()=>changeDisplayCard("posts")} 
+    className="font-semibold text-[#68686c] flex gap-[.8rem] items-center justify-center rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+      Posts
+    </button>
+    <button
+    onClick={()=>changeDisplayCard("pets")} 
+    className="flex gap-[.8rem] items-center justify-center font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+    <IoPawOutline size={20}/>
+      Pets
+    </button>
+    <button
+    onClick={()=>changeDisplayCard("about")} 
+    className="flex gap-[.8rem] items-center justify-center font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+      About
+      <CiCircleQuestion size={30}/>
+    </button>
+    <div className="items-center gap-[.8rem] justify-center font-semibold text-[#68686c] rounded hidden lg:text-[1.4rem] lg:flex lg:cursor-pointer hover:bg-[#e2e5e9] lg:w-[6.4rem] lg:h-[3rem]">
+      Help
+      <ProfileSettingsBtn />
+    </div>
+  </div>
+</div>
+      {/* div que renderizara los componentes dependiendo de cual se presione  */}
+        <div className="mt-[2rem]">
+          {renderSelectedComponent()}
         </div>
-
-        <ImageList sx={{ mt: 4, maxWidth: "900px" }} cols={3}>
-          {itemData.map((item) => (
-            <ImageListItem
-              key={item.img}
-              sx={{ maxWidth: "320px" }}
-              className="relative group"
-            >
-              <img
-                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                src={`${item.img}`}
-                alt={item.title}
-                loading="lazy"
-                className="rounded transition-transform duration-200 ease-in-out"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 rounded">
-                <p className="text-white text-lg">{item.title}</p>
-              </div>
-            </ImageListItem>
-          ))}
-        </ImageList>
       </div>
     </div>
   );
