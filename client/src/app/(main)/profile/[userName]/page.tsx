@@ -10,7 +10,7 @@ export default function UserProfile() {
   console.log(username)
   return (
     <>
-        <Profile username={username}/>
+      <Profile username={username} />
     </>
   )
 }
