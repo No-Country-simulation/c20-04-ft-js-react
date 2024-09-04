@@ -95,13 +95,13 @@ export default function PageLogin() {
   }
 
   return (
-    <div className="bg-[#CEC5FD] min-h-screen flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-md max-w-md w-full p-8">
+    <div className="bg-[#CEC5FD] dark:bg-[#674cf0] min-h-screen flex items-center justify-center p-4">
+      <div className="bg-white dark:bg-neutral-900 rounded-lg shadow-md max-w-md w-full p-8">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-neutral-100">
             Bienvenido a la comunidad Pawpal
           </h2>
-          <p className="text-sm text-gray-600 mt-2">
+          <p className="text-sm text-gray-600 dark:text-neutral-200 mt-2">
             Inicia sesión para compartir tus mascotas!
           </p>
         </div>
@@ -113,7 +113,7 @@ export default function PageLogin() {
             id="email"
             value={formData?.email}
             onChange={handleInputChange}
-            className="w-full"
+            className="w-full dark:bg-neutral-800 rounded-lg"
             error={!!errors.email}
             helperText={errors.email}
           />
@@ -121,7 +121,7 @@ export default function PageLogin() {
             type={showPassword ? "text" : "password"}
             label="Contraseña"
             id="password"
-            className="w-full"
+            className="w-full dark:bg-neutral-800 rounded-lg"
             value={formData?.password}
             onChange={handleInputChange}
             error={!!errors.password}
@@ -153,7 +153,7 @@ export default function PageLogin() {
           <Link href="/auth/forgot-password" className="text-[#A14CEB] hover:underline text-sm">
             ¿Olvidaste tu contraseña?
           </Link>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-neutral-100">
             ¿No tienes una cuenta?{" "}
             <Link href="/register" className="text-[#A14CEB] hover:underline">
               Regístrate
