@@ -49,6 +49,9 @@ export const login = async (req, res) => {
             id: exitUser.id,
             username: exitUser.username,
             email: exitUser.email,
+            name: exitUser.name,
+            age: exitUser.age,
+            profile_photo: exitUser.profile_photo,
             role: exitUser.role
         })
     } catch (error) {
@@ -67,6 +70,5 @@ export const profile = async(req,res) => {
     
    if (!userP) return res.status(400).json({message : "user no fond"})
         console.log(userP);
-    res.json({  username :userP.username,
-                biografy :userP.biografy})
+    res.json({ userP })
 }

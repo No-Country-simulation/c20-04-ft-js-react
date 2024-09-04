@@ -1,6 +1,9 @@
 type Msg {
     message : String
 }
+type idf{
+    idf :String
+}
 type User {
     _id: String,
     username: String ,
@@ -13,22 +16,13 @@ type User {
     status: Boolean,
     createdAt: String,
     updatedAt: String,
+    profile_photo: String,
+    description :String,
+    address: String,
+    contact:String,
     posts:[Post]
     comment:[Comment]
-}
-type Tag{
-    tag :String
-}
-type Text{
-    text:String
-}
-type Url{
-    url:String
-}
-type Body{
-    text:Text
-    photoAndV:[Url]
-} 
+},
 type Comment{
     id_user:String,
     text:String!
@@ -39,29 +33,34 @@ type Comment{
 type Post{
     _id: String,
     category: String,
-    tags: [Tag],
+    tags: [String],
     id_user: ID,
-    title: String,
-    body: Body,
+    text: String,
+    url_img: String,
     status: Boolean,
     createdAt: String,
     report:  Int,
-    comment: Comment,
+    comment: [Comment],
     user: User
 }
 type Query {
     getMsg : Msg
     getUser : User
+    getUserName :User
     getPost : [Post]
     getMyPost : [Post]
+    getMyComment : [Comment]
 }
 type Mutation{
     RegisterUser(registerInput:RegisterInput): User!,
     loginUser(loginInput:LoginInput):User!
     Modprofile(profileInput:ProfileInput):User!
+    addDeleFolowing(followersInput:FollowersInput):User
     PostC(postInput:PostInput):Post
     PostM(postInput:PostInput):Post
     CommentC(commentInput:CommentInput):Comment
+    CommentM(commentInput:CommentInput):Comment
+
 }
 input LoginInput{
     email:String!
@@ -78,13 +77,24 @@ input ProfileInput {
     username:String,
     email:String,
     password:String,
+    profile_photo: String,
+    description: String,
+    address: String,
+    contact:String,
 }
 input PostInput {
-    category:String!,
-    body:String
-    id_user: ID
+    category: String,
+    text: String,
+    tags: [String],
+    _id: String,
+    id_user: ID,
+    url_img: String,
+    status: Boolean
 }
 input CommentInput {
     text:String!
     id_posts:String!
+}
+input FollowersInput {
+    id:String
 }

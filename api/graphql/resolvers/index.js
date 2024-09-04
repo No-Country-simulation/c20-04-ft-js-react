@@ -19,7 +19,10 @@ const resolvers = {
  },
 Comment:{
    ...commentResolves.Comment
- }
+ },
+Comment: {
+   ...userResolves.Comment
+}
 
 } 
 export default resolvers

@@ -12,17 +12,27 @@ export const userResolves = {
                 ...gUser._doc,
                 id: gUser._id,
             }
+        },
+        async getUserName(_, usermane) {
+            const gUser = await User.find(usermane)
+            return {
+                ...gUser._doc,
+                id: gUser._id,
+            }
         }
     },
-
     Mutation: {
         async RegisterUser(_, { registerInput: { username, email, password, role } }, { res }) {
 
             const userFond = await User.findOne({ email })
-
+            const errors = validateRegisterInput(registerInput);
+            if (Object.keys(errors).length > 0) {
+                throw new Error(`Validation failed: ${JSON.stringify(errors)}`);
+            }
             if (userFond) {
                 throw new Error("A user is already register");
             }
+
             const hash = await crip.hash(password, 10)
 
             const newUser = new User({
@@ -40,7 +50,6 @@ export const userResolves = {
                 maxAge: 24 * 60 * 60 * 1000, 
                 path: '/'
             });
-            console.log(res.cookie)
             return {
                 ...us._doc,
                 id: us._id,
@@ -67,32 +76,86 @@ export const userResolves = {
                 maxAge: 24 * 60 * 60 * 1000, // 1 día
                 path: '/'
             });
-            //console.log('Response Headers:', res.getHeaders());
-
             return {
                 ...fondUser._doc,
                 id: fondUser._id,
             }
 
         },
-        async Modprofile(_, { profileInput: { username, email, password } }, { user }) {
-            //console.log(user);
+        async Modprofile(_, { profileInput }, { user }) {
+            console.log(profileInput);
             
             if (!user) {
                 throw new Error("Not authenticcated");
             }
             const exist = await User.findById(user.payload)
 
-            const hash = await crip.hash(password, 10)
-            if (!exist) {
+            if (!exist) {   
                 throw new Error("Not auaaathenticated");
             }
-            const userp = await User.findByIdAndUpdate(user.payload, { username, email, password: hash }, { new: true })
+            const upuser ={
+                ...profileInput
+            };
+            
+            const userp = await User.findByIdAndUpdate(user.payload, upuser, { new: true })
             return {
                 ...userp._doc,
                 id: userp._id,
             }
 
+        },
+        async addDeleFolowing(_, {followersInput:{id}}, { user }) {
+            if (!user) {
+                throw new Error("Not authenticcated");
+            }
+            const exist = await User.findById(user.payload)
+
+            if (!exist) {
+                throw new Error("Not auaaathenticated");
+            }
+            const fadd = await User.findById(user.payload)
+            
+            if(fadd && fadd.following.includes(id)){
+
+                console.log(fadd);
+                const userin = await User.updateOne(
+                    { _id: user.payload },
+                    { $addToSet: { following: id } }
+                )
+                const userer = await User.updateOne(
+                    { _id: id },
+                    { $addToSet: { followers: user.payload } }
+                );
+            }else{
+                const a = await User.findById(id)
+
+
+                console.log("aaaaa");
+                const userin = await User.updateOne(
+                    { _id: user.payload },
+                    { $pull: { following: id } }
+                )
+                const userer = await User.updateOne(
+                    { _id: id },
+                    { $pull: { followers: user.payload } }
+                );
+            }
+
+            
+            const a = await User.findById(id)
+            //console.log(a);
+            
+            //console.log(exist)
+
+
+        }
+    },
+    User:{
+        post: async (_,__,{user}) => {
+            return await Post.find(user.payload)
+        },
+        comment: async (_, __, { user }) => {
+            return await Comment.find(user.payload)
         }
     }
 }

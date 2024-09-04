@@ -9,7 +9,7 @@ const petsShema = new mongoose.Schema({
         type: String,
         required: true
     },
-    prefil_photo: {
+    profile_photo: {
         type: String
     },
     tag: {
