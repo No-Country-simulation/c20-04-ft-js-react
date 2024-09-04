@@ -24,13 +24,6 @@ interface profileProps {
 }
 
 
-interface displayCardState {
-  post: string,
-  about: string,
-  pets: string,
-  default: string
-}
-
 export default function Profile({
   username,
   name,
@@ -119,7 +112,7 @@ export default function Profile({
   </div>
 </div>
       {/* div que renderizara los componentes dependiendo de cual se presione  */}
-        <div className="">
+        <div className="mt-[2rem]">
           {renderSelectedComponent()}
         </div>
       </div>
