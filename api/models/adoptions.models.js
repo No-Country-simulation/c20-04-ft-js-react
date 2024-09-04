@@ -9,24 +9,13 @@ const adopSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    title: {
-        type: String
+    text: {
+        type: String,
+        default: ""
     },
-    body: {
-        text: {
-            type: String,
-            required: true
-        },
-        img: {
-            type: String,
-            required: true
-        },
-        vd: {
-            type: String
-        },
-        description: {
-            type: String
-        }
+    url_img: {
+        type: String,
+        default: ""
     },
     status: {
         type: Boolean,

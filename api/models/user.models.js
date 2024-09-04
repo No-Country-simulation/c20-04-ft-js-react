@@ -7,6 +7,14 @@ const userSchema =new mongoose.Schema({
         trim: true,
         unique: true
     },
+    name: {
+        type: String,
+        default: ""
+    },
+    age: {
+        type: Number,
+        required: true,
+    },
     email: {
         type: String,
         required: true,
@@ -15,16 +23,13 @@ const userSchema =new mongoose.Schema({
     },
     role: {
         type: String,
+        enum: ["user", "admin", "shelter", "sponsor"],
         required: true,
         trim: true, 
     },
     password: {
         type: String,
         required: true
-    },
-    biografy: {
-        type: Object,
-        default : {}
     },
     followers: {
         type: Array,
@@ -41,6 +46,30 @@ const userSchema =new mongoose.Schema({
     status: {
         type: Boolean,
         default: true
+    }, 
+    profile_photo: {
+        type: String,
+        default: ""
+    },
+    tags: {
+        type: Array,
+        default: []
+    },
+    description: {
+        type: String,
+        default: ""
+    },
+    urls_img: {
+        type: String,
+        default: ""
+    },
+    address: {
+        type: String,
+        default: ""
+    },
+    contact: {
+        type: String,
+        default: ""
     },
 
 },

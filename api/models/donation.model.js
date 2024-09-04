@@ -15,7 +15,12 @@ const donaShema = new mongoose.Schema({
     id_user_out: {
         type: String,
         default:"anonimo"
-    }
+    },
+    message: {
+        type: String,
+        default: ""
+    },
+
 },
     { timestamps: true }
 )

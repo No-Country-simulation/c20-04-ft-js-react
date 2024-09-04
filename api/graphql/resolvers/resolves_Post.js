@@ -1,5 +1,6 @@
 import User from "../../models/user.models.js"
 import Post from "../../models/post.models.js";
+import Comment from "../../models/comments.models.js"
 export const postRosolves = {
     Query: {
         async getPost(_, __, { user }) {
@@ -28,8 +29,8 @@ export const postRosolves = {
         }
     },
     Mutation: {
-        async PostC(_, { PostInput: { category } }, { user }) {
-            console.log(user);
+        async PostC(_, { postInput }, { user }) {
+            console.log(postInput);
 
             if (!user) {
                 throw new Error("Not authenticassted");
@@ -39,7 +40,7 @@ export const postRosolves = {
                 throw new Error("Not authenticated");
             }
             const postc = new Post({
-                category,
+                ...postInput,
                 id_user: pUser.id,
             })
             const awpostS = await postc.save()
@@ -49,7 +50,7 @@ export const postRosolves = {
                 id: awpostS._id,
             }
         },
-        async PostM(_, { PostInput: { category, _id } }, { user }) {
+        async PostM(_, { postInput}, { user }) {
             if (!user) {
                 throw new Error("Not authenticated");
             }
@@ -57,23 +58,22 @@ export const postRosolves = {
             if (!pUser) {
                 throw new Error("Not authenticated");
             }
-            if (!Post.findById(_id).id_user == user.payload) {
+            if ( !Post.findById(postInput._id).id_user == user.payload) {
                 throw new Error("Not authenticated");
-            }
-            const postM = await Post.findByIdAndUpdate(_id, { category }, { new: true })
+            }        
+            const { ...updatepost } = postInput
+            const postM = await Post.findByIdAndUpdate(postInput._id, updatepost, { new: true })
 
             return postM
 
         }
     },
     Post: {
-        user: async ({ id_user }) => {
-            console.log(id_user);
-            const userp = await User.findById(id_user)
-            return userp
+        user: async ({ id_user },_,{user}) => {
+            return await User.findById(id_user)
         },
-        comment : async() =>{
-
+        comment: async ({ _id }) =>{
+            return await Comment.find( _id )
         }
     }
 }

@@ -13,19 +13,13 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    body: {
-        text: {
-            type: String,
-            default: ""
-        },
-        img: {
-            type: String,
-            default: ""
-        },
-        vd: {
-            type: String,
-            default: ""
-        }
+    text: {
+        type: String,
+        default: ""
+    },
+    url_img: {
+        type: String,
+        default: ""
     },
     status: {
         type: Boolean,
