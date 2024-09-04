@@ -32,15 +32,15 @@ export default function Profile({
 
   const [selectedComponent, setSelectedComponent] = useState<string>("posts")
 
-  const changeDisplayCard = (component: string)=> {
-      setSelectedComponent(component)
+  const changeDisplayCard = (component: string) => {
+    setSelectedComponent(component)
   }
 
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
       case "posts":
         return (
-          <ProfilePosts/>
+          <ProfilePosts />
         );
       case "pets":
         return <Pets />;
@@ -57,7 +57,7 @@ export default function Profile({
         <SideNavBar />
       </div>
       <div className=" relative max-w-[900px] flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
-        
+
 
         {/* segunda parte del perfil */}
         <div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px] md:mx-0 md:ml-[3rem] lg:max-w-[650px]">
@@ -87,31 +87,31 @@ export default function Profile({
         {/* tercera parte del perfil: botones de redireccion o muestreo: post, pets, about */}
         {/* div para remarcar las lineas */}
         <div className="mt-[3rem] border-t-2 border-[#e2e5e9]">
-  <div className="w-[90%] mx-auto flex justify-between lg:justify-start gap-[4rem] m-[.8rem]">
-    <button
-    onClick={()=>changeDisplayCard("posts")} 
-    className="font-semibold text-[#68686c] flex gap-[.8rem] items-center justify-center rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
-      Posts
-    </button>
-    <button
-    onClick={()=>changeDisplayCard("pets")} 
-    className="flex gap-[.8rem] items-center justify-center font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
-    <IoPawOutline size={20}/>
-      Pets
-    </button>
-    <button
-    onClick={()=>changeDisplayCard("about")} 
-    className="flex gap-[.8rem] items-center justify-center font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
-      About
-      <CiCircleQuestion size={30}/>
-    </button>
-    <div className="items-center gap-[.8rem] justify-center font-semibold text-[#68686c] rounded hidden lg:text-[1.4rem] lg:flex lg:cursor-pointer hover:bg-[#e2e5e9] lg:w-[6.4rem] lg:h-[3rem]">
-      Help
-      <ProfileSettingsBtn />
-    </div>
-  </div>
-</div>
-      {/* div que renderizara los componentes dependiendo de cual se presione  */}
+          <div className="w-[90%] mx-auto flex justify-between lg:justify-start gap-[4rem] m-[.8rem]">
+            <button
+              onClick={() => changeDisplayCard("posts")}
+              className="font-semibold text-[#68686c] flex gap-[.8rem] items-center justify-center rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+              Posts
+            </button>
+            <button
+              onClick={() => changeDisplayCard("pets")}
+              className="flex gap-[.8rem] items-center justify-center font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+              <IoPawOutline size={20} />
+              Pets
+            </button>
+            <button
+              onClick={() => changeDisplayCard("about")}
+              className="flex gap-[.8rem] items-center justify-center font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem]  hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]">
+              About
+              <CiCircleQuestion size={30} />
+            </button>
+            <div className="items-center gap-[.8rem] justify-center font-semibold text-[#68686c] rounded hidden lg:text-[1.4rem] lg:flex lg:cursor-pointer hover:bg-[#e2e5e9] lg:w-[6.4rem] lg:h-[3rem]">
+              Help
+              <ProfileSettingsBtn />
+            </div>
+          </div>
+        </div>
+        {/* div que renderizara los componentes dependiendo de cual se presione  */}
         <div className="mt-[2rem]">
           {renderSelectedComponent()}
         </div>
