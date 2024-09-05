@@ -6,13 +6,17 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 
-// interface petInfo {
-//   petName: string;
-//   petImage: string;
-//   petInfo: string;
-// }
+import { IoIosAddCircleOutline } from "react-icons/io";
 
-const petsInfo = [
+
+interface Pet {
+  petName: string;
+  petImage: string;
+  petInfo: string;
+  age: number;
+}
+
+const petsInfo: Pet[] = [
   {
     petName: "Baggy",
     petImage:
@@ -74,28 +78,37 @@ const petsInfo = [
 export default function Pets() {
   return (
     <div className="flex flex-wrap justify-center gap-[2rem]">
-      {petsInfo.map(pet=> (
-        <Card sx={{ maxWidth: 345 }}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="140"
-            image={pet.petImage}
-            alt={pet.petName}
-            className="max-h-[220px]"
-          />
-          <CardContent className="realative">
-            <Typography gutterBottom variant="h5" component="div">
-              {pet.petName}
-            </Typography>
-            <div className="mb-[1rem]">Age: {pet.age}</div>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {pet.petInfo}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      ))}
+      {petsInfo.length > 0 ? (
+        petsInfo.map(pet=> (
+          <Card sx={{ maxWidth: 345 }}>
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="140"
+              image={pet.petImage}
+              alt={pet.petName}
+              className="max-h-[220px]"
+            />
+            <CardContent className="realative">
+              <Typography gutterBottom variant="h5" component="div">
+                {pet.petName}
+              </Typography>
+              <div className="mb-[1rem]">Age: {pet.age}</div>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {pet.petInfo}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+        ))
+      ) : (
+        <div className="flex flex-col items-center justify-center">
+          <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">You haven't add any pets yet</p>
+          <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">click here to add your first pet:</p>
+          <IoIosAddCircleOutline size={60} className="cursor-pointer"/>
+        </div>
+      )}
     </div>
   );
+
 }
