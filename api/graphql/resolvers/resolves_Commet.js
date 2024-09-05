@@ -44,7 +44,7 @@ export const commentResolves={
                 throw new Error("Not authenticated");
             }
             const co = new Comment({
-                ...CommentInput,
+                ...commentInput,
                 id_user: {id_user:user.payload}
             })
             const CommentCread = await co.save()
