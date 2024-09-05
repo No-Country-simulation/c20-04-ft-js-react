@@ -24,7 +24,6 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         width: "100% ",
-        borderRight: `1px solid ${theme.palette.divider}`,
       }}
     >
       <ThemeSwitcher />
