@@ -1,6 +1,4 @@
-import { SVGProps } from 'react';
-
-export default function MailIcon({ ...props }: SVGProps<SVGSVGElement>) {
+export default function MailIcon({ ...props }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
