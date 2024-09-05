@@ -1,6 +1,4 @@
-import { SVGProps } from 'react';
-
-export default function SettingsIcon({ ...props }: SVGProps<SVGSVGElement>) {
+export default function SettingsIcon({ ...props }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
