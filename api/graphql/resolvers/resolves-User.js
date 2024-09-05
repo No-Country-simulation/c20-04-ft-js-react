@@ -115,7 +115,7 @@ export const userResolves = {
             }
             const fadd = await User.findById(user.payload)
             
-            if(fadd && fadd.following.includes(id)){
+            if(!fadd && fadd.following.includes(id)){
 
                 console.log(fadd);
                 const userin = await User.updateOne(
