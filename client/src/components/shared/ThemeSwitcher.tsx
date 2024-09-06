@@ -13,7 +13,7 @@ export default function ThemeSwitcher() {
   }
 
   return (
-    <FormControl fullWidth>
+    <FormControl>
       <InputLabel id="theme-switcher">Theme</InputLabel>
       <Select
         labelId="theme-switcher"
