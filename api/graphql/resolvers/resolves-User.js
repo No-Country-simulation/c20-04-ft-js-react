@@ -13,8 +13,12 @@ export const userResolves = {
                 id: gUser._id,
             }
         },
-        async getUserName(_, usermane) {
-            const gUser = await User.find(usermane)
+        async getUserByUsername(_, {username}) {
+            console.log(username)
+            const gUser = await User.findOne({username})
+            if(!gUser){
+                console.log("user not found")
+            }
             return {
                 ...gUser._doc,
                 id: gUser._id,
