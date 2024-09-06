@@ -5,6 +5,7 @@ import EditProfileBtn from "./profileComponents/EditProfileBtn";
 import ShowFollowersBtn from "./profileComponents/ShowFollowersBtn";
 import ShowFollowingBtn from "./profileComponents/ShowFollowingBtn";
 import SendMessageBtn from "./profileComponents/SendMessageBtn";
+import FollowOrUnfollowBtn from './profileComponents/FollowOrUnfollowBtn'
 
 import SideNavBar from "../shared/SideNavBar";
 import About from "./profileComponents/About";
@@ -16,19 +17,27 @@ import { IoPawOutline } from "react-icons/io5";
 import { CiCircleQuestion } from "react-icons/ci";
 import { useState } from "react";
 
+//reduc
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
 
 interface profileProps {
-  username: string;
+  dataUsername: string;
+  paramsUsername: string;
   name: string;
   profilePicture: string;
 }
 
 
 export default function Profile({
-  username,
+  dataUsername,
+  paramsUsername,
   name,
   profilePicture,
 }: profileProps) {
+
+  const localUsername = useSelector((state: RootState)=> state.userReducer.user?.username)
 
   const [selectedComponent, setSelectedComponent] = useState<string>("posts")
 
@@ -65,16 +74,23 @@ export default function Profile({
             />
           </figure>
           <p className="max-w-[120px] mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:max-w-[220px] lg:mt-0">
-            {name || "user's name"}
+            {name}
           </p>
-          <p className="lg:w-[6.4rem] lg:h-[3rem] absolute bottom-[-15%] lg:left-[35%]">@{username}</p>
+          <p className="lg:w-[6.4rem] lg:h-[3rem] absolute bottom-[-15%] lg:left-[35%]">@{dataUsername}</p>
         </div>
 
         {/* her it goes the follow, following and edit profile/message part */}
         <div className="flex flex-wrap justify-center items-end gap-4 max-w-[200px] lg:flex-nowrap lg:max-w-[350px]">
-          <ShowFollowersBtn />
-          <ShowFollowingBtn />
-          <EditProfileBtn />
+          {dataUsername === localUsername ? (
+            <>
+              <ShowFollowersBtn />
+            <ShowFollowingBtn />
+            <EditProfileBtn />
+            </>
+          ): <div className="flex gap-[1rem] w-[100%]">
+            <FollowOrUnfollowBtn/>
+            <SendMessageBtn/>
+          </div>}
         </div>
       </div>
 
