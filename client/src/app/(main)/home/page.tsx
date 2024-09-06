@@ -1,5 +1,5 @@
 "use client";
-import Post from "@/components/Posts/Post";
+import Post from "@/components/posts/Post";
 import ThemeSwitcher from "@/components/shared/ThemeSwitcher";
 import { RootState } from "@/redux/store";
 import { Box } from "@mui/material";
@@ -26,7 +26,6 @@ export default function Home() {
         width: "100% ",
       }}
     >
-      <ThemeSwitcher />
       <Post content="Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" username={username || "defaultuser"} comments={123} likes={1} />
       <Post content="Tengo un camello, solo lo comentaba jajaja" username={username || "defaultuser"} comments={20000} likes={1000000} />
       <Post content="Los quiero admiradores.." username={username || "defaultuser"} comments={2} likes={10} />
