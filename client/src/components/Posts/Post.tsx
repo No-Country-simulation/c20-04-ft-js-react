@@ -1,66 +1,72 @@
-import ChatBoxIcon from "@/icons/ChatBox";
-import PawIcon from "@/icons/PawIcon";
-import { ShareOutlined } from "@mui/icons-material";
-import { Avatar, Box, Typography, IconButton } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import ChatBoxIcon from '@/icons/ChatBox'
+import PawIcon from '@/icons/PawIcon'
+import { stringAvatar } from '@/utils/avatar'
+import { ShareOutlined } from '@mui/icons-material'
+import { Avatar, Box, Typography, IconButton, Card } from '@mui/material'
+import type { Post } from '@/types'
 
-interface PostProps {
-    username: string;
-    content: string;
-    likes: number;
-    comments: number;
-}
+export default function Post({ post }: { post: Post }) {
 
-export default function Post({ username, content, likes, comments }: PostProps) {
-    const theme = useTheme();
+  return (
+    <Card elevation={0} className='space-y-4 w-full px-4 py-4 rounded-lg border transition-colors border-neutral-300 dark:border-neutral-700'>
+      <Box className='flex gap-x-3 items-center px-4'>
+        <Avatar
+          {...stringAvatar(post.author.name)}
+          alt={post.author.name.toUpperCase()}
+          src={post.author.avatar}
+        />
+        <Box>
+          <Typography>
+            @{post.author.username}
+          </Typography>
+          <Typography color='text.secondary' className='text-xs'>
+            Hace 3 hora(s)
+          </Typography>
+        </Box>
+      </Box>
+      {post.image && <img src={post.image} alt={`image from post ${post.id}`} />}
+      <Typography
+        variant='body1'
+        color='text.primary'
+        sx={{ mb: 2, wordBreak: 'break-word' }}
+      >
+        {post.content}
+      </Typography>
 
-    return (
-        <div className="w-full md:w-[345px] rounded-[8px] border border-neutral-300 dark:border-neutral-700">
-            <Box sx={{ p: 2 }}>
-                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                    <Avatar
-                        alt={username?.toUpperCase()}
-                        src="/placeholder.svg?height=32&width=32"
-                        sx={{
-                            backgroundColor: theme.palette.primary.main,
-                            width: 40,
-                            height: 40,
-                            mr: 1,
-                        }}
-                    />
-                    <Typography variant="body1" color="text.secondary">
-                        @{username}
-                    </Typography>
-                </Box>
-                <Typography variant="body1" color="text.primary" sx={{ mb: 2, wordBreak: "break-word" }}>
-                    {content}
-                </Typography>
+      <Box
+        className='flex justify-between items-center max-w-sm'
+      >
+        <Box className='flex justify-between gap-x-4'>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton size='small'>
+              <PawIcon className='size-6' />
+            </IconButton>
+            <Typography
+              variant='body2'
+              color='text.secondary'
+              sx={{ ml: 0.5 }}
+            >
+              {post.likes.toLocaleString()}
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton size='small'>
+              <ChatBoxIcon className='size-6' />
+            </IconButton>
+            <Typography
+              variant='body2'
+              color='text.secondary'
+              sx={{ ml: 0.5 }}
+            >
+              {post.comments.toLocaleString()}
+            </Typography>
+          </Box>
+        </Box>
 
-                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: "1em" }}>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <IconButton size="small">
-                                <PawIcon className="size-6" />
-                            </IconButton>
-                            <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                                {likes}
-                            </Typography>
-                        </Box>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <IconButton size="small">
-                                <ChatBoxIcon className="size-6" />
-                            </IconButton>
-                            <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                                {comments}
-                            </Typography>
-                        </Box>
-                    </Box>
-
-                    <IconButton size="small">
-                        <ShareOutlined fontSize="small" />
-                    </IconButton>
-                </Box>
-            </Box>
-        </div>
-    );
+        <IconButton size='small'>
+          <ShareOutlined fontSize='small' />
+        </IconButton>
+      </Box>
+    </Card>
+  )
 }

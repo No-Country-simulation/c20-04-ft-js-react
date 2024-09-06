@@ -8,87 +8,72 @@ import {
   Typography,
   Avatar,
   Box,
-  ThemeProvider,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useTheme } from "@mui/material/styles";
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import Link from '@mui/material/Link';
+import PawPalIcon from "@/icons/PawPal";
+import { useAppSelector } from "@/redux/hooks";
+import SearchIcon from "@/icons/Search";
+import { stringAvatar } from "@/utils/avatar";
 
 export default function Header() {
   const theme = useTheme();
-  const user = useSelector((state: RootState) => state.userReducer.user)
-  const username = user?.username
+  const user = useAppSelector(state => state.userReducer.user)
 
   return (
     <AppBar
-      position="static"
-      color="default"
+      position="sticky"
+      color="inherit"
       elevation={0}
       sx={{
-        position: "sticky",
-        top: 0,
-        zIndex: "100",
-        height: "7svh",
         display: "flex",
         justifyContent: "center",
-        backgroundColor: theme.palette.background.paper,
         border: `1px solid ${theme.palette.divider}`,
         borderTop: "none",
       }}
     >
-      <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          {/* <Box>Imagen del logo de PawPañ Community</Box> */}
+      <Toolbar className="justify-between py-3 px-5">
+        <Box className='flex items-center gap-x-3'>
+          <PawPalIcon className="size-10 md:size-auto" />
           <Typography
             variant="h1"
-            noWrap
-            component="div"
-            sx={{
-              fontSize: { xs: "1.5em", sm: "1.8em" },
-              display: "block",
-              color: theme.palette.primary.main,
-            }}
+            className="font-bold text-2xl md:text-3xl"
           >
-            PawPal Community
+            PawPal <span className="hidden md:inline">Community</span>
           </Typography>
         </Box>
 
-        {user && username ? (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton color="inherit" sx={{ mr: 1 }}>
-              <NotificationsIcon />
-            </IconButton>
+        <Box className='flex items-center gap-x-2 md:gap-x-4'>
+          <IconButton color="inherit">
+            <NotificationsIcon className='size-8' />
+          </IconButton>
+          <IconButton color="inherit" className='md:hidden'>
+            <SearchIcon />
+          </IconButton>
+          <Box className='items-center gap-x-3 hidden md:flex'>
+            <Box>
+              <Typography
+                variant="body1"
+                noWrap
+                className='text-end font-semibold'
+              >
+                User Name
+              </Typography>
+              <Typography
+                variant="body1"
+                noWrap
+                className="text-neutral-700 dark:text-neutral-300 text-sm text-end"
+              >
+                @{user?.username.toLowerCase()}
+              </Typography>
+            </Box>
             <Avatar
-              alt={username?.toUpperCase()}
-              src="/placeholder.svg?height=32&width=32"
-              sx={{
-                backgroundColor: theme.palette.primary.main,
-                width: 40,
-                height: 40,
-                mr: 1,
-              }}
+              {...stringAvatar('Nombre nombre')}
+              alt={user?.username.toUpperCase()}
+              className='size-12'
             />
-            <Typography
-              variant="body1"
-              noWrap
-              component="div"
-              sx={{ fontSize: "1.2em", display: { xs: "none", sm: "block" } }}
-            >
-              @{username?.toLowerCase()}
-            </Typography>
           </Box>
-        ) : (
-          <Box sx={{ display: "flex", alignItems: "center", gap: "1em" }}>
-            <Link href={"/login"}>
-              Iniciar Sesión
-            </Link>
-            <Link href={"/register"}>
-              Registrarse
-            </Link>
-          </Box>
-        )}
+        </Box>
       </Toolbar>
     </AppBar>
   );

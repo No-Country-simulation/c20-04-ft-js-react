@@ -5,51 +5,31 @@ import { useAppSelector } from '@/redux/hooks'
 
 import HomeIcon from '@/icons/HomeIcon'
 import LogOutIcon from '@/icons/LogOutIcon'
-import MailIcon from '@/icons/MailIcon'
 import SettingsIcon from '@/icons/SettingsIcon'
 import UserIcon from '@/icons/UserIcon'
 import SearchBarr from './SearchBarr'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Paper } from '@mui/material'
+import { Avatar, Paper } from '@mui/material'
+import HomeFillIcon from '@/icons/HomeFill'
+import ChatBoxIcon from '@/icons/ChatBox'
+import ChatBoxFillIcon from '@/icons/ChatBoxFill'
+import UserFillIcon from '@/icons/UserFill'
+import SettingsFillIcon from '@/icons/SettingsFill'
+import NavLink from './NavLink'
+import AddCircleIcon from '@/icons/AddCircle'
+import Link from 'next/link'
+import { stringAvatar } from '@/utils/avatar'
 
 
 export default function SideNavBar() {
-  const userName = useAppSelector(state => state.userReducer.user?.username)
-
-  const routes = [
-    {
-      name: 'Home',
-      path: '/home',
-      icon: HomeIcon
-    },
-    {
-      name: 'Mensajes',
-      path: '/messages',
-      icon: MailIcon
-    },
-    {
-      name: 'Profile',
-      path: `/profile/${userName}`,
-      icon: UserIcon
-    },
-    {
-      name: 'Configuracíon',
-      path: '/settings',
-      icon: SettingsIcon
-    },
-    {
-      name: 'Cerrar sesión',
-      path: '/log-out',
-      icon: LogOutIcon
-    }
-  ];
-
+  const user = useAppSelector(state => state.userReducer.user)
   const pathname = usePathname()
 
+  const inRoute = (routeName: string) => pathname.includes(routeName)
+
   return (
-    <Paper component='section' elevation={0}
-      className='z-50 md:h-[93svh] md:sticky md:top-[7svh] border-neutral-300 dark:border-neutral-700 px-3 md:px-5 py-2 md:py-10 
+    <Paper component='section' elevation={0} sx={{ height: { md: 'calc(100dvh - 85.1px)', borderRadius: '0' } }}
+      className='z-50 md:sticky md:top-[85.1px] border-neutral-300 dark:border-neutral-700 px-3 md:px-5 py-2 md:py-10 
       border-t md:border-t-0 md:border-x order-last md:order-none fixed bottom-0 md:bottom-auto w-full md:w-auto'
     >
       <div className='hidden md:block'>
@@ -57,24 +37,61 @@ export default function SideNavBar() {
       </div>
 
       <nav className='flex justify-between md:flex-col md:gap-5'>
-        {routes.map(({ icon: Icon, ...props }, i) => (
-          <Link
-            key={props.path}
-            href={props.path}
-            className={
-              'flex gap-x-4 py-2 px-4 items-center font-semibold rounded-md md:rounded-full border border-transparent transition hover:text-black dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-700 ' +
-              (pathname === props.path ? 'text-black dark:text-white ' : 'text-black/50 dark:text-white/50 ') +
-              (i + 1 === routes.length ? 'hidden md:flex' : '')
-            }
-          >
-            <Icon />
-            <span className='hidden md:inline'>{props.name}</span>
-          </Link>
-        ))}
+        <NavLink
+          link={{
+            href: 'home',
+            name: 'Home'
+          }}
+          pathname={pathname}
+        >
+          {inRoute('home') ? <HomeFillIcon /> : <HomeIcon />}
+        </NavLink>
+        {user && <NavLink
+          link={{
+            href: `profile/${user.username}`,
+            name: 'Profile'
+          }}
+          pathname={pathname}
+          className='hidden md:flex'
+        >
+          {inRoute('profile') ? <UserFillIcon /> : <UserIcon />}
+        </NavLink>}
+        <NavLink
+          link={{
+            href: 'messages',
+            name: 'Messages'
+          }}
+          pathname={pathname}
+        >
+          {inRoute('messages') ? <ChatBoxFillIcon /> : <ChatBoxIcon />}
+        </NavLink>
+        <button className='md:hidden flex py-2 px-4 items-center justify-center transition-colors text-neutral-400 dark:text-neutral-500'>
+          <AddCircleIcon />
+        </button>
+        <NavLink
+          link={{
+            href: 'settings',
+            name: 'Settings'
+          }}
+          pathname={pathname}
+        >
+          {inRoute('settings') ? <SettingsFillIcon /> : <SettingsIcon />}
+        </NavLink>
+        {user && <NavLink
+          link={{
+            href: 'log-out',
+            name: 'Log out'
+          }}
+          pathname={pathname}
+          className='hidden md:flex'
+        >
+          <LogOutIcon />
+        </NavLink>}
+        {user && <Link href={`/profile/${user.username}`} className='flex items-center py-2 px-4 md:hidden'>
+          <Avatar {...stringAvatar('User Name')} className='size-8 text-sm font-semibold' />
+        </Link>}
       </nav>
     </Paper>
   )
-
-
 }
 

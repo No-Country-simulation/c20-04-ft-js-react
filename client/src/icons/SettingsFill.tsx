@@ -1,4 +1,4 @@
-export default function SettingsIcon({
+export default function SettingsFillIcon({
   ...props
 }: React.SVGProps<SVGSVGElement>) {
   return (
@@ -7,7 +7,7 @@ export default function SettingsIcon({
       width='32'
       height='32'
       viewBox='0 0 32 32'
-      fill='none'
+      fill='currentColor'
       stroke='currentColor'
       xmlns='http://www.w3.org/2000/svg'
     >
