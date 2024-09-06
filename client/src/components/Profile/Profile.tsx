@@ -5,7 +5,8 @@ import EditProfileBtn from "./profileComponents/EditProfileBtn";
 import ShowFollowersBtn from "./profileComponents/ShowFollowersBtn";
 import ShowFollowingBtn from "./profileComponents/ShowFollowingBtn";
 import SendMessageBtn from "./profileComponents/SendMessageBtn";
-import FollowOrUnfollowBtn from './profileComponents/FollowOrUnfollowBtn'
+import FollowOrUnfollowBtn from "./profileComponents/FollowOrUnfollowBtn";
+
 
 import SideNavBar from "../shared/SideNavBar";
 import About from "./profileComponents/About";
@@ -52,7 +53,10 @@ export default function Profile({
           <ProfilePosts />
         );
       case "pets":
-        return <Pets />;
+        return <Pets 
+        dataUsername={dataUsername}
+        localUsername={localUsername}
+        />;
       case "about":
         return <About />;
       default:
