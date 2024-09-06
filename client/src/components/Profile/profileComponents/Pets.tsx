@@ -17,7 +17,7 @@ interface Pet {
 
 interface profileProps {
   dataUsername: string;
-  localUsername: string;
+  localUsername?: string;
 }
 
 const petsInfo: Pet[] = [
@@ -82,6 +82,16 @@ const petsInfo: Pet[] = [
 export default function Pets({ dataUsername, localUsername }: profileProps) {
   return (
     <div className="flex flex-wrap justify-center gap-[2rem]">
+      
+      {dataUsername === localUsername && petsInfo.length > 0 ? (
+        <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
+        <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
+              Add new pet:
+            </p>
+          <IoIosAddCircleOutline size={60} className="cursor-pointer" />
+        </div>
+      ) : null}
+      
       {petsInfo.length > 0 ? (
         petsInfo.map((pet) => (
           <Card sx={{ maxWidth: 345 }}>
