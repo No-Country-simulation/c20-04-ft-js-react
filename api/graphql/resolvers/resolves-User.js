@@ -1,4 +1,5 @@
 import User from "../../models/user.models.js"
+import Post from '../../models/post.models.js'
 import crip from "bcryptjs";
 import { createAccess } from "../../libs/jwt.js"
 
@@ -13,8 +14,14 @@ export const userResolves = {
                 id: gUser._id,
             }
         },
-        async getUserName(_, usermane) {
-            const gUser = await User.find(usermane)
+        async getUserByUsername(_, {username}) {
+            console.log(username)
+            const gUser = await User.findOne({username})
+            const userId = gUser.id_user
+            
+            if(!gUser){
+                console.log("user not found")
+            }
             return {
                 ...gUser._doc,
                 id: gUser._id,
@@ -154,8 +161,10 @@ export const userResolves = {
         }
     },
     User:{
-        post: async (_,__,{user}) => {
-            return await Post.find(user.payload)
+        posts: async ({_id}) => {
+            const userId = _id.toString()
+            console.log(userId)
+            return await Post.find({id_user: userId})
         },
         comment: async (_, __, { user }) => {
             return await Comment.find(user.payload)

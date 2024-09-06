@@ -22,6 +22,10 @@ Comment:{
  },
 Comment: {
    ...userResolves.Comment
+},
+
+User: {
+   ...userResolves.User
 }
 
 } 

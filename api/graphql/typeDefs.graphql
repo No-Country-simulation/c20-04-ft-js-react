@@ -6,7 +6,7 @@ type idf{
 }
 type User {
     _id: String,
-    username: String ,
+    username: String,
     email: String,
     role: String,
     password: String,
@@ -46,7 +46,7 @@ type Post{
 type Query {
     getMsg : Msg
     getUser : User
-    getUserName :User
+    getUserByUsername(username: String!) : User
     getPost : [Post]
     getMyPost : [Post]
     getMyComment : [Comment]
@@ -97,4 +97,8 @@ input CommentInput {
 }
 input FollowersInput {
     id:String
+}
+
+input usernameInput {
+    username:String
 }
