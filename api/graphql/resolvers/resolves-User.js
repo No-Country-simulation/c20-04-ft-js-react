@@ -40,6 +40,7 @@ export const userResolves = {
                 password: hash,
                 role,
                 username,
+                age
             })
             const us = await newUser.save()
             const token = await createAccess(us._id)
@@ -83,15 +84,17 @@ export const userResolves = {
 
         },
         async Modprofile(_, { profileInput }, { user }) {
-            console.log(profileInput);
             
             if (!user) {
-                throw new Error("Not authenticcated");
+                throw new Error("Not authenticated");
             }
             const exist = await User.findById(user.payload)
 
             if (!exist) {   
-                throw new Error("Not auaaathenticated");
+                throw new Error("Not authenticated");
+            }
+            if (!exist.id == user.payload ){
+                throw new Error("Not authenticated");
             }
             const upuser ={
                 ...profileInput
@@ -115,7 +118,7 @@ export const userResolves = {
             }
             const fadd = await User.findById(user.payload)
             
-            if(fadd && fadd.following.includes(id)){
+            if(!fadd && fadd.following.includes(id)){
 
                 console.log(fadd);
                 const userin = await User.updateOne(
