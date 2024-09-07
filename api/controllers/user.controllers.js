@@ -1,4 +1,6 @@
 import User from '../models/user.models.js'
+import  jwt  from 'jsonwebtoken';
+import { TOKEN_KEY } from '../config.js';
 
 export const getUserByUsername = async (req, res) => {
     const { username } = req.params;
@@ -25,4 +27,21 @@ export const getUserByUsername = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Server error" });
     }
+};
+export const prifileUpDate = async (req, res) => {
+  try {
+      const { token } = req.cookies
+      const userid = jwt.verify(token, TOKEN_KEY);
+      console.log(userid);
+      const Userfind = await User.findById(userid.payload.id)
+      const { password, ...restOfBody } = req.body;
+      const upuser = {
+          ...restOfBody
+      };
+      const userp = await User.findByIdAndUpdate(userid.payload.id, upuser, { new: true })
+      console.log(Userfind)
+      res.status(200).json(userp)
+  } catch (error) {
+      res.status(500).json({ message: 'Error actualizando el perfil', error });
+  }
 };
