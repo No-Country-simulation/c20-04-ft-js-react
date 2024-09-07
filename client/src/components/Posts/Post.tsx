@@ -9,7 +9,7 @@ export default function Post({ post }: { post: Post }) {
 
   return (
     <Card elevation={0} className='space-y-4 w-full px-4 py-4 rounded-lg border transition-colors border-neutral-300 dark:border-neutral-700'>
-      <Box className='flex gap-x-3 items-center px-4'>
+      <Box className='flex gap-x-3 items-center'>
         <Avatar
           {...stringAvatar(post.author.name)}
           alt={post.author.name.toUpperCase()}
