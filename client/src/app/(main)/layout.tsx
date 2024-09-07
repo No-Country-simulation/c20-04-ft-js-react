@@ -16,7 +16,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Header />
       <div className='md:flex md:flex-row relative'>
         <SideNavBar />
-        <div className='flex-1 p-5 border-r transition-colors border-neutral-300 dark:border-neutral-700'>
+        <div className='flex-1 pb-[85.05px] sm:pb-[85.05px] sm:p-5 border-r transition-colors border-neutral-300 dark:border-neutral-700'>
           {children}
         </div>
       </div>

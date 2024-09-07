@@ -20,6 +20,8 @@ import { useState } from "react";
 //reduc
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { Box } from "@mui/material";
+
 
 interface profileProps {
   dataUsername: string;
@@ -86,8 +88,8 @@ export default function Profile({
           {dataUsername === localUsername ? (
             <>
               <ShowFollowersBtn />
-              <ShowFollowingBtn />
-                <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag}/>
+            <ShowFollowingBtn />
+            <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} />
             </>
           ) : (
             <div className="flex gap-[1rem] w-[100%]">
@@ -130,6 +132,17 @@ export default function Profile({
       </div>
       {/* div que renderizara los componentes dependiendo de cual se presione  */}
       <div className="mt-[2rem]">{renderSelectedComponent()}</div>
+      <Box
+        gap={4}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100% ',
+        }}
+        className='p-2 md:p-[50px]'
+      >
+        {renderSelectedComponent()}
+      </Box>
     </div>
   );
 }

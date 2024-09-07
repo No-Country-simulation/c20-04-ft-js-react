@@ -1,38 +1,71 @@
 import User from "../models/user.models.js"
 import crip from "bcryptjs";
 import { createAccess } from "../libs/jwt.js";
+import { calculateAge } from "../utils/age.js";
 
 export const register = async (req, res) => {
-    const { email, password, username, age } = req.body
-    const exitUser = await User.findOne({ "email": email })
-    if (exitUser) {
-        return res.status(409).json({ message: "email register" })
-    }
+    const { email, password, username, birthdate } = req.body;
+    
     try {
-        const hash = await crip.hash(password, 10)
+        const exitUser = await User.findOne({ email });
+        
+        if (exitUser) {
+            return res.status(409).json({ 
+                code: 409, 
+                data: [], 
+                status: 'error', 
+                message: "El email ya esta registrado" 
+            });
+        }
+
+        const exitUsername = await User.findOne({ username });
+
+        if (exitUsername) {
+            return res.status(409).json({
+                code: 409,
+                data: [],
+                status: 'error',
+                message: `El username: ${username} ya esta en uso`
+            });
+        }
+
+        const hash = await crip.hash(password, 10);
         const newuser = new User({
             email,
             password: hash,
             username,
-            age,
+            birthdate,
+            age: calculateAge(birthdate),
             role: "user"
-        })
-        console.log(newuser);
+        });
 
         const rUser = await newuser.save();
-        const token = await createAccess({ id: rUser.id })
-        res.cookie("token", token)
-        res.json({
-            id: rUser.id,
-            username: rUser.username,
-            role: rUser.role,
-            email: rUser.email,
-            age :rUser.age
-        })
+        const token = await createAccess({ id: rUser.id });
+
+        res.cookie("token", token);
+        
+        return res.status(201).json({
+            code: 201,
+            data: {
+                id: rUser.id,
+                username: rUser.username,
+                role: rUser.role,
+                email: rUser.email,
+                birthdate: rUser.birthdate,
+                age: rUser.age
+            },
+            status: 'success'
+        });
+
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        return res.status(500).json({
+            code: 500,
+            data: [],
+            status: 'error',
+            message: error.message
+        });
     }
-}
+};
 
 export const login = async (req, res) => {
     const { email, password } = req.body
