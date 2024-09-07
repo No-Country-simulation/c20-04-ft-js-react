@@ -25,6 +25,10 @@ const postSchema = new mongoose.Schema({
         type: Boolean,
         default:true
     },
+    likereport: {
+        type: Array,
+        default: []
+    },
     report: {
         type: Number,
         default: 0
