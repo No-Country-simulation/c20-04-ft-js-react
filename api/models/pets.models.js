@@ -16,9 +16,14 @@ const petsShema = new mongoose.Schema({
         type: Array,
         default :[]
     },
-    _id_user: {
+    id_user: {
+        type : String,
         required: true
-    }
+    },
+    description: {
+        type: String,
+        default: ""
+    },
 },
     { timestamps: true }
 )
