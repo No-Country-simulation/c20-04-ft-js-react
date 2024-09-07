@@ -21,6 +21,7 @@ import { useState } from "react";
 //reduc
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { Box } from "@mui/material";
 
 
 interface profileProps {
@@ -38,7 +39,7 @@ export default function Profile({
   profilePicture,
 }: profileProps) {
 
-  const localUsername = useSelector((state: RootState)=> state.userReducer.user?.username)
+  const localUsername = useSelector((state: RootState) => state.userReducer.user?.username)
 
   const [selectedComponent, setSelectedComponent] = useState<string>("posts")
 
@@ -53,9 +54,9 @@ export default function Profile({
           <ProfilePosts />
         );
       case "pets":
-        return <Pets 
-        dataUsername={dataUsername}
-        localUsername={localUsername}
+        return <Pets
+          dataUsername={dataUsername}
+          localUsername={localUsername}
         />;
       case "about":
         return <About />;
@@ -88,12 +89,12 @@ export default function Profile({
           {dataUsername === localUsername ? (
             <>
               <ShowFollowersBtn />
-            <ShowFollowingBtn />
-            <EditProfileBtn />
+              <ShowFollowingBtn />
+              <EditProfileBtn />
             </>
-          ): <div className="flex gap-[1rem] w-[100%]">
-            <FollowOrUnfollowBtn/>
-            <SendMessageBtn/>
+          ) : <div className="flex gap-[1rem] w-[100%]">
+            <FollowOrUnfollowBtn />
+            <SendMessageBtn />
           </div>}
         </div>
       </div>
@@ -126,9 +127,17 @@ export default function Profile({
         </div>
       </div>
       {/* div que renderizara los componentes dependiendo de cual se presione  */}
-      <div className="mt-[2rem]">
+      <Box
+        gap={4}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100% ',
+        }}
+        className='p-2 md:p-[50px]'
+      >
         {renderSelectedComponent()}
-      </div>
+      </Box>
     </div>
   );
 }
