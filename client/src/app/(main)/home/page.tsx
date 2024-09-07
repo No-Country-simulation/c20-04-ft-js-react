@@ -1,11 +1,12 @@
 'use client'
-import CreatePost from '@/components/posts/CreatePost'
-import Post from '@/components/posts/Post'
+
 import { RootState } from '@/redux/store'
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { Post as PostType } from '@/types'
+import Post from '@/components/Posts/Post'
+import CreatePost from '@/components/Posts/CreatePost'
 
 // tuve que pasar a use client para que funcione el useTheme y al ser un hook de mui no se puede importar
 //import type { Metadata } from "next";
@@ -71,21 +72,23 @@ export default function Home() {
 
   return (
     <Box
-      p={5}
       gap={4}
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '100% '
+        width: '100% ',
       }}
+      className='p-2 md:p-[50px]'
     >
       <CreatePost addNewPost={addNewPost} />
-      {posts.map((post) => (
-        <Post
-          key={post.id}
-          post={post}
-        />
-      ))}
-    </Box>
+      {
+        posts.map((post) => (
+          <Post
+            key={post.id}
+            post={post}
+          />
+        ))
+      }
+    </Box >
   )
 }

@@ -8,10 +8,10 @@ import type { Post } from '@/types'
 export default function Post({ post }: { post: Post }) {
 
   return (
-    <Card elevation={0} className='space-y-4 w-full px-4 py-4 rounded-lg border transition-colors border-neutral-300 dark:border-neutral-700'>
-      <Box className='flex gap-x-3 items-center'>
+    <Card elevation={0} className='max-w-[450px] space-y-4 w-full px-4 py-4 rounded-lg border transition-colors border-neutral-300 dark:border-neutral-700'>
+      <Box className='flex items-center'>
         <Avatar
-          {...stringAvatar(post.author.name)}
+          {...stringAvatar(post.author.name.toUpperCase())}
           alt={post.author.name.toUpperCase()}
           src={post.author.avatar}
         />
