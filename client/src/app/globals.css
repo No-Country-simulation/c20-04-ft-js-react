@@ -3,7 +3,19 @@
 @tailwind utilities;
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+	.sidenavbar {
+		height: calc(100dvh - 85.1px);
+	}
+}
+
+@media (max-width: 640px) {
+	.post-card:last-child {
+		border-bottom: 0;
+	}
 }
