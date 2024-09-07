@@ -3,6 +3,7 @@ import { register, login, loguot, profile} from "../controllers/auth.controllers
 import { getUserByUsername, prifileUpDate } from "../controllers/user.controllers.js";
 import { createPost, upDatePost } from "../controllers/post.controllers.js"
 import { validToken } from "../middlewares/validete.token.js";
+import { createPet, upDatePets } from "../controllers/pets.controllers.js";
 const rou= Router()
 rou.post("/register", register);
 rou.post("/login",login);
@@ -15,5 +16,8 @@ rou.put("/profileUpDate", validToken,prifileUpDate)
 
 rou.post("/createPost",validToken,createPost)
 rou.put("/upDatePost", validToken, upDatePost)
+
+rou.post("/createPets", validToken,createPet)
+rou.put("/upDatePets", validToken, upDatePets)
 
 export default rou
