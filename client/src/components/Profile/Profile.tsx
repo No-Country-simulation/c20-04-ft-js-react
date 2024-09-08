@@ -6,6 +6,7 @@ import ShowFollowersBtn from "./profileComponents/ShowFollowersBtn";
 import ShowFollowingBtn from "./profileComponents/ShowFollowingBtn";
 import SendMessageBtn from "./profileComponents/SendMessageBtn";
 import FollowOrUnfollowBtn from "./profileComponents/FollowOrUnfollowBtn";
+import EditProfileBasicInfoLayout from "./profileComponents/EditProfileBasicInfoLayout";
 
 import SideNavBar from "../shared/SideNavBar";
 import About from "./profileComponents/About";
@@ -64,10 +65,14 @@ export default function Profile({
 
   return (
     <div className=" relative max-w-full flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
+      
       {/* segunda parte del perfil */}
       <div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px] md:mx-0 md:ml-[3rem] lg:max-w-[650px]">
         {/* image and name container */}
-        <div className="lg:flex gap-[1rem] relative">
+        {editFlag ? (
+          <EditProfileBasicInfoLayout username={dataUsername} name={name} profilePicture={profilePicture}/>
+        ) : (
+          <div className="lg:flex gap-[1rem] relative">
           <figure className="w-20 h-20 rounded-full bg-[#000]">
             <img
               className="w-full h-full rounded-full"
@@ -82,6 +87,7 @@ export default function Profile({
             @{dataUsername}
           </p>
         </div>
+        )}
 
         {/* her it goes the follow, following and edit profile/message part */}
         <div className="flex flex-wrap justify-center items-end gap-4 max-w-[200px] lg:flex-nowrap lg:max-w-[350px]">
