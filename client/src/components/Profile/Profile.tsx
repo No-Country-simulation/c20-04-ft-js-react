@@ -66,13 +66,12 @@ export default function Profile({
   return (
     <div className=" relative max-w-full flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
       
+      <div className="mt-5 w-[95%] mx-auto flex justify-between gap-[2rem] max-w-[400px] md:mx-0 md:ml-[3rem] lg:max-w-[650px]">
       {/* segunda parte del perfil */}
-      <div className="mt-5 w-[90%] mx-auto flex justify-between gap-[2rem] max-w-[400px] md:mx-0 md:ml-[3rem] lg:max-w-[650px]">
-        {/* image and name container */}
         {editFlag ? (
-          <EditProfileBasicInfoLayout username={dataUsername} name={name} profilePicture={profilePicture}/>
+          <EditProfileBasicInfoLayout username={dataUsername} name={name} profilePicture={profilePicture} editFlag={editFlag} setEditFlag={setEditFlag}/>
         ) : (
-          <div className="lg:flex gap-[1rem] relative">
+          <div className="lg:flex gap-[1rem] min-w-[120px] relative">
           <figure className="w-20 h-20 rounded-full bg-[#000]">
             <img
               className="w-full h-full rounded-full"
@@ -91,19 +90,24 @@ export default function Profile({
 
         {/* her it goes the follow, following and edit profile/message part */}
         <div className="flex flex-wrap justify-center items-end gap-4 max-w-[200px] lg:flex-nowrap lg:max-w-[350px]">
-          {dataUsername === localUsername ? (
-            <>
-              <ShowFollowersBtn />
-            <ShowFollowingBtn />
-            <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} />
-            </>
-          ) : (
-            <div className="flex gap-[1rem] w-[100%]">
-              <FollowOrUnfollowBtn />
-              <SendMessageBtn />
-            </div>
-          )}
-        </div>
+  {editFlag ? (
+    <>
+      
+    </>
+  ) : dataUsername === localUsername ? (
+    <>
+      <ShowFollowersBtn />
+      <ShowFollowingBtn />
+      <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} />
+    </>
+  ) : (
+    <div className="flex gap-[1rem] w-[100%]">
+      <FollowOrUnfollowBtn />
+      <SendMessageBtn />
+    </div>
+  )}
+</div>
+
       </div>
 
       {/* tercera parte del perfil: botones de redireccion o muestreo: post, pets, about */}
