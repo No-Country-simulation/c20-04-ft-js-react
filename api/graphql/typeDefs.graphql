@@ -48,6 +48,7 @@ type Query {
     getMsg : Msg
     getUser : User
     getUserByUsername(username: String!) : User
+    getUserSearch(username: String!) : [User]
     getPost : [Post]
     getMyPost : [Post]
     getMyComment : [Comment]

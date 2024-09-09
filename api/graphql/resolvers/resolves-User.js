@@ -26,6 +26,16 @@ export const userResolves = {
                 ...gUser._doc,
                 id: gUser._id,
             }
+        },
+        async getUserSearch(_, { username }) {
+            if (!user) {
+                throw new Error("Not authenticassted");
+            }
+            const pUser = await User.findById(user.payload)
+            if (!pUser) {
+                throw new Error("Not authenticated");
+            }
+            return await User.find({ username: { $regex: username, $options: 'i' } })
         }
     },
     Mutation: {
