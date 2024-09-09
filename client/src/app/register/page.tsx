@@ -222,21 +222,23 @@ export default function Register() {
       if (response.code === 201 && response.status === "success") {
         dispatch(setUser(response.data));
         router.push('/home');
-      } else if (response.code === 409) {
+      }
+    } catch (err: any) {
+      console.log(err);
+      if (err?.status === 409) {
         setAlertMessage({
           type: "danger",
-          message: response.message,
-          title: "Error"
+          message: err.data.message,
+          title: "Error:"
         });
         setShowAlert(true);
       }
-    } catch (err) {
-      setAlertMessage({
-        type: "danger",
-        message: "al registrarse. Intenta nuevamente.",
-        title: "Error"
-      });
-      setShowAlert(true);
+      // setAlertMessage({
+      //   type: "danger",
+      //   message: "al registrarse. Intenta nuevamente.",
+      //   title: "Error"
+      // });
+      // setShowAlert(true);
     }
   };
 
