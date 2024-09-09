@@ -18,6 +18,7 @@ export const userQueryApi = createApi({
                 _id
                 followers
                 following
+                name
                 profile_photo
                 username
                 posts {
