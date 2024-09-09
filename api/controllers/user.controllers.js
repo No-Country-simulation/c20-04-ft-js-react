@@ -2,6 +2,9 @@ import User from '../models/user.models.js'
 import  jwt  from 'jsonwebtoken';
 import { TOKEN_KEY } from '../config.js';
 
+// cloudinary
+import {uploadPfpImage} from '../cloudinary.js'
+
 export const getUserByUsername = async (req, res) => {
     const { username } = req.params;
 
@@ -34,11 +37,18 @@ export const prifileUpDate = async (req, res) => {
       const userid = jwt.verify(token, TOKEN_KEY);
       console.log(userid);
       const Userfind = await User.findById(userid.payload.id)
-      const { password, ...restOfBody } = req.body;
+      const { password, profile_photo,...restOfBody } = req.body;
+      
       const upuser = {
-          ...restOfBody
+          ...restOfBody,
       };
-      const userp = await User.findByIdAndUpdate(userid.payload.id, upuser, { new: true })
+
+      if(profile_photo){
+        const uploadImage = await uploadPfpImage(profile_photo,userid.payload.id)
+        upuser.profile_photo = uploadImage          
+        }
+      
+        const userp = await User.findByIdAndUpdate(userid.payload.id, upuser, { new: true })
       console.log(Userfind)
       res.status(200).json(userp)
   } catch (error) {
