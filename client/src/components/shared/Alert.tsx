@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 interface AlertProps {
     type: 'info' | 'danger' | 'success' | 'warning' | 'dark';
-    title: string;
+    title?: string;
     message: string;
     onClose: () => void; // Añadido para manejar el cierre del alerta
 }
@@ -59,7 +59,7 @@ const Alert: React.FC<AlertProps> = ({ type, title, message, onClose }) => {
         const timer = setTimeout(() => {
             setIsVisible(false);
             setTimeout(onClose, 300); // Espera a que la animación de salida termine
-        }, 5000); // Duración visible del alert en milisegundos
+        }, 8000); // Duración visible del alert en milisegundos
 
         return () => clearTimeout(timer); // Limpia el temporizador si el componente se desmonta
     }, [onClose]);
@@ -81,7 +81,7 @@ const Alert: React.FC<AlertProps> = ({ type, title, message, onClose }) => {
             </svg>
             <span className="sr-only">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
             <div>
-                <span className="font-medium">{title}</span> {message}
+                {title && (<span className="font-medium">{title}</span>)} {message}
             </div>
         </div>
     );
