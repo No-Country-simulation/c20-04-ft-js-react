@@ -7,6 +7,17 @@ export const register = async (req, res) => {
     const { email, password, username, birthdate } = req.body;
     
     try {
+        const exitUsername = await User.findOne({ username });
+
+        if (exitUsername) {
+            return res.status(409).json({
+                code: 409,
+                data: [],
+                status: 'error',
+                message: `El username ${username} ya esta en uso`
+            });
+        }
+
         const exitUser = await User.findOne({ email });
         
         if (exitUser) {
@@ -18,16 +29,7 @@ export const register = async (req, res) => {
             });
         }
 
-        const exitUsername = await User.findOne({ username });
 
-        if (exitUsername) {
-            return res.status(409).json({
-                code: 409,
-                data: [],
-                status: 'error',
-                message: `El username: ${username} ya esta en uso`
-            });
-        }
 
         const hash = await crip.hash(password, 10);
         const newuser = new User({
@@ -35,24 +37,29 @@ export const register = async (req, res) => {
             password: hash,
             username,
             birthdate,
-            age: calculateAge(birthdate),
             role: "user"
         });
 
         const rUser = await newuser.save();
         const token = await createAccess({ id: rUser.id });
 
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: 'lax', 
+            maxAge: 24 * 60 * 60 * 1000, 
+            path: '/'
+        });
         
         return res.status(201).json({
             code: 201,
             data: {
                 id: rUser.id,
                 username: rUser.username,
+                token: token,
                 role: rUser.role,
                 email: rUser.email,
                 birthdate: rUser.birthdate,
-                age: rUser.age
             },
             status: 'success'
         });
@@ -76,16 +83,23 @@ export const login = async (req, res) => {
     try {
         const compareHash = await crip.compare(password, exitUser.password)
         if (!compareHash) {
-            return res.status(400).json({ message: "password error" })
+            return res.status(401).json({ message: "Invalid credentials" })
         };
+
         const token = await createAccess({ id: exitUser.id })
-        res.cookie("token", token)
+        res.cookie("token", token, {
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: 'lax', 
+            maxAge: 24 * 60 * 60 * 1000, 
+            path: '/'
+        });
+
         res.json({
             id: exitUser.id,
             username: exitUser.username,
             email: exitUser.email,
             name: exitUser.name,
-            age: exitUser.age,
             profile_photo: exitUser.profile_photo,
             role: exitUser.role
         })
