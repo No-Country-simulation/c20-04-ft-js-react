@@ -8,7 +8,7 @@ const resolvers = {
     ...msResolves.Query,
     ...userResolves.Query,
     ...postRosolves.Query,
-    ...commentResolves.Query
+    ...commentResolves.Query,
     ...petsResolves.Query
  },
  Mutation:{
@@ -28,7 +28,7 @@ Comment: {
 
 User: {
    ...userResolves.User
-}
+},
 Pets :{
    ...petsResolves.Pets
 }

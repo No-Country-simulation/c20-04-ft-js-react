@@ -23,6 +23,7 @@ type User {
     contact:String,
     posts:[Post]
     comment:[Comment]
+    pets: [Pets]
 },
 type Comment{
     id_user:String,
@@ -45,13 +46,14 @@ type Post{
     comment: [Comment],
     user: User
 }
-type Post{
-   name: String
-   species: String
-   profile_photo: String
-   tag: tags: [String]
-   id_user: String
+type Pets{
+   name: String,
+   species: String,
+   profile_photo: String,
+   tag: [String],
+   id_user: String,
    description: String
+   user: User
 }
 type Query {
     getMsg : Msg
@@ -62,7 +64,7 @@ type Query {
     getMyPost : [Post]
     getMyComment : [Comment]
     getMyPets : [Pets]
-    getPetsByUsername (username: String!): [Pets]
+    getPetsByUsername(username: String!): [Pets]
 }
 type Mutation{
     RegisterUser(registerInput:RegisterInput): User!,
