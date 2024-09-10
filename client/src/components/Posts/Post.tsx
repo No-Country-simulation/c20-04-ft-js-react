@@ -11,9 +11,6 @@ import PawFillIcon from '@/icons/PawFill'
 export default function Post({ post }: { post: Post }) {
   const [liked, setLiked] = useState(false)
 
-  console.log(post)
-  if (post.image) console.log(post.image)
-
   const toggleLike = () => {
     setLiked((l) => !l)
   }
