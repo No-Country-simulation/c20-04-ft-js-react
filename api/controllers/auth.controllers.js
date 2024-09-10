@@ -108,6 +108,39 @@ export const login = async (req, res) => {
     }
 }
 
+export const refreshAccessToken = async (req, res) => {
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) {
+        return res.status(401).json({ message: "No refresh token provided" });
+    }
+
+    try {
+        const user = await User.findOne({ refreshToken });
+
+        if (!user) {
+            return res.status(403).json({ message: "Invalid refresh token" });
+        }
+
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+            if (err || user.id !== decoded.id) {
+                return res.status(403).json({ message: "Invalid refresh token" });
+            }
+
+            const newAccessToken = createAccess({ id: user.id });
+
+            res.cookie("token", newAccessToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+                maxAge: 24 * 60 * 60 * 1000,
+            });
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export const loguot = (req, res) => {
     res.cookie("token", "");
     res.sendStatus(200);

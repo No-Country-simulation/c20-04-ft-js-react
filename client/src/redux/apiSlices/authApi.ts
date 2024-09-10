@@ -1,31 +1,35 @@
-// este archivo sera usado para manejar todas las operaciones relacionadas al login y registro
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
-
-const url = process.env.NEXT_PUBLIC_BACKEND_URL
+const url = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const authApi = createApi({
-    // el reducer path es importante para que lo podamos unir en la store
     reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({baseUrl: url}),
+    baseQuery: fetchBaseQuery({
+        baseUrl: url,
+        credentials: 'include', // Asegúrate de incluir las credenciales en las solicitudes
+    }),
     endpoints: (builder) => ({
-        
         register: builder.mutation({
             query: (reqbody) => ({
                 url: 'register',
                 method: "POST",
-                body: reqbody
-            })
+                body: reqbody,
+            }),
         }),
-        
         login: builder.mutation({
-            query: (reqbody)=> ({
+            query: (reqbody) => ({
                 url: "login",
                 method: "POST",
-                body: reqbody
-            })
-        })
-    })
-})
+                body: reqbody,
+            }),
+        }),
+        refreshToken: builder.mutation({
+            query: () => ({
+                url: 'refreshToken',
+                method: 'POST',
+            }),
+        }),
+    }),
+});
 
-export const {useRegisterMutation ,useLoginMutation} = authApi
+export const { useRegisterMutation, useLoginMutation, useRefreshTokenMutation } = authApi;
