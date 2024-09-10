@@ -55,3 +55,43 @@ export const prifileUpDate = async (req, res) => {
       res.status(500).json({ message: 'Error actualizando el perfil', error });
   }
 };
+export const followCntrol = async (req, res) => {
+    try {
+        const { token } = req.cookies
+        const userid = jwt.verify(token, TOKEN_KEY);
+        userid = userid.payload.id
+        const { id } = req.params;
+
+        const currentUser = await User.findById(userid);
+        const targetUser = await User.findById(id);
+
+        if (!currentUser || !targetUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        if (!currentUser.following.includes(id)) {
+            // sigue
+            await User.updateOne(
+                { _id: userid },
+                { $addToSet: { following: id } }
+            );
+            await User.updateOne(
+                { _id: id },
+                { $addToSet: { followers: userid } }
+            );
+        } else {
+            //quita el foll
+            await User.updateOne(
+                { _id: userid },
+                { $pull: { following: id } }
+            );
+            await User.updateOne(
+                { _id: id },
+                { $pull: { followers: userid } }
+            );
+            res.status(200).json({ message: 'Follow/unfollow successful' });
+
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error in follow/unfollow operation', error });
+    }
+};
