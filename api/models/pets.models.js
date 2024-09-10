@@ -27,4 +27,4 @@ const petsShema = new mongoose.Schema({
 },
     { timestamps: true }
 )
-export default mongoose.model("pets", petsShema)
+export default mongoose.model("Pets", petsShema)
