@@ -265,6 +265,7 @@ export default function Register() {
               className="w-full dark:bg-neutral-800 rounded-lg"
               error={!!errors.username}
               helperText={errors.username}
+              autoComplete="username"
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <CustomDataPicker
@@ -292,6 +293,7 @@ export default function Register() {
               className="w-full dark:bg-neutral-800 rounded-lg"
               error={!!errors.email}
               helperText={errors.email}
+              autoComplete="email"
             />
             <Input
               type={showPassword ? "text" : "password"}
@@ -302,6 +304,7 @@ export default function Register() {
               onChange={handleInputChange}
               error={!!errors.password}
               helperText={errors.password}
+              autoComplete="new-password"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

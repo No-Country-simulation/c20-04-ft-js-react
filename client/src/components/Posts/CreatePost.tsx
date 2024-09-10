@@ -58,6 +58,7 @@ export default function CreatePost({ addNewPost }: { addNewPost: (newPost: Omit<
               value={content}
               onChange={(e) => setContent(e.target.value)}
               margin="normal"
+              autoComplete='off'
             />
             {image && (
               <Box sx={{ overflow: "hidden", position: 'relative', display: 'inline-block', my: 2 }}>

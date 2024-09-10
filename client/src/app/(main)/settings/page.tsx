@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 
 export default function Settings() {
   return (
-    <main>
+    <main className="max-md:py-2">
       <ThemeSwitcher />
     </main>
   )
