@@ -141,6 +141,7 @@ export default function PageLogin() {
               className="w-full dark:bg-neutral-800 rounded-lg"
               error={!!errors.email}
               helperText={errors.email}
+              autoComplete='email'
             />
             <Input
               type={showPassword ? "text" : "password"}
@@ -151,6 +152,7 @@ export default function PageLogin() {
               onChange={handleInputChange}
               error={!!errors.password}
               helperText={errors.password}
+              autoComplete='current-password'
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
