@@ -41,8 +41,17 @@ type Post{
     status: Boolean,
     createdAt: String,
     report:  Int,
+    likereport: [String]
     comment: [Comment],
     user: User
+}
+type Post{
+   name: String
+   species: String
+   profile_photo: String
+   tag: tags: [String]
+   id_user: String
+   description: String
 }
 type Query {
     getMsg : Msg
@@ -52,6 +61,8 @@ type Query {
     getPost : [Post]
     getMyPost : [Post]
     getMyComment : [Comment]
+    getMyPets : [Pets]
+    getPetsByUsername (username: String!): [Pets]
 }
 type Mutation{
     RegisterUser(registerInput:RegisterInput): User!,
