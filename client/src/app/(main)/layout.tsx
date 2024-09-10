@@ -1,5 +1,6 @@
 
 import Header from '@/components/header/Header'
+import MovileSearch from '@/components/shared/MovileSearch'
 import SideNavBar from '@/components/shared/SideNavBar'
 import type { Metadata } from 'next'
 
@@ -20,6 +21,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           {children}
         </div>
       </div>
+      <MovileSearch />
     </main >
   )
 }
