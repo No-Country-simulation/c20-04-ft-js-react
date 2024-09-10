@@ -1,14 +1,24 @@
 import Pets from "../models/pets.models.js"
+import User from "../models/user.models.js"
 import jwt from 'jsonwebtoken';
 import { TOKEN_KEY } from '../config.js';
 export const createPet = async (req, res) => {
     try {
         const { token } = req.cookies
         const userid = jwt.verify(token, TOKEN_KEY);
+        const aut = User.findById(userid.payload.id)
+        if (!aut) {
+            res.status(500).json({ message: 'not authenticated', error });
+        }
+        const {profile_photo, ...restOfBody } = req.body;
         const petc = new Pets({
-            ...req.body,
+            ...restOfBody,
             id_user: userid.payload.id
         })
+       /* if (profile_photo) {
+            const uploadImage = await uploadPfpImage(profile_photo, userid.payload.id)
+            petc.profile_photo = uploadImage
+        }*/
         const petS = await petc.save()
         res.status(200).json(petS);
     } catch (error) {
