@@ -5,8 +5,8 @@ import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { Post as PostType } from '@/types'
-import Post from '@/components/Posts/Post'
-import CreatePost from '@/components/Posts/CreatePost'
+import Post from '@/components/posts/Post'
+import CreatePost from '@/components/posts/CreatePost'
 
 // tuve que pasar a use client para que funcione el useTheme y al ser un hook de mui no se puede importar
 //import type { Metadata } from "next";
@@ -33,7 +33,7 @@ const postsData = [
     comments: 12043
   },
   {
-    id: '1sd.we-23',
+    id: '1sd.w094e-23',
     author: {
       name: 'Dante Dantesco Lopez',
       username: 'lopexDantez',
