@@ -18,7 +18,7 @@ export default function EditProfileBasicInfoLayout({
   setEditFlag,
 }: propsB) {
   interface UpdateData {
-    newPfp: string;
+    newPfp?: string;
     newUsername: string;
     newName: string;
   }
@@ -29,7 +29,26 @@ export default function EditProfileBasicInfoLayout({
     newName: "",
   });
 
-  const handleProfilePictureUpload = () => {};
+  console.log(dataToUpdate)
+
+  const handleProfilePictureUpload = (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    
+    const picture = files[0]
+    const reader = new FileReader()
+    
+       reader.onloadend = ()=> {
+      const base64String = reader.result as string;
+      
+      setDataToUpdate({
+        ...dataToUpdate,
+        newPfp: base64String
+      })
+    }
+
+    reader.readAsDataURL(picture)
+  };
+
 
   return (
     <div className="flex w-full flex-col items-center self-center justify-self-center gap-4 lg:flex-row">
@@ -39,7 +58,7 @@ export default function EditProfileBasicInfoLayout({
         <input
           type="file"
           accept="image/*"
-          onChange={handleProfilePictureUpload}
+          onChange={(e)=> handleProfilePictureUpload(e.target.files)}
           className="hidden"
           id="profile-picture-upload"
         />
