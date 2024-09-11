@@ -34,7 +34,7 @@ export default function SideNavBar() {
     >
       <SearchBarr />
 
-      <nav className='flex items-center justify-between md:flex-col md:gap-5'>
+      <nav className='flex justify-between md:flex-col md:gap-5'>
         <NavLink
           link={{
             href: 'home',
