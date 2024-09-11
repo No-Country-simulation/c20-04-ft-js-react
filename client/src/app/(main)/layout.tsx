@@ -1,17 +1,36 @@
+"use client"
 
 import Header from '@/components/header/Header'
 import MovileSearch from '@/components/shared/MovileSearch'
 import SideNavBar from '@/components/shared/SideNavBar'
-import type { Metadata } from 'next'
+import { useRefreshTokenMutation } from '@/redux/apiSlices/authApi';
+import { useEffect } from 'react';
 
-export const metadata: Metadata = {
-  title: {
-    template: '%s | PawPal',
-    default: 'PawPal'
-  }
-}
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
+
+  const [refreshToken, { isLoading, isError, isSuccess }] = useRefreshTokenMutation();
+
+  useEffect(() => {
+    const attemptRefreshToken = async () => {
+      try {
+        // Pasa un argumento vacío
+        const result = await refreshToken({}); // Llamamos la mutación pasando un objeto vacío
+        console.log(result);
+
+        if (result.data) {
+          console.log('Token refrescado con éxito.');
+        } else {
+          console.log('No se pudo refrescar el token.');
+        }
+      } catch (error) {
+        console.error('Error al refrescar el token:', error);
+      }
+    };
+
+    attemptRefreshToken(); // Intentamos refrescar el token al montar el componente
+  }, [refreshToken]);
+
   return (
     <main className='min-h-dvh max-w-screen-xl mx-auto'>
       <Header />

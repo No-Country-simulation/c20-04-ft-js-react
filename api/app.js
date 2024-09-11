@@ -12,12 +12,17 @@ import { TOKEN_KEY } from "./config.js";
 async function apolloStart(typeDefs, resolvers) {
     const app = express();
 
-//midelwares
-    app.use(cors({ origin: "*", credentials: true }));
+    // Configura CORS
+    app.use(cors({
+        origin: 'http://localhost:3000', // Permite solo el origen de tu frontend
+        credentials: true // Permite el uso de credenciales (cookies, autenticación)
+    }));
+
+    // Middlewares
     app.use(cookieParser());
     app.use(express.json());
 
-//res api
+    // Rutas API
     app.use("/api", authrouter);
 
     const httpServer = http.createServer(app);
@@ -30,7 +35,7 @@ async function apolloStart(typeDefs, resolvers) {
 
     await server.start();
 
-//apollo
+    // Configuración de Apollo
     app.use(
         '/',
         expressMiddleware(server, {
@@ -56,7 +61,3 @@ async function apolloStart(typeDefs, resolvers) {
 };
 
 export default apolloStart;
-
-
-
-

@@ -63,9 +63,15 @@ export default function SideNavBar() {
         >
           {inRoute('messages') ? <ChatBoxFillIcon /> : <ChatBoxIcon />}
         </NavLink>
-        <button className='md:hidden transition-colors text-neutral-400 dark:text-neutral-500'>
-          <AddCircleIcon />
-        </button>
+        <NavLink
+          link={{
+            href: `suggestedUsers`,
+            name: 'Suggested Users'
+          }}
+          pathname={pathname}
+        >
+          {inRoute('suggested-users') ? <AddCircleIcon /> : <AddCircleIcon />}
+        </NavLink>
         <NavLink
           link={{
             href: 'settings',

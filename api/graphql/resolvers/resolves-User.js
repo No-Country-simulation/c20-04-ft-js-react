@@ -1,6 +1,8 @@
 import User from "../../models/user.models.js"
 import Post from '../../models/post.models.js'
 import crip from "bcryptjs";
+import Pets from "../../models/pets.models.js"
+
 import { createAccess } from "../../libs/jwt.js"
 
 
@@ -176,8 +178,14 @@ export const userResolves = {
             console.log(userId)
             return await Post.find({id_user: userId})
         },
-        comment: async (_, __, { user }) => {
-            return await Comment.find(user.payload)
+        comment: async ({ _id }) => {
+            const userId = _id.toString()
+            return await Comment.find({ id_user: userId })
+        },
+        pets: async ({ _id }) => {
+            console.log(_id);
+            const userId = _id.toString()
+            return await Pets.find({ id_user: userId })
         }
     }
 }

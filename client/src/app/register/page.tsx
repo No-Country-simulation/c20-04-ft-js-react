@@ -222,21 +222,23 @@ export default function Register() {
       if (response.code === 201 && response.status === "success") {
         dispatch(setUser(response.data));
         router.push('/home');
-      } else if (response.code === 409) {
+      }
+    } catch (err: any) {
+      console.log(err);
+      if (err?.status === 409) {
         setAlertMessage({
           type: "danger",
-          message: response.message,
-          title: "Error"
+          message: err.data.message,
+          title: "Error:"
         });
         setShowAlert(true);
       }
-    } catch (err) {
-      setAlertMessage({
-        type: "danger",
-        message: "al registrarse. Intenta nuevamente.",
-        title: "Error"
-      });
-      setShowAlert(true);
+      // setAlertMessage({
+      //   type: "danger",
+      //   message: "al registrarse. Intenta nuevamente.",
+      //   title: "Error"
+      // });
+      // setShowAlert(true);
     }
   };
 
@@ -263,6 +265,7 @@ export default function Register() {
               className="w-full dark:bg-neutral-800 rounded-lg"
               error={!!errors.username}
               helperText={errors.username}
+              autoComplete="username"
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <CustomDataPicker
@@ -290,6 +293,7 @@ export default function Register() {
               className="w-full dark:bg-neutral-800 rounded-lg"
               error={!!errors.email}
               helperText={errors.email}
+              autoComplete="email"
             />
             <Input
               type={showPassword ? "text" : "password"}
@@ -300,6 +304,7 @@ export default function Register() {
               onChange={handleInputChange}
               error={!!errors.password}
               helperText={errors.password}
+              autoComplete="new-password"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

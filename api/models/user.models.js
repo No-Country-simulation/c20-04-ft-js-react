@@ -15,9 +15,6 @@ const userSchema =new mongoose.Schema({
         type: Date,
         required: true
     },
-    age: {
-        type: Number,
-    },
     email: {
         type: String,
         required: true,

@@ -2,6 +2,9 @@ import User from '../models/user.models.js'
 import  jwt  from 'jsonwebtoken';
 import { TOKEN_KEY } from '../config.js';
 
+// cloudinary
+import {uploadPfpImage} from '../cloudinary.js'
+
 export const getUserByUsername = async (req, res) => {
     const { username } = req.params;
 
@@ -34,14 +37,61 @@ export const prifileUpDate = async (req, res) => {
       const userid = jwt.verify(token, TOKEN_KEY);
       console.log(userid);
       const Userfind = await User.findById(userid.payload.id)
-      const { password, ...restOfBody } = req.body;
+      const { password, profile_photo,...restOfBody } = req.body;
+      
       const upuser = {
-          ...restOfBody
+          ...restOfBody,
       };
-      const userp = await User.findByIdAndUpdate(userid.payload.id, upuser, { new: true })
+
+      if(profile_photo){
+        const uploadImage = await uploadPfpImage(profile_photo,userid.payload.id)
+        upuser.profile_photo = uploadImage          
+        }
+      
+        const userp = await User.findByIdAndUpdate(userid.payload.id, upuser, { new: true })
       console.log(Userfind)
       res.status(200).json(userp)
   } catch (error) {
       res.status(500).json({ message: 'Error actualizando el perfil', error });
   }
+};
+export const followCntrol = async (req, res) => {
+    try {
+        const { token } = req.cookies
+        const userid = jwt.verify(token, TOKEN_KEY);
+        userid = userid.payload.id
+        const { id } = req.params;
+
+        const currentUser = await User.findById(userid);
+        const targetUser = await User.findById(id);
+
+        if (!currentUser || !targetUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        if (!currentUser.following.includes(id)) {
+            // sigue
+            await User.updateOne(
+                { _id: userid },
+                { $addToSet: { following: id } }
+            );
+            await User.updateOne(
+                { _id: id },
+                { $addToSet: { followers: userid } }
+            );
+        } else {
+            //quita el foll
+            await User.updateOne(
+                { _id: userid },
+                { $pull: { following: id } }
+            );
+            await User.updateOne(
+                { _id: id },
+                { $pull: { followers: userid } }
+            );
+            res.status(200).json({ message: 'Follow/unfollow successful' });
+
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error in follow/unfollow operation', error });
+    }
 };
