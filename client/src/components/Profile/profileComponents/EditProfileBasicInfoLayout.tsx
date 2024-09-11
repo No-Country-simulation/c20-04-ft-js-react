@@ -17,6 +17,7 @@ export default function EditProfileBasicInfoLayout({
   editFlag,
   setEditFlag,
 }: propsB) {
+  
   interface UpdateData {
     newPfp?: string;
     newUsername: string;
@@ -49,9 +50,13 @@ export default function EditProfileBasicInfoLayout({
     reader.readAsDataURL(picture)
   };
 
+  const onClose = ()=> {
+    
+  }
+
 
   return (
-    <div className="flex w-full flex-col items-center self-center justify-self-center gap-4 lg:flex-row">
+    <div className="flex w-full flex-col mt-[1rem] items-center self-center justify-self-center gap-4 lg:flex-row">
       {/* Profile Picture Section */}
       <div className="relative flex flex-col gap-4">
         {/* Hidden input for profile picture upload */}
@@ -122,7 +127,12 @@ export default function EditProfileBasicInfoLayout({
           />
         </div>
       </div>
+      <div className="flex justify-center gap-[1rem] w-[90%] mx-auto">
+      <button className='w-[100%] h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300  hover:bg-[#e2e5e9]'>X</button>
       <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} />
+
+      </div>
+      
     </div>
   );
 }
