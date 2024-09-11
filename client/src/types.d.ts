@@ -4,6 +4,7 @@ export interface User {
   username: string
   avatar?: string
   email: string
+  profile_photo: string
   role: 'user' | 'admin' | 'shelter' | 'sponsor'
 }
 

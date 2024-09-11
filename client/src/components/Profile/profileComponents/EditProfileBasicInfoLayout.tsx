@@ -2,6 +2,11 @@ import React, { useState } from "react";
 
 import SendNewProfileInfo from "./SendNewProfileInfo";
 
+//redux
+import { useDispatch, useSelector} from "react-redux";
+import { setPreviewProfilePicture } from "@/redux/slices/userSlice";
+import { RootState } from "@/redux/store";
+
 interface propsB {
   profilePicture: string;
   username: string;
@@ -10,13 +15,15 @@ interface propsB {
   setEditFlag: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function EditProfileBasicInfoLayout({
+export default function EditProfileBasicInfoLayout({  
   profilePicture,
   username,
   name,
   editFlag,
   setEditFlag,
 }: propsB) {
+
+  const dispatch = useDispatch()
   
   interface UpdateData {
     newPfp?: string;
@@ -30,7 +37,8 @@ export default function EditProfileBasicInfoLayout({
     newName: "",
   });
 
-  console.log(dataToUpdate)
+  const [prevPicture, setPrevPicture] = useState<string>(profilePicture)
+  const localPfp = useSelector((state: RootState) => state.userReducer.user?.profile_photo);
 
   const handleProfilePictureUpload = (files: FileList | null) => {
     if (!files || files.length === 0) return;
@@ -45,13 +53,15 @@ export default function EditProfileBasicInfoLayout({
         ...dataToUpdate,
         newPfp: base64String
       })
+      dispatch(setPreviewProfilePicture(base64String))
     }
 
     reader.readAsDataURL(picture)
   };
 
   const onClose = ()=> {
-    
+    dispatch(setPreviewProfilePicture(prevPicture))
+    setEditFlag(false)
   }
 
 
@@ -74,10 +84,10 @@ export default function EditProfileBasicInfoLayout({
           className="w-20 h-20 rounded-full border-2 border-red-500 cursor-pointer flex justify-center items-center relative"
         >
           {/* Display profile picture or default upload text */}
-          {profilePicture ? (
+          {localPfp ? (
             <img
               className="w-full h-full rounded-full object-cover"
-              src={profilePicture}
+              src={localPfp}
               alt="Profile Picture"
             />
           ) : (
@@ -128,7 +138,9 @@ export default function EditProfileBasicInfoLayout({
         </div>
       </div>
       <div className="flex justify-center gap-[1rem] w-[90%] mx-auto">
-      <button className='w-[100%] h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300  hover:bg-[#e2e5e9]'>X</button>
+      <button className='w-[100%] h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300  hover:bg-[#e2e5e9]'
+      onClick={onClose}
+      >X</button>
       <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} />
 
       </div>
