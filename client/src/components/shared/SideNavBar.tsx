@@ -51,7 +51,7 @@ export default function SideNavBar() {
 
   return (
     <Paper component='section' elevation={0} sx={{ borderRadius: '0' }}
-      className='sidenavbar z-50 md:sticky md:top-[85.1px] border-neutral-300 dark:border-neutral-700 px-0 md:px-5 py-2 md:py-10 
+      className='sidenavbar z-30 md:sticky md:top-[85.1px] border-neutral-300 dark:border-neutral-700 px-0 md:px-5 py-2 md:py-10 
       border-t md:border-t-0 md:border-x order-last md:order-none fixed bottom-0 md:bottom-auto w-full md:w-auto'
     >
       <div className='hidden md:block'>

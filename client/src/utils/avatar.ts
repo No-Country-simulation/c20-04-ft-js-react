@@ -17,12 +17,11 @@ function stringToColor(string: string) {
   return color;
 }
 
-// Devuleve configuracion para el componente avatar de MUI como un color de fondo y la iniciales del nombre
-export function stringAvatar(name: string) {
-  let nameParts: string[] = []; // Declarar como un array de cadenas
+export function stringAvatar(name: string = "") {
+  let nameParts: string[] = [];
   
   if (name) {
-    nameParts = name.split(' ');
+    nameParts = name.toUpperCase().split(' ');
   }
   
   return {
