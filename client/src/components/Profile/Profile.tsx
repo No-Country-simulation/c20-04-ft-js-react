@@ -27,6 +27,7 @@ import { Box } from "@mui/material";
 import { Avatar } from '@mui/material'
 import { stringAvatar } from '@/utils/avatar'
 import { User as UserFromBackend } from "./profileComponents/FollowingFollowersTooltip";
+import Image from "next/image";
 
 interface profileProps {
   usernameObject: UserFromBackend;
@@ -83,12 +84,12 @@ export default function Profile({
       ) : (
         <div className="mt-5 w-[95%] flex max-w-[400px] mx-auto justify-between gap-[2rem] md:mx-0 md:ml-[3rem] lg:max-w-[650px]">
           <div className="lg:flex gap-[1rem] min-w-[120px] relative">
-            <figure className="w-20 h-20 rounded-full bg-[#000]">
-              {profilePicture ? <img
+            <figure className="w-20 h-20 rounded-full">
+              {profilePicture ? <Image
                 className="w-full h-full rounded-full object-cover"
                 src={profilePicture}
                 alt=""
-              /> : <Avatar {...stringAvatar(name !== "not specified" ? name : dataUsername ? dataUsername : 'Unknown')} className='w-full h-full rounded-full object-cover text-xl font-semibold' />}
+              /> : <Avatar {...stringAvatar(name)} className='w-full h-full text-3xl' />}
             </figure>
             <p className="max-w-[120px] mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:max-w-[220px] lg:mt-0">
               {name}
