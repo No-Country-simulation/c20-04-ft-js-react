@@ -16,8 +16,8 @@ export const userApi = createApi({
 
         updateProfileInfo: builder.mutation({
             query: (reqbody)=> ({
-                url: `/profileUpDate`,
-                method: "POST",
+                url: `profileUpDate`,
+                method: "PUT",
                 body: reqbody,
             })
         })
