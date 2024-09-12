@@ -94,7 +94,9 @@ export default function Home() {
       }}
       className='p-2 md:p-[50px]'
     >
-      <CreatePost addNewPost={addNewPost} />
+      {user && (
+        <CreatePost addNewPost={addNewPost} />
+      )}
       <ul className='sm:space-y-5 transition-colors divide-neutral-300 dark:divide-neutral-700'>
         {posts.toReversed().map((post) => (
           <Post

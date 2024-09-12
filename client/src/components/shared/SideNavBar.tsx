@@ -78,7 +78,7 @@ export default function SideNavBar() {
         >
           {inRoute('profile') ? <UserFillIcon /> : <UserIcon />}
         </NavLink>}
-        <NavLink
+        {user && <NavLink
           link={{
             href: 'messages',
             name: 'Messages'
@@ -86,8 +86,8 @@ export default function SideNavBar() {
           pathname={pathname}
         >
           {inRoute('messages') ? <ChatBoxFillIcon /> : <ChatBoxIcon />}
-        </NavLink>
-        <NavLink
+        </NavLink>}
+        {user && <NavLink
           link={{
             href: `suggestedUsers`,
             name: 'Suggested Users'
@@ -95,7 +95,7 @@ export default function SideNavBar() {
           pathname={pathname}
         >
           {inRoute('suggested-users') ? <AddCircleIcon /> : <AddCircleIcon />}
-        </NavLink>
+        </NavLink>}
         <NavLink
           link={{
             href: 'settings',
