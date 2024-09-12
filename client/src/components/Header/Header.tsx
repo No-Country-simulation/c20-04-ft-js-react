@@ -56,9 +56,7 @@ export default function Header() {
             </IconButton>
             <Avatar
               alt={user?.username.toUpperCase()}
-              /* Cambiar por user.name */
-
-              {...stringAvatar(user?.username.toUpperCase())}
+              {...stringAvatar(user?.name)}
 
               className="hidden md:flex"
             />
@@ -77,10 +75,7 @@ export default function Header() {
                 component="div"
                 sx={{ fontSize: ".8em" }}
               >
-                {/* Cambiar por user.name */}
-
-                {user?.name ? user?.name : ""
-                 
+                {user?.name ? user?.name : ""}
               </Typography>
             </Box>
           </Box>
