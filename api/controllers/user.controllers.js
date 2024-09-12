@@ -42,12 +42,12 @@ export const prifileUpDate = async (req, res) => {
       const upuser = {
           ...restOfBody,
       };
-
+      console.log("!");
       if(profile_photo){
         const uploadImage = await uploadPfpImage(profile_photo,userid.payload.id)
         upuser.profile_photo = uploadImage          
         }
-      
+      console.log("userid");
         const userp = await User.findByIdAndUpdate(userid.payload.id, upuser, { new: true })
       console.log(Userfind)
       res.status(200).json(userp)
