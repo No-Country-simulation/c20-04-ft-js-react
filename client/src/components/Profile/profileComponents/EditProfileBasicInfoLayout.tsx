@@ -158,7 +158,7 @@ export default function EditProfileBasicInfoLayout({
             placeholder="Enter new name"
             className="w-[90%] h-[60px] max-w-[320px] text-center font-extrabold text-lg border border-[#8c52ff] rounded lg:text-2xl lg:max-w-[220px]"
           />
-          <p>{errorForm.newName}</p>
+          <p className="text-[red]">{errorForm.newName}</p>
         </div>
 
         {/* Username Input */}
@@ -176,7 +176,7 @@ export default function EditProfileBasicInfoLayout({
             placeholder="Enter new username"
             className="w-[90%] h-[60px] max-w-[320px] text-center font-extrabold text-lg border border-[#8c52ff] rounded lg:text-2xl lg:max-w-[220px]"
           />
-          <p>{errorForm.newUsername}</p>
+          <p className="text-[red]">{errorForm.newUsername}</p>
         </div>
       </div>
       <div className="flex justify-center gap-[1rem] w-[90%] mx-auto">
