@@ -86,7 +86,7 @@ export default function Profile({
             <p className="max-w-[120px] mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:max-w-[220px] lg:mt-0">
               {name}
             </p>
-            <p className="lg:w-[6.4rem] lg:h-[3rem] absolute bottom-[-15%] lg:left-[35%]">
+            <p className="lg:w-[6.4rem] lg:h-[3rem] absolute bottom-[-15%] lg:left-[50%]">
               @{dataUsername}
             </p>
           </div>

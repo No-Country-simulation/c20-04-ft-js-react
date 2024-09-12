@@ -26,18 +26,19 @@ export default function SendNewProfileInfo({
   const [updateProfileInfo, { isLoading, error, isError, isSuccess }] = useUpdateProfileInfoMutation();
   const [showError, setShowError] = useState<boolean>(false)
 
-  // useEffect(()=> {
+  useEffect(()=> {
 
-  //   if(isError){
+    if(isError){
 
-  //     setTimeout(()=> {
-  //       setShowError(true)
-  //     },3000)
-  //      setShowError(false)
+      setShowError(true)
+      
+      setTimeout(()=> {
+        setShowError(false)
+      },3000)
 
-  //   }
+    }
     
-  // },[isError])
+  },[isError])
 
 
   const handleConfirm = ({
@@ -92,7 +93,7 @@ export default function SendNewProfileInfo({
             {isLoading ? "loading" : "confirm"}
           </button>
 
-          {/* {showError && (
+          {showError && (
             <div
               className="flex flex-col text-red-500 mt-2 bg-[white] text-center absolute bottom-[35%]  w-[220px] max-w-[max-content] h-[70px] border-2 border-purple-700 rounded flex items-center justify-center lg:bottom-[-70%] lg:left-[30%]"
               
@@ -100,7 +101,7 @@ export default function SendNewProfileInfo({
               <p className="pt-[.4rem]">Error:</p>
               <p className="m-[.6rem]">{error?.data.message || "Something went wrong!"}</p>
             </div>
-          )} */}
+          )}
         </>
       ) : (
         <button
