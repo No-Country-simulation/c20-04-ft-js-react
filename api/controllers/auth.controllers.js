@@ -1,5 +1,7 @@
 import User from "../models/user.models.js"
 import crip from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { TOKEN_KEY } from "../config.js";
 import { createAccess } from "../libs/jwt.js";
 import { calculateAge } from "../utils/age.js";
 
@@ -109,33 +111,27 @@ export const login = async (req, res) => {
 }
 
 export const refreshAccessToken = async (req, res) => {
-    const { refreshToken } = req.cookies;
-
-    if (!refreshToken) {
+    const { token } = req.cookies;
+    if (!token) {
         return res.status(401).json({ message: "No refresh token provided" });
     }
 
     try {
-        const user = await User.findOne({ refreshToken });
+        const userid = jwt.verify(token, TOKEN_KEY);
+        const user = await User.findById(userid.payload.id);
 
         if (!user) {
             return res.status(403).json({ message: "Invalid refresh token" });
         }
+        const newAccessToken = createAccess({ id: user.id });
 
-        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-            if (err || user.id !== decoded.id) {
-                return res.status(403).json({ message: "Invalid refresh token" });
-            }
-
-            const newAccessToken = createAccess({ id: user.id });
-
-            res.cookie("token", newAccessToken, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax',
-                maxAge: 24 * 60 * 60 * 1000,
-            });
+        res.cookie("token", newAccessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 24 * 60 * 60 * 1000,
         });
+        
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
