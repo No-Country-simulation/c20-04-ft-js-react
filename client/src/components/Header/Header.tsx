@@ -56,7 +56,7 @@ export default function Header() {
             <Avatar
               alt={user?.username.toUpperCase()}
               /* Cambiar por user.name */
-              {...stringAvatar("luciano repetti".toUpperCase())}
+              {...stringAvatar(user?.name.toUpperCase())}
               className="hidden md:flex"
             />
             <Box sx={{ flexDirection: "column" }} className="hidden md:flex">
