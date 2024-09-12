@@ -29,7 +29,7 @@ export default function SideNavBar() {
 
   return (
     <Paper component='section' elevation={0} sx={{ borderRadius: '0' }}
-      className='sidenavbar z-50 md:sticky md:top-[85.1px] border-neutral-300 dark:border-neutral-700 px-3 md:px-5 py-2 md:py-10 
+      className='sidenavbar z-50 md:sticky md:top-[85.1px] border-neutral-300 dark:border-neutral-700 px-0 md:px-5 py-2 md:py-10 
       border-t md:border-t-0 md:border-x order-last md:order-none fixed bottom-0 md:bottom-auto w-full md:w-auto'
     >
       <div className='hidden md:block'>
@@ -65,9 +65,15 @@ export default function SideNavBar() {
         >
           {inRoute('messages') ? <ChatBoxFillIcon /> : <ChatBoxIcon />}
         </NavLink>
-        <button className='md:hidden flex py-2 px-4 items-center justify-center transition-colors text-neutral-400 dark:text-neutral-500'>
-          <AddCircleIcon />
-        </button>
+        <NavLink
+          link={{
+            href: `suggestedUsers`,
+            name: 'Suggested Users'
+          }}
+          pathname={pathname}
+        >
+          {inRoute('suggested-users') ? <AddCircleIcon /> : <AddCircleIcon />}
+        </NavLink>
         <NavLink
           link={{
             href: 'settings',
