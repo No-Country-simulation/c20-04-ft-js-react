@@ -106,7 +106,7 @@ export default function EditProfileBasicInfoLayout({
 
 
   return (
-    <div className="flex w-full flex-col mt-[1rem] items-center self-center justify-self-center gap-4 lg:flex-row">
+    <div className="flex w-full flex-col mt-[1rem] items-center self-center justify-self-center gap-4 lg:flex-row relative">
       {/* Profile Picture Section */}
       <div className="relative flex flex-col gap-4">
         {/* Hidden input for profile picture upload */}
