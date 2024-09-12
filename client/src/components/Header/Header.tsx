@@ -75,7 +75,7 @@ export default function Header() {
                 sx={{ fontSize: ".8em" }}
               >
                 {/* Cambiar por user.name */}
-                {"Luciano Repetti"}
+                {user?.name ? user?.name : ""}
               </Typography>
             </Box>
           </Box>
