@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import SendNewProfileInfo from "./SendNewProfileInfo";
 
@@ -30,6 +30,16 @@ export default function EditProfileBasicInfoLayout({
     newUsername: string;
     newName: string;
   }
+
+  interface errors {
+    newUsername: string
+    newName: string
+  }
+
+  const [errorForm, setErrorForm] = useState<errors>({
+    newUsername: "",
+    newName: ""
+  })
 
   const [dataToUpdate, setDataToUpdate] = useState<UpdateData>({
     newPfp: "",
@@ -63,6 +73,36 @@ export default function EditProfileBasicInfoLayout({
     dispatch(setPreviewProfilePicture(prevPicture))
     setEditFlag(false)
   }
+
+
+  const validateForm = () => {
+    if (dataToUpdate.newName !== "" && (dataToUpdate.newName.length < 3 || dataToUpdate.newName.length > 10)) {
+      setErrorForm({
+        ...errorForm,
+        newName: "Name should contain at least 3 characters and a maximum of 10"
+      });
+    } else {
+      setErrorForm((prev) => ({ ...prev, newName: "" }));
+    }
+  
+    if (dataToUpdate.newUsername !== "" && (dataToUpdate.newUsername.length < 3 || dataToUpdate.newUsername.length > 10)) {
+      setErrorForm({
+        ...errorForm,
+        newUsername: "Username should contain at least 3 characters and a maximum of 10"
+      });
+    } else {
+      setErrorForm((prev) => ({ ...prev, newUsername: "" }));
+    }
+  };
+
+  const isFormInvalid = () => {
+    return errorForm.newName !== "" || errorForm.newUsername !== "";
+  };
+  
+  useEffect(() => {
+    validateForm();
+  }, [dataToUpdate.newName, dataToUpdate.newUsername]);
+  
 
 
   return (
@@ -118,6 +158,7 @@ export default function EditProfileBasicInfoLayout({
             placeholder="Enter new name"
             className="w-[90%] h-[60px] max-w-[320px] text-center font-extrabold text-lg border border-[#8c52ff] rounded lg:text-2xl lg:max-w-[220px]"
           />
+          <p>{errorForm.newName}</p>
         </div>
 
         {/* Username Input */}
@@ -130,18 +171,19 @@ export default function EditProfileBasicInfoLayout({
             name="newUsername"
             value={dataToUpdate.newUsername}
             onChange={(e) =>
-              setDataToUpdate({ ...dataToUpdate, newUsername: e.target.value })
+              setDataToUpdate({ ...dataToUpdate, newUsername: e.target.value.trim() })
             }
             placeholder="Enter new username"
             className="w-[90%] h-[60px] max-w-[320px] text-center font-extrabold text-lg border border-[#8c52ff] rounded lg:text-2xl lg:max-w-[220px]"
           />
+          <p>{errorForm.newUsername}</p>
         </div>
       </div>
       <div className="flex justify-center gap-[1rem] w-[90%] mx-auto">
       <button className='w-[100%] h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300  hover:bg-[#e2e5e9]'
       onClick={onClose}
       >X</button>
-      <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} />
+      <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} dataToUpdate={dataToUpdate} isFormValid={isFormInvalid}/>
 
       </div>
       
