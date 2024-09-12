@@ -7,6 +7,7 @@ import ShowFollowingBtn from "./profileComponents/ShowFollowingBtn";
 import SendMessageBtn from "./profileComponents/SendMessageBtn";
 import FollowOrUnfollowBtn from "./profileComponents/FollowOrUnfollowBtn";
 import EditProfileBasicInfoLayout from "./profileComponents/EditProfileBasicInfoLayout";
+import FollowingFollowersTooltip from "./profileComponents/FollowingFollowersTooltip"
 
 import SideNavBar from "../shared/SideNavBar";
 import About from "./profileComponents/About";
@@ -23,7 +24,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Box } from "@mui/material";
 
+import { Avatar } from '@mui/material'
+import { stringAvatar } from '@/utils/avatar'
+import { User as UserFromBackend } from "./profileComponents/FollowingFollowersTooltip";
+
 interface profileProps {
+  usernameObject: UserFromBackend;
   dataUsername: string;
   paramsUsername: string;
   name: string;
@@ -31,6 +37,7 @@ interface profileProps {
 }
 
 export default function Profile({
+  usernameObject,
   dataUsername,
   paramsUsername,
   name,
@@ -77,11 +84,11 @@ export default function Profile({
         <div className="mt-5 w-[95%] flex max-w-[400px] mx-auto justify-between gap-[2rem] md:mx-0 md:ml-[3rem] lg:max-w-[650px]">
           <div className="lg:flex gap-[1rem] min-w-[120px] relative">
             <figure className="w-20 h-20 rounded-full bg-[#000]">
-              <img
+              {profilePicture ? <img
                 className="w-full h-full rounded-full object-cover"
                 src={profilePicture}
                 alt=""
-              />
+              /> : <Avatar {...stringAvatar(name !== "not specified" ? name : dataUsername ? dataUsername : 'Unknown')} className='w-full h-full rounded-full object-cover text-xl font-semibold' />}
             </figure>
             <p className="max-w-[120px] mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:max-w-[220px] lg:mt-0">
               {name}
@@ -96,8 +103,7 @@ export default function Profile({
               <></>
             ) : dataUsername === localUsername ? (
               <>
-                <ShowFollowersBtn />
-                <ShowFollowingBtn />
+                <FollowingFollowersTooltip user={usernameObject} />
                 <SendNewProfileInfo
                   editFlag={editFlag}
                   setEditFlag={setEditFlag}

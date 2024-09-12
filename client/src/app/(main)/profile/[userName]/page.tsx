@@ -17,7 +17,9 @@ export default function UserProfile() {
   console.log(newData)
   return (
     <>
-      <Profile dataUsername={newData?.username} 
+      <Profile 
+      usernameObject={newData}
+      dataUsername={newData?.username} 
       paramsUsername={username}
       name={newData?.name || "not specified"}
       profilePicture={newData?.profile_photo}
