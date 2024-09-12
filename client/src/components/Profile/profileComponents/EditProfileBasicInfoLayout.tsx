@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import SendNewProfileInfo from "./SendNewProfileInfo";
 
 //redux
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPreviewProfilePicture } from "@/redux/slices/userSlice";
 import { RootState } from "@/redux/store";
 
@@ -15,7 +15,7 @@ interface propsB {
   setEditFlag: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function EditProfileBasicInfoLayout({  
+export default function EditProfileBasicInfoLayout({
   profilePicture,
   username,
   name,
@@ -24,7 +24,7 @@ export default function EditProfileBasicInfoLayout({
 }: propsB) {
 
   const dispatch = useDispatch()
-  
+
   interface UpdateData {
     newPfp?: string;
     newUsername: string;
@@ -52,13 +52,13 @@ export default function EditProfileBasicInfoLayout({
 
   const handleProfilePictureUpload = (files: FileList | null) => {
     if (!files || files.length === 0) return;
-    
+
     const picture = files[0]
     const reader = new FileReader()
-    
-       reader.onloadend = ()=> {
+
+    reader.onloadend = () => {
       const base64String = reader.result as string;
-      
+
       setDataToUpdate({
         ...dataToUpdate,
         newPfp: base64String
@@ -69,22 +69,22 @@ export default function EditProfileBasicInfoLayout({
     reader.readAsDataURL(picture)
   };
 
-  const onClose = ()=> {
+  const onClose = () => {
     dispatch(setPreviewProfilePicture(prevPicture))
     setEditFlag(false)
   }
 
 
   const validateForm = () => {
-    if (dataToUpdate.newName !== "" && (dataToUpdate.newName.length < 3 || dataToUpdate.newName.length > 10)) {
+    if (dataToUpdate.newName !== "" && (dataToUpdate.newName.length < 3 || dataToUpdate.newName.length > 20)) {
       setErrorForm({
         ...errorForm,
-        newName: "Name should contain at least 3 characters and a maximum of 10"
+        newName: "Name should contain at least 3 characters and a maximum of 20"
       });
     } else {
       setErrorForm((prev) => ({ ...prev, newName: "" }));
     }
-  
+
     if (dataToUpdate.newUsername !== "" && (dataToUpdate.newUsername.length < 3 || dataToUpdate.newUsername.length > 10)) {
       setErrorForm({
         ...errorForm,
@@ -98,11 +98,11 @@ export default function EditProfileBasicInfoLayout({
   const isFormInvalid = () => {
     return errorForm.newName !== "" || errorForm.newUsername !== "";
   };
-  
+
   useEffect(() => {
     validateForm();
   }, [dataToUpdate.newName, dataToUpdate.newUsername]);
-  
+
 
 
   return (
@@ -113,7 +113,7 @@ export default function EditProfileBasicInfoLayout({
         <input
           type="file"
           accept="image/*"
-          onChange={(e)=> handleProfilePictureUpload(e.target.files)}
+          onChange={(e) => handleProfilePictureUpload(e.target.files)}
           className="hidden"
           id="profile-picture-upload"
         />
@@ -180,13 +180,13 @@ export default function EditProfileBasicInfoLayout({
         </div>
       </div>
       <div className="flex justify-center gap-[1rem] w-[90%] mx-auto">
-      <button className='w-[100%] h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300  hover:bg-[#e2e5e9]'
-      onClick={onClose}
-      >X</button>
-      <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} dataToUpdate={dataToUpdate} isFormValid={isFormInvalid}/>
+        <button className='w-[100%] h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300  hover:bg-[#e2e5e9]'
+          onClick={onClose}
+        >X</button>
+        <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} dataToUpdate={dataToUpdate} isFormValid={isFormInvalid} />
 
       </div>
-      
+
     </div>
   );
 }
