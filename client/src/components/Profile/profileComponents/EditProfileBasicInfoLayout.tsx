@@ -144,7 +144,7 @@ export default function EditProfileBasicInfoLayout({
       {/* Form Section */}
       <div className="flex flex-col gap-4 text-center lg:text-left lg:flex-row">
         {/* Name Input */}
-        <div className="mb-4">
+        <div className="mb-4 text-center">
           <label htmlFor="newName" className="text-xl font-extrabold">
             Current Name: {name}
           </label>
@@ -162,8 +162,8 @@ export default function EditProfileBasicInfoLayout({
         </div>
 
         {/* Username Input */}
-        <div className="mb-4">
-          <label htmlFor="newUsername" className="text-xl font-extrabold">
+        <div className="mb-4 text-center">
+          <label htmlFor="newUsername" className="text-xl font-extrabold ">
             Current Username: {username}
           </label>
           <input
