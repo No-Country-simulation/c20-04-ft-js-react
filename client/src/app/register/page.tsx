@@ -179,6 +179,17 @@ export default function Register() {
     // Validación de la fecha de nacimiento
     if (!formData.birthdate) {
       newErrors.birthdate = "La fecha de nacimiento es obligatoria";
+    } else {
+      // Convertimos la fecha de nacimiento a un objeto Day.js
+      const birthdate = dayjs(formData.birthdate);
+      const today = dayjs();
+
+      // Calculamos la edad
+      const age = today.diff(birthdate, 'year');
+
+      if (age < 16) {
+        newErrors.birthdate = "Debes tener al menos 16 años";
+      }
     }
 
     // Validamos que se haya aceptado los términos y condiciones
@@ -233,12 +244,6 @@ export default function Register() {
         });
         setShowAlert(true);
       }
-      // setAlertMessage({
-      //   type: "danger",
-      //   message: "al registrarse. Intenta nuevamente.",
-      //   title: "Error"
-      // });
-      // setShowAlert(true);
     }
   };
 
