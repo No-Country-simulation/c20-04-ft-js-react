@@ -35,12 +35,10 @@ export default function SendNewProfileInfo({editFlag, setEditFlag, dataToUpdate,
     return filteredData;
   };
 
-
-
   return (
     <>
     {editFlag ? (
-      <button className='w-[100%] h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300  hover:bg-[#e2e5e9]'
+      <button className={`w-full h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border ${isFormValid() ? 'bg-gray-400 text-gray-600' : "bg-blue-500 text-white"}`}
       onClick={()=> handleConfirm(dataToUpdate)}
       disabled={isFormValid()}
       >Confirm</button>
