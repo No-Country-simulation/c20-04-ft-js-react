@@ -148,8 +148,6 @@ export default function Profile({
           </div>
         </div>
       </div>
-      {/* div que renderizara los componentes dependiendo de cual se presione  */}
-      <div className="mt-[2rem]">{renderSelectedComponent()}</div>
       <Box
         gap={4}
         sx={{
