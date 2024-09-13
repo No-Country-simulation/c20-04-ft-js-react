@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // redux
 import { useUpdateProfileInfoMutation } from "@/redux/apiSlices/userApi";
@@ -16,14 +16,30 @@ interface sendButtonProps {
   isFormValid: () => boolean;
 }
 
+
 export default function SendNewProfileInfo({
   editFlag,
   setEditFlag,
   dataToUpdate,
   isFormValid,
 }: sendButtonProps) {
-  const [updateProfileInfo, { isLoading, error, isError, isSuccess }] =
-    useUpdateProfileInfoMutation();
+  const [updateProfileInfo, { isLoading, error, isError, isSuccess }] = useUpdateProfileInfoMutation();
+  const [showError, setShowError] = useState<boolean>(false)
+
+  useEffect(()=> {
+
+    if(isError){
+
+      setShowError(true)
+      
+      setTimeout(()=> {
+        setShowError(false)
+      },3000)
+
+    }
+    
+  },[isError])
+
 
   const handleConfirm = ({
     newUsername: username,
@@ -43,11 +59,12 @@ export default function SendNewProfileInfo({
         setEditFlag(false);
       } catch (error) {
         console.log(error);
-        setEditFlag(false)
+        // setEditFlag(false)
       }
     };
     fetchData();
     console.log(dataToSend);
+    console.log(dataToSend)
   };
 
   const verifyData = (data: Record<string, any>) => {
@@ -76,14 +93,15 @@ export default function SendNewProfileInfo({
             {isLoading ? "loading" : "confirm"}
           </button>
 
-          {/* {isError && (
+          {showError && (
             <div
-              className="text-red-500 mt-2 text-center absolute bottom-[-5%] w-[250px] h-[250px] border-2 border-purple-700 rounded flex items-center justify-center lg:bottom-[-100%] left-[30%]"
-              style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+              className="flex flex-col text-red-500 mt-2 bg-[white] text-center absolute bottom-[35%]  w-[220px] max-w-[max-content] h-[70px] border-2 border-purple-700 rounded flex items-center justify-center lg:bottom-[-70%] lg:left-[30%]"
+              
             >
-              {error?.data.message || "Something went wrong!"}
+              <p className="pt-[.4rem]">Error:</p>
+              <p className="m-[.6rem]">{error?.data.message || "Something went wrong!"}</p>
             </div>
-          )} */}
+          )}
         </>
       ) : (
         <button
