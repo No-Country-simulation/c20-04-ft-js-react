@@ -11,6 +11,7 @@ export const userQueryApi = createApi({
       query: (username) => ({
         url: "",
         method: "POST",
+        credentials: "include",
         body: {
           query: `
             query ($username: String!) {

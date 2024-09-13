@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import type { Post as PostType } from '@/types'
 import Post from '@/components/Posts/Post'
 import CreatePost from '@/components/Posts/CreatePost'
+import { useGetAllPostQuery } from '@/redux/apiSlices/postApi'
 
 // tuve que pasar a use client para que funcione el useTheme y al ser un hook de mui no se puede importar
 //import type { Metadata } from "next";
@@ -76,9 +77,13 @@ export default function Home() {
   const [posts, setPosts] = useState<PostType[]>([])
   const user = useSelector((state: RootState) => state.userReducer.user)
 
+  const { data, isError, isLoading } = useGetAllPostQuery({})
+
   useEffect(() => {
-    setPosts(postsData)
-  }, [])
+    if (isLoading == false) {
+      setPosts(data.data.getPost)
+    }
+  }, [data, isLoading])
 
   const addNewPost = (newPost: Omit<PostType, 'comments' | 'likes' | ''>) => {
     setPosts((ps) => [...ps, { ...newPost, comments: 0, likes: 0 }])
@@ -94,7 +99,9 @@ export default function Home() {
       }}
       className='p-2 md:p-[50px]'
     >
-      <CreatePost addNewPost={addNewPost} />
+      {user && (
+        <CreatePost addNewPost={addNewPost} />
+      )}
       <ul className='sm:space-y-5 transition-colors divide-neutral-300 dark:divide-neutral-700'>
         {posts.toReversed().map((post) => (
           <Post

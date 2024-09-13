@@ -94,7 +94,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
       
       {petsInfo.length > 0 ? (
         petsInfo.map((pet) => (
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={{ maxWidth: 345 }} key={crypto.randomUUID()}>
             <CardActionArea>
               <CardMedia
                 component="img"
@@ -103,7 +103,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
                 alt={pet.petName}
                 className="max-h-[220px]"
               />
-              <CardContent className="realative">
+              <CardContent className="relative">
                 <Typography gutterBottom variant="h5" component="div">
                   {pet.petName}
                 </Typography>

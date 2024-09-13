@@ -7,12 +7,10 @@ import type { Post } from '@/types'
 import { relativeTime } from '@/utils/time'
 import { useState } from 'react'
 import PawFillIcon from '@/icons/PawFill'
+import Image from 'next/image'
 
 export default function Post({ post }: { post: Post }) {
   const [liked, setLiked] = useState(false)
-
-  console.log(post)
-  if (post.image) console.log(post.image)
 
   const toggleLike = () => {
     setLiked((l) => !l)
@@ -22,12 +20,12 @@ export default function Post({ post }: { post: Post }) {
     <Card elevation={0} className='max-w-[450px] space-y-4 w-full px-4 py-4 rounded-lg border transition-colors border-neutral-300 dark:border-neutral-700'>
       <Box className='flex items-center'>
         <Avatar
-          {...stringAvatar(post.author.name.toUpperCase())}
-          alt={post.author.name.toUpperCase()}
-          src={post.author.avatar}
+          {...stringAvatar(post.user.username.toUpperCase())}
+          alt={post.user.username.toUpperCase()}
+          src={post.user.avatar}
         />
         <Box>
-          <Typography>@{post.author.username}</Typography>
+          <Typography>@{post.user.username}</Typography>
           <Typography
             color='text.secondary'
             className='text-xs'
@@ -43,13 +41,13 @@ export default function Post({ post }: { post: Post }) {
           sx={{ wordBreak: 'break-word' }}
           className='px-4 sm:px-0'
         >
-          {post.content}
+          {post.text}
         </Typography>
 
-        {post.image && (
-          <img
+        {post.url_img && (
+          <Image
             className='rounded-md overflow-hidden'
-            src={post.image}
+            src={post.url_img}
             alt={`image from post ${post.id}`}
           />
         )}
@@ -72,7 +70,7 @@ export default function Post({ post }: { post: Post }) {
             color='text.secondary'
             sx={{ ml: 0.5 }}
           >
-            {post.likes.toLocaleString()}
+            {post.likereport.length.toLocaleString()}
           </Typography>
         </Box>
         <Box
@@ -87,7 +85,7 @@ export default function Post({ post }: { post: Post }) {
             color='text.secondary'
             sx={{ ml: 0.5 }}
           >
-            {post.comments.toLocaleString()}
+            {post.comment.length.toLocaleString()}
           </Typography>
         </Box>
         <IconButton size='small'>

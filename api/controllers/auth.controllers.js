@@ -115,21 +115,36 @@ export const refreshAccessToken = async (req, res) => {
     if (!token) {
         return res.status(401).json({ message: "No refresh token provided" });
     }
-
+  
     try {
         const userid = jwt.verify(token, TOKEN_KEY);
         const user = await User.findById(userid.payload.id);
-
+        
         if (!user) {
+            res.cookie("token", "");
             return res.status(403).json({ message: "Invalid refresh token" });
         }
-        const newAccessToken = createAccess({ id: user.id });
-
+        const newAccessToken = await createAccess({ id: user.id });
+        
         res.cookie("token", newAccessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 24 * 60 * 60 * 1000,
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: 'lax', 
+            maxAge: 24 * 60 * 60 * 1000, 
+            path: '/'
+        });
+
+        return res.status(200).json({
+            code: 200,
+            data: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                name: user.name,
+                profile_photo: user.profile_photo,
+                role: user.role
+            },
+            status: 'success'
         });
         
     } catch (error) {
@@ -139,7 +154,11 @@ export const refreshAccessToken = async (req, res) => {
 
 export const loguot = (req, res) => {
     res.cookie("token", "");
-    res.sendStatus(200);
+    return res.status(200).json({
+        code: 200,
+        data: {},
+        status: 'success'
+    });
  }
 
 export const profile = async(req,res) => {

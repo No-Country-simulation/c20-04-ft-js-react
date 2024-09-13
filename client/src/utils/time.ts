@@ -1,8 +1,8 @@
-export function relativeTime(date: string) {
-  const hour = new Date().getTime()
-  const targetDate = new Date(date).getTime()
-  const msDifference = targetDate - hour // Diferencia en milisegundos
-  const secondsDifference = Math.round(msDifference / 1000) // Diferencia en segundos
+export function relativeTime(timestamp: string) {
+  const currentTime = new Date().getTime(); // Tiempo actual en milisegundos
+  const targetDate = parseInt(timestamp, 10); // Convertimos el string a número
+  const msDifference = targetDate - currentTime; // Diferencia en milisegundos
+  const secondsDifference = Math.round(msDifference / 1000); // Diferencia en segundos
 
   const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
