@@ -3,14 +3,7 @@ import Post from "../../models/post.models.js";
 import Comment from "../../models/comments.models.js"
 export const postRosolves = {
     Query: {
-        async getPost(_, __, { user }) {
-            if (!user) {
-                throw new Error("Not authenticated");
-            }
-            const pUser = await User.findById(user.payload)
-            if (!pUser) {
-                throw new Error("Not authenticated");
-            }
+        async getPost(_, __,) {
             const allpost = await Post.find({})
 
             return allpost;

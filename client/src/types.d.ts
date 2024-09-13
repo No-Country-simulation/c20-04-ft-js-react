@@ -10,11 +10,11 @@ export interface User {
 
 export interface Post {
   id: string
-  content: string
-  likes: number
-  comments: number
-  image?: string
-  author: {
+  text: string
+  likereport: []
+  comment: []
+  url_img?: string
+  user: {
     name: string
     username: string
     avatar?: string
