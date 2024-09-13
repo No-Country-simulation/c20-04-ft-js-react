@@ -20,6 +20,10 @@ interface profileProps {
   localUsername?: string;
 }
 
+const onAdd = ()=> {
+  
+}
+
 const petsInfo: Pet[] = [
   
 ];
