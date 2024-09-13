@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
+
+import AddPetForm from "./AddPetForm";
 
 import { IoIosAddCircleOutline } from "react-icons/io";
 
@@ -20,27 +22,45 @@ interface profileProps {
   localUsername?: string;
 }
 
-const onAdd = ()=> {
-  
-}
-
 const petsInfo: Pet[] = [
-  
+  {
+    petName: "Baggy",
+    petImage:
+      "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
+    petInfo: "This is my pet Baggy, a playful dog who loves to fetch.",
+    age: 14,
+  },
 ];
 
 export default function Pets({ dataUsername, localUsername }: profileProps) {
+  const [showPetForm, setShowPetForm] = useState<boolean>(false);
+
+  // const onShowForm = ()=> {
+  //   setShowPetForm(true)
+  // }
+
   return (
     <div className="flex flex-wrap justify-center gap-[2rem]">
-      
       {dataUsername === localUsername && petsInfo.length > 0 ? (
-        <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
-        <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
+        <>
+        {showPetForm ? (
+          <AddPetForm/>
+        ): (
+          <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
+            <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
               Add new pet:
             </p>
-          <IoIosAddCircleOutline size={60} className="cursor-pointer" />
-        </div>
+            <IoIosAddCircleOutline
+              size={60}
+              className="cursor-pointer"
+              onClick={() => setShowPetForm(true)}
+            />
+          </div>
+        )}
+        </>
+       
       ) : null}
-      
+
       {petsInfo.length > 0 ? (
         petsInfo.map((pet) => (
           <Card sx={{ maxWidth: 345 }} key={crypto.randomUUID()}>
@@ -65,15 +85,29 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
           </Card>
         ))
       ) : dataUsername === localUsername ? (
-        <div className="flex flex-col items-center justify-center">
-          <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">
-            You haven't add any pets yet
-          </p>
-          <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
-            click here to add your first pet:
-          </p>
-          <IoIosAddCircleOutline size={60} className="cursor-pointer" />
-        </div>
+        <>
+          {showPetForm ? (
+            <>
+              <AddPetForm />
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col items-center justify-center">
+                <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">
+                  You haven't add any pets yet
+                </p>
+                <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
+                  click here to add your first pet:
+                </p>
+                <IoIosAddCircleOutline
+                  size={60}
+                  className="cursor-pointer"
+                  onClick={() => setShowPetForm(true)}
+                />
+              </div>
+            </>
+          )}
+        </>
       ) : (
         <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">
           This user has not added any pets yet
