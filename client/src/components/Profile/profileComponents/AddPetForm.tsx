@@ -59,6 +59,9 @@ export default function AddPetForm() {
     if (!petForm.petName) {
       formErrors.petName = "Pet name is required.";
     }
+    if (petForm.petName.length > 12 || petForm.petName.length < 3) {
+      formErrors.petName = "pet name should be between 3 and 12 characters";
+    }
     if (!petForm.petImage) {
       formErrors.petImage = "Pet image is required.";
     }
@@ -67,6 +70,10 @@ export default function AddPetForm() {
     }
     if (!petForm.petDescription) {
       formErrors.petDescription = "Pet description is required.";
+    }
+
+    if (petForm.petDescription.length > 200) {
+      formErrors.petDescription = "Pet description is too long";
     }
     return formErrors;
   };
