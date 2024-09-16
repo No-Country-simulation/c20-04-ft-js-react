@@ -2,44 +2,69 @@ import React, { useState } from 'react';
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 
 interface PetForm {
   petName: string;
   petImage: string;
-  petAge: string;
+  // petAge: string;
   petDescription: string;
+  petType: string;
 }
 
 interface PetFormErrors {
   petName: string;
   petImage: string;
-  petAge: string;
+  // petAge: string;
   petDescription: string;
+  petType: string;
 }
 
 export default function AddPetForm() {
   const [petForm, setPetForm] = useState<PetForm>({
     petName: "",
     petImage: "",
-    petAge: "",
+    // petAge: "",
     petDescription: "",
+    petType: "",
   });
 
   const [errors, setErrors] = useState<PetFormErrors>({
     petName: "",
     petImage: "",
-    petAge: "",
+    // petAge: "",
     petDescription: "",
+    petType: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const petTypes = [
+    "Dog",
+    "Cat",
+    "Fish",
+    "Bird",
+    "Rabbit",
+    "Hamster",
+    "Reptile",
+    "Ferret",
+    "Horse",
+    "Exotic Pet"
+  ];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setPetForm({ ...petForm, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" }); // Clear error on change
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<{ value: unknown }>) => {
+    setPetForm({ ...petForm, petType: e.target.value as string });
+    setErrors({ ...errors, petType: "" });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,8 +73,8 @@ export default function AddPetForm() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPetForm({ ...petForm, petImage: reader.result as string });
-        setErrors({...errors, petImage: ""})
-        console.log(petForm)
+        setErrors({ ...errors, petImage: "" });
+        console.log(petForm);
       };
       reader.readAsDataURL(file);
     }
@@ -66,15 +91,17 @@ export default function AddPetForm() {
     if (!petForm.petImage) {
       formErrors.petImage = "Pet image is required.";
     }
-    if (!petForm.petAge || isNaN(Number(petForm.petAge)) || Number(petForm.petAge) <= 0) {
-      formErrors.petAge = "Valid pet age is required.";
-    }
+    // if (!petForm.petAge || isNaN(Number(petForm.petAge)) || Number(petForm.petAge) <= 0) {
+    //   formErrors.petAge = "Valid pet age is required.";
+    // }
     if (!petForm.petDescription) {
       formErrors.petDescription = "Pet description is required.";
     }
-
     if (petForm.petDescription.length > 200) {
-      formErrors.petDescription = "Pet description is too long";
+      formErrors.petDescription = "Pet description is too long.";
+    }
+    if (!petForm.petType) {
+      formErrors.petType = "Pet type is required.";
     }
     return formErrors;
   };
@@ -92,8 +119,9 @@ export default function AddPetForm() {
       setPetForm({
         petName: "",
         petImage: "",
-        petAge: "",
+        // petAge: "",
         petDescription: "",
+        petType: "",
       });
     }
   };
@@ -124,7 +152,7 @@ export default function AddPetForm() {
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label="petName"
+              label="Pet Name"
               name="petName"
               value={petForm.petName}
               onChange={handleChange}
@@ -132,9 +160,9 @@ export default function AddPetForm() {
               helperText={errors.petName}
               margin="normal"
             />
-            <TextField
+            {/* <TextField
               fullWidth
-              label="petAge"
+              label="Pet Age"
               name="petAge"
               type="number"
               value={petForm.petAge}
@@ -142,10 +170,10 @@ export default function AddPetForm() {
               error={!!errors.petAge}
               helperText={errors.petAge}
               margin="normal"
-            />
+            /> */}
             <TextField
               fullWidth
-              label="petDescription"
+              label="Pet Description"
               name="petDescription"
               multiline
               rows={4}
@@ -155,6 +183,23 @@ export default function AddPetForm() {
               helperText={errors.petDescription}
               margin="normal"
             />
+            <FormControl fullWidth margin="normal" error={!!errors.petType}>
+              <InputLabel id="petType-label">Pet Type</InputLabel>
+              <Select
+                labelId="petType-label"
+                id="petType"
+                value={petForm.petType}
+                onChange={handleSelectChange}
+                label="Pet Type"
+              >
+                {petTypes.map((type) => (
+                  <MenuItem key={type} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </Select>
+              {errors.petType && <p className="text-red-500">{errors.petType}</p>}
+            </FormControl>
             <Button
               type="submit"
               variant="contained"
@@ -163,11 +208,6 @@ export default function AddPetForm() {
             >
               Add Pet
             </Button>
-            {Object.keys(errors).length > 0 && (
-              <Alert severity="error" className="mt-2">
-                Please fix the errors above.
-              </Alert>
-            )}
           </form>
         </CardContent>
       </CardActionArea>
