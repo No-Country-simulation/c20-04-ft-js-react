@@ -26,19 +26,19 @@ export default function SendNewProfileInfo({
   const [updateProfileInfo, { isLoading, error, isError, isSuccess }] = useUpdateProfileInfoMutation();
   const [showError, setShowError] = useState<boolean>(false)
 
-  useEffect(()=> {
+  useEffect(() => {
 
-    if(isError){
+    if (isError) {
 
       setShowError(true)
-      
-      setTimeout(()=> {
+
+      setTimeout(() => {
         setShowError(false)
-      },3000)
+      }, 3000)
 
     }
-    
-  },[isError])
+
+  }, [isError])
 
 
   const handleConfirm = ({
@@ -82,11 +82,10 @@ export default function SendNewProfileInfo({
       {editFlag ? (
         <>
           <button
-            className={`w-full h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border ${
-              isFormValid()
-                ? "bg-gray-400 text-gray-600"
-                : "bg-blue-500 text-white hover:bg-blue-700"
-            }`}
+            className={`w-full h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border ${isFormValid()
+              ? "bg-gray-400 text-gray-600"
+              : "bg-blue-500 text-white hover:bg-blue-700"
+              }`}
             onClick={() => handleConfirm(dataToUpdate)}
             disabled={isFormValid()}
           >
@@ -96,7 +95,7 @@ export default function SendNewProfileInfo({
           {showError && (
             <div
               className="flex flex-col text-red-500 mt-2 bg-[white] text-center absolute bottom-[35%]  w-[220px] max-w-[max-content] h-[70px] border-2 border-purple-700 rounded flex items-center justify-center lg:bottom-[-70%] lg:left-[30%]"
-              
+
             >
               <p className="pt-[.4rem]">Error:</p>
               <p className="m-[.6rem]">{error?.data.message || "Something went wrong!"}</p>
@@ -105,7 +104,7 @@ export default function SendNewProfileInfo({
         </>
       ) : (
         <button
-          className="w-[100%] h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300  hover:bg-[#e2e5e9]"
+          className="w-[100%] px-2 h-[2.4rem] rounded justify-self-start border border-gray-300  hover:bg-[#e2e5e9]"
           onClick={() => setEditFlag(true)}
         >
           Edit Profile

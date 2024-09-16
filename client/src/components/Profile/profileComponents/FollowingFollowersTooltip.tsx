@@ -35,7 +35,7 @@ const UserTooltip: React.FC<UserTooltipProps> = ({ user }) => {
   };
 
   return (
-    <div className="flex flex-wrap justify-center items-center gap-4">
+    <div className="flex justify-center items-center gap-4">
       {/* Botón para abrir la lista de followers */}
       <button
         onClick={handleFollowersClick}

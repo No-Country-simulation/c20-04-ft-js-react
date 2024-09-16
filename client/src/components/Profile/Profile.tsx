@@ -82,49 +82,45 @@ export default function Profile({
           setEditFlag={setEditFlag}
         />
       ) : (
-        <div className="mt-5 w-[95%] flex max-w-[400px] mx-auto justify-between gap-[2rem] md:mx-0 md:ml-[3rem] lg:max-w-[650px]">
-          <div className="lg:flex gap-[1rem] min-w-[120px] relative">
-            <figure className="w-20 h-20 rounded-full">
+        <div className="flex justify-center sm:justify-between flex-wrap my-6 gap-4 pl-2 md:pl-[50px]">
+          <div className="flex gap-4">
+            <figure className="w-16 h-16 md:w-20 md:h-20 rounded-full">
               {profilePicture ? <Image
                 className="w-full h-full rounded-full object-cover"
                 src={profilePicture}
                 alt=""
               /> : <Avatar {...stringAvatar(name)} className='w-full h-full text-3xl' />}
             </figure>
-            <div className="relative flex flex-col gap-[.2rem]">
-            <p className="max-w-[120px] mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:max-w-[220px] lg:mt-0">
-              {name}
-            </p>
-            <p className="lg:w-[6.4rem] lg:h-[3rem]">
-              @{dataUsername}
-            </p>
-              
+            <div className="flex flex-col gap-[.2rem]">
+              <p className="mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:mt-0">
+                {name}
+              </p>
+              <p className="lg:w-[6.4rem] lg:h-[3rem]">
+                @{dataUsername}
+              </p>
             </div>
-            
           </div>
-
-          <div className="flex flex-wrap justify-center items-end gap-4 max-w-[200px] lg:flex-nowrap lg:max-w-[350px]">
-            {editFlag ? (
-              <></>
-            ) : dataUsername === localUsername ? (
-              <>
-                <FollowingFollowersTooltip user={usernameObject} />
+          <div className="flex flex-col lg:w-1/2 items-center gap-4">
+            <div className="flex">
+              <FollowingFollowersTooltip user={usernameObject} />
+            </div>
+            <div className="flex gap-4">
+              {dataUsername === localUsername ? (
                 <SendNewProfileInfo
                   editFlag={editFlag}
                   setEditFlag={setEditFlag}
                 />
-              </>
-            ) : (
-              <div className="flex gap-[1rem] w-[100%]">
+              ) : (<>
                 <FollowOrUnfollowBtn />
                 <SendMessageBtn />
-              </div>
-            )}
+              </>)}
+            </div>
           </div>
         </div>
-      )}
+      )
+      }
 
-      <div className="mt-[3rem] border-t-2 border-[#e2e5e9]">
+      <div className="border-t-2 border-[#e2e5e9]">
         <div className="w-[90%] mx-auto flex justify-between lg:justify-start gap-[4rem] m-[.8rem]">
           <button
             onClick={() => changeDisplayCard("posts")}
@@ -163,6 +159,6 @@ export default function Profile({
       >
         {renderSelectedComponent()}
       </Box>
-    </div>
+    </div >
   );
 }
