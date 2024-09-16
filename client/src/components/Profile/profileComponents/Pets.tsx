@@ -14,7 +14,7 @@ interface Pet {
   petName: string;
   petImage: string;
   petInfo: string;
-  age: number;
+  species: string
 }
 
 interface profileProps {
@@ -23,13 +23,13 @@ interface profileProps {
 }
 
 const petsInfo: Pet[] = [
-  {
-    petName: "Baggy",
-    petImage:
-      "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
-    petInfo: "This is my pet Baggy, a playful dog who loves to fetch.",
-    age: 14,
-  },
+  // {
+  //   petName: "Baggy",
+  //   petImage:
+  //     "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
+  //   petInfo: "This is my pet Baggy, a playful dog who loves to fetch.",
+  //   species: "xd"
+  // },
 ];
 
 export default function Pets({ dataUsername, localUsername }: profileProps) {
@@ -76,7 +76,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
                 <Typography gutterBottom variant="h5" component="div">
                   {pet.petName}
                 </Typography>
-                <div className="mb-[1rem]">Age: {pet.age}</div>
+                <div className="mb-[1rem]">specie: {pet.species}</div>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {pet.petInfo}
                 </Typography>
