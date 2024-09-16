@@ -28,16 +28,6 @@ interface profileProps {
   localUsername?: string;
 }
 
-// const petsInfo: Pet[] = [
-//   {
-//     petName: "Baggy",
-//     petImage:
-//       "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
-//     petInfo: "This is my pet Baggy, a playful dog who loves to fetch.",
-//     species: "xd"
-//   },
-// ];
-
 export default function Pets({ dataUsername, localUsername }: profileProps) {
   const [showPetForm, setShowPetForm] = useState<boolean>(false);
 
