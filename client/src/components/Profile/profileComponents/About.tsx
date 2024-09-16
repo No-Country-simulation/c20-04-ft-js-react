@@ -1,69 +1,63 @@
 import BirthdayIcon from "@/icons/Birthday";
 import ClockIcon from "@/icons/Clock";
 import HomeIcon from "@/icons/HomeIcon";
-import { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
+import { FaPaw } from "react-icons/fa";
 
+import { useState } from "react";
+import { TextField, Button } from "@mui/material";
 import { useGetAboutPropertiesQuery } from "@/redux/apiSlices/userQueryApi";
 import { useUpdateProfileInfoMutation } from "@/redux/apiSlices/userApi";
-import { useParams } from "next/navigation"
-// Datos para probar
-
+import { useParams } from "next/navigation";
 
 const features = [
   {
-    name: 'Mis Mascotas',
-    features: ['3 Perros', '2 Gatos']
+    name: "Mis Mascotas",
+    features: ["3 Perros", "2 Gatos"],
   },
   {
-    name: 'Experiencia',
-    features: ['Adiestramiento', 'Primeros auxilios', 'Nutricion']
+    name: "Experiencia",
+    features: ["Adiestramiento", "Primeros auxilios", "Nutricion"],
   },
   {
-    name: 'Intereses',
-    features: ['Adopcion', 'Cuidado de mascotas', 'Fotografia de mascotas']
+    name: "Intereses",
+    features: ["Adopcion", "Cuidado de mascotas", "Fotografia de mascotas"],
   },
   {
-    name: 'Servicios',
-    features: ['Paseo de perros', 'Cuidado temporal']
-  }
-]
+    name: "Servicios",
+    features: ["Paseo de perros", "Cuidado temporal"],
+  },
+];
 
 export default function About() {
-  const params = useParams()
+  const params = useParams();
   const username: string = params.userName as string;
-  const fetchData = async () => {
-    try {
-      const result = await updateProfileInfo(editData).unwrap();
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-      // setEditFlag(false)
-    }
+
+  //? redux
+  const { data, isError, isLoading } = useGetAboutPropertiesQuery(username);
+  console.log(data)
+  const [updateProfileInfo] = useUpdateProfileInfoMutation();
+  
+  //form
+  const [editMode, setEditMode] = useState(false);
+  
+  const [editData, setEditData] = useState({
+    address: "",
+    description: "",
+  });
+
+  const handleEditClick = () => {
+    setEditData({
+      address: data?.data?.getUserByUsername.address || "",
+      description: data?.data?.getUserByUsername.description || "",
+    });
+    setEditMode(true);
   };
 
-  console.log("Datos de user:", username);
-  const { data, isError, isLoading } = useGetAboutPropertiesQuery(username);
-  const [updateProfileInfo, { error, isSuccess }] = useUpdateProfileInfoMutation();
-  const [open, setOpen] = useState(false);
-  const [editData, setEditData] = useState({
-    address: '',
-    description: ''
-  });
-  const handleOpen = () => {
-    setEditData({
-      address: data?.data?.getUserByUsername.address || '',
-      description: data?.data?.getUserByUsername.description || ''
-    });
-    setOpen(true);
+  const handleCancel = () => {
+    setEditMode(false);
   };
-  const handleClose = () => setOpen(false);
-  const handleSave = () => {
-    // Aquí puedes hacer una mutación para guardar los datos editados
-    console.log(editData);
-    fetchData()
-    handleClose();
-  };
+
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditData({
       ...editData,
@@ -71,67 +65,46 @@ export default function About() {
     });
   };
 
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading data</p>;
+
   const newData = data?.data?.getUserByUsername;
-  console.log("data que llega ",newData);
-  
-  if (isLoading) return <p>..</p>;
-  if (isError) return <p>error</p>;
   const createdAt = Number(newData.createdAt);
   const date = new Date(createdAt);
+  
   const formattedDate = isNaN(date.getTime())
-    ? "Fecha no disponible"
-    : new Intl.DateTimeFormat('es-ES', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    ? "date not avalaible"
+    : new Intl.DateTimeFormat("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(date);
 
-    }).format(date);
   return (
-    <section className="space-y-6">
-      <p>{newData.description}</p>
-      <div className="flex gap-x-4 border-b border-neutral-500 pb-3">
-        <p className="flex items-end gap-x-2"><BirthdayIcon className="size-6" /> <span>aa</span></p>
-        <p className="flex items-end gap-x-2"><HomeIcon className="size-6" /> <span>{newData.address}</span></p>
-        <p className="flex items-end gap-x-2"><ClockIcon className="size-6" /> <span>{formattedDate}</span></p>
-      </div>
-      <div className="grid grid-cols-2 gap-y-5 gap-x-10">
-        {Array.isArray(newData?.tags) && newData.tags.length > 0 ? (
-          data.tags.map(tag => (
-            <FeaturesAbout key={tag} name={tag} features={[tag]} />
-          ))
+    <section>
+    <div className="flex flex-col gap-[.6rem] items-start">
+      {/* Title */}
+      <p className="text-2xl font-bold text-center text-purple-600 flex items-center">
+        <FaPaw className="mr-2 text-purple-500" />
+        Self Introduction
+      </p>
+
+      {/* Description or default funny message */}
+      <p className="text-lg text-gray-700">
+        {data?.data?.getUserByUsername?.description ? (
+          data?.data?.getUserByUsername?.description
         ) : (
-          <p>No hay etiquetas disponibles.</p>
+          <span className="text-gray-500 italic">
+            {" "}
+            <FaPaw className="inline mr-1" />
+            Oops! Looks like this user was too busy to write a
+            self-introduction. 🐾
+          </span>
         )}
-        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleOpen}>
-          Editar
-        </button>
-      </div>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Editar Información</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Dirección"
-            name="address"
-            value={editData.address}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Descripción"
-            name="description"
-            value={editData.description}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            multiline
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleSave} color="primary">Guardar</Button>
-        </DialogActions>
-      </Dialog>
-    </section>
-  )
+      </p>
+
+      {/* address */}
+    </div>
+  </section>
+  );
 }

@@ -126,7 +126,7 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
     } else {
       // Handle form submission (e.g., send data to backend)
       uploadPet(petForm);
-      // console.log(data)
+      console.log(data)
       // Reset form
       setPetForm({
         petName: "",

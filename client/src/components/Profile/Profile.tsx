@@ -158,7 +158,7 @@ export default function Profile({
           flexDirection: "column",
           width: "100% ",
         }}
-        className="p-2 md:p-[50px]"
+        className="p-2 md:p-[30px]"
       >
         {renderSelectedComponent()}
       </Box>
