@@ -11,6 +11,9 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
+//? redux
+import { useUploadPetMutation } from '@/redux/apiSlices/petsApi';
+
 interface PetForm {
   petName: string;
   petImage: string;
@@ -28,6 +31,9 @@ interface PetFormErrors {
 }
 
 export default function AddPetForm() {
+  
+  const [uploadPet, {data,isLoading, isError, error}] = useUploadPetMutation()
+
   const [petForm, setPetForm] = useState<PetForm>({
     petName: "",
     petImage: "",
@@ -113,8 +119,8 @@ export default function AddPetForm() {
       setErrors(formErrors as PetFormErrors);
     } else {
       // Handle form submission (e.g., send data to backend)
-      console.log('Form submitted:', petForm);
-      alert('Pet added successfully!');
+      uploadPet(petForm)
+      // console.log(data)
       // Reset form
       setPetForm({
         petName: "",
@@ -206,7 +212,7 @@ export default function AddPetForm() {
               color="primary"
               className="w-full mt-2"
             >
-              Add Pet
+              {isLoading ? "loading" : "add pet"}
             </Button>
           </form>
         </CardContent>
