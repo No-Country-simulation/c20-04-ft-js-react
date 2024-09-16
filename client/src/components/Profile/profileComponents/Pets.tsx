@@ -81,17 +81,20 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
               <CardMedia
                 component="img"
                 height="140"
-                image={pet.petImage}
-                alt={pet.petName}
+                image={pet.profile_photo}
+                alt={pet.name}
                 className="max-h-[220px]"
               />
               <CardContent className="relative">
                 <Typography gutterBottom variant="h5" component="div">
-                  {pet.petName}
+                  {pet.name}
                 </Typography>
                 <div className="mb-[1rem]">specie: {pet.species}</div>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {pet.petInfo}
+                </Typography>
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  {pet.description}
                 </Typography>
               </CardContent>
             </CardActionArea>
