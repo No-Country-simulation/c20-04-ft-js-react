@@ -48,6 +48,7 @@ export default function AddPetForm() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPetForm({ ...petForm, petImage: reader.result as string });
+        setErrors({...errors, petImage: ""})
         console.log(petForm)
       };
       reader.readAsDataURL(file);
@@ -105,6 +106,7 @@ export default function AddPetForm() {
           type="file"
           style={{ display: "none" }}
           id="upload-image"
+          name='petImage'
           onChange={handleFileChange}
         />
         <label htmlFor="upload-image">
@@ -116,6 +118,7 @@ export default function AddPetForm() {
             className="max-h-[220px] min-w-[345px] min-h-[220px]"
             style={{ cursor: 'pointer' }}
           />
+          {errors.petImage && <p className='text-red-500 text-center text-[.8rem] mt-[.2rem]'>{errors.petImage}</p>}
         </label>
         <CardContent>
           <form onSubmit={handleSubmit}>
