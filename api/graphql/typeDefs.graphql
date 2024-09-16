@@ -6,6 +6,7 @@ type idf{
 }
 type User {
     _id: String,
+    tags:[String],
     username: String,
     name : String,
     email: String,
