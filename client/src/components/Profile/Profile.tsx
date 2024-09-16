@@ -89,6 +89,9 @@ export default function Profile({
                 className="w-full h-full rounded-full object-cover"
                 src={profilePicture}
                 alt=""
+                width={100}
+                height={100}
+
               /> : <Avatar {...stringAvatar(name)} className='w-full h-full text-3xl' />}
             </figure>
             <div className="flex flex-col gap-[.2rem]">
