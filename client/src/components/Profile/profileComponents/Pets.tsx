@@ -44,7 +44,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
       {dataUsername === localUsername && petsInfo.length > 0 ? (
         <>
         {showPetForm ? (
-          <AddPetForm/>
+            <AddPetForm setShowPetForm={setShowPetForm}/>
         ): (
           <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
             <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
