@@ -1,4 +1,7 @@
+"use client"
 import React, { useState } from "react";
+import { useParams } from "next/navigation"
+
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -9,6 +12,9 @@ import CardActionArea from "@mui/material/CardActionArea";
 import AddPetForm from "./AddPetForm";
 
 import { IoIosAddCircleOutline } from "react-icons/io";
+
+//? redux
+import { useGetPetsByUsernameQuery } from "@/redux/apiSlices/petsApi";
 
 interface Pet {
   petName: string;
@@ -22,18 +28,25 @@ interface profileProps {
   localUsername?: string;
 }
 
-const petsInfo: Pet[] = [
-  {
-    petName: "Baggy",
-    petImage:
-      "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
-    petInfo: "This is my pet Baggy, a playful dog who loves to fetch.",
-    species: "xd"
-  },
-];
+// const petsInfo: Pet[] = [
+//   {
+//     petName: "Baggy",
+//     petImage:
+//       "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
+//     petInfo: "This is my pet Baggy, a playful dog who loves to fetch.",
+//     species: "xd"
+//   },
+// ];
 
 export default function Pets({ dataUsername, localUsername }: profileProps) {
   const [showPetForm, setShowPetForm] = useState<boolean>(false);
+
+  const params = useParams()
+  const username: string = params.userName as string;
+  
+  const {data, isLoading, error} = useGetPetsByUsernameQuery(username)
+  const petsInfo = data?.data?.getPetsByUsername
+  console.log(petsInfo)
 
   // const onShowForm = ()=> {
   //   setShowPetForm(true)
@@ -41,7 +54,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
 
   return (
     <div className="flex flex-wrap justify-center gap-[2rem]">
-      {dataUsername === localUsername && petsInfo.length > 0 ? (
+      {dataUsername === localUsername && petsInfo?.length > 0 ? (
         <>
         {showPetForm ? (
             <AddPetForm setShowPetForm={setShowPetForm}/>
@@ -61,7 +74,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
        
       ) : null}
 
-      {petsInfo.length > 0 ? (
+      {petsInfo?.length > 0 ? (
         petsInfo.map((pet) => (
           <Card sx={{ maxWidth: 345 }} key={crypto.randomUUID()}>
             <CardActionArea>
@@ -88,7 +101,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
         <>
           {showPetForm ? (
             <>
-              <AddPetForm />
+              <AddPetForm setShowPetForm={setShowPetForm}/>
             </>
           ) : (
             <>
