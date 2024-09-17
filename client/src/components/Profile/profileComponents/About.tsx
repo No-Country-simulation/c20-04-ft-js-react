@@ -42,7 +42,7 @@ export default function About() {
     <article>
       < >
         {editMode ? (
-          <AboutForm/>
+          <AboutForm setEditMode={setEditMode}/>
         ) : (
           <div className="flex flex-col gap-[.6rem] items-start">
           {/* Title */}

@@ -20,9 +20,17 @@ export const userApi = createApi({
                 method: "PUT",
                 body: reqbody,
             })
+        }),
+
+        updateAboutInfo: builder.mutation({
+            query: (reqbody)=> ({
+                url: `profileUpDate`,
+                method: "PUT",
+                body: reqbody,
+            })
         })
         
     }),
 });
 
-export const {useGetUserByUsernameQuery, useUpdateProfileInfoMutation} = userApi
+export const {useGetUserByUsernameQuery, useUpdateProfileInfoMutation, useUpdateAboutInfoMutation} = userApi

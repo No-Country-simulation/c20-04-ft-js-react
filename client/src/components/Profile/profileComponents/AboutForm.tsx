@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaPaw } from "react-icons/fa";
+import { CircularProgress } from "@mui/material";
 
 const countries = [
   "China",
@@ -33,15 +34,27 @@ interface errorForm {
   country: string;
 }
 
-export default function AboutForm() {
-  const submitForm = (e: React.FormEvent) => {
+interface props {
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+}
+import { useUpdateAboutInfoMutation } from "@/redux/apiSlices/userApi";
+
+export default function AboutForm({setEditMode}: props) {
+
+  const [updateAboutInfo, {isLoading, isError, data, error}]= useUpdateAboutInfoMutation()
+  
+  
+  const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateForm();
 
     if (Object.keys(errors).length > 0) {
       setErrorForm(errors as errorForm);
     } else {
-      console.log(form);
+      //matching the backend props
+      const result = await updateAboutInfo({address: form.country, description: form.description}).unwrap()
+      setEditMode(false)
+      console.log(result);
 
       setErrorForm({
         description: "",
@@ -137,9 +150,10 @@ export default function AboutForm() {
 
         <button
           type="submit"
-          className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300"
+          className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 flex items-center gap-2"
+          disabled={isLoading} // Disable the button when loading
         >
-          Submit
+          {isLoading ? <CircularProgress size={20} color="inherit" /> : "Submit"} 
         </button>
       </div>
     </form>
