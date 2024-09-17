@@ -17,9 +17,10 @@ export const createPet = async (req, res) => {
             ...restOfBody,
             id_user: userid.payload.id
         })
-        if (profile_photo) {
-            const uploadImage = await uploadPetImage(profile_photo, userid.payload.id)
-            petc.profile_photo = uploadImage
+        if (req.tempFilePath) {
+            const uploadImage = await uploadPetImage(req.tempFilePath, req.user._id);
+            petc.url_img = uploadImage;
+            await fs.remove(req.tempFilePath);
         }
         const petS = await petc.save()
         res.status(200).json(petS);
@@ -29,16 +30,21 @@ export const createPet = async (req, res) => {
 };
 export const upDatePets = async (req, res) => {
     try {
-        const { idpet, ...restOfBody } = req.body;
         const { token } = req.cookies
         const userid = jwt.verify(token, TOKEN_KEY);
         const petfind = Pets.findById(idpet)
         if (!petfind.id_user == userid.payload.id) {
             res.status(500).json({ message: 'not authenticated', error });
         }
+        const { idpet, profile_photo,...restOfBody } = req.body;
         const uppet = {
             ...restOfBody
         };
+        if (req.tempFilePath) {
+            const uploadImage = await uploadPetImage(req.tempFilePath, req.user._id);
+            petp.url_img = uploadImage;
+            await fs.remove(req.tempFilePath);
+        }
         const petp = await Pets.findByIdAndUpdate(idpet, uppet, { new: true })
         res.status(200).json(petp)
     } catch (error) {
