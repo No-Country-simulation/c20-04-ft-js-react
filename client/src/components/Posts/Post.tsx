@@ -20,7 +20,7 @@ export default function Post({ post }: { post: Post }) {
     <Card elevation={0} className='max-w-[450px] space-y-4 w-full px-4 py-4 rounded-lg border transition-colors border-neutral-300 dark:border-neutral-700'>
       <Box className='flex items-center'>
         <Avatar
-          {...stringAvatar(post.user.username.toUpperCase())}
+          {...stringAvatar(post.user.name?.toUpperCase() || post.user.username?.toUpperCase())}
           alt={post.user.username.toUpperCase()}
           src={post.user.avatar}
         />

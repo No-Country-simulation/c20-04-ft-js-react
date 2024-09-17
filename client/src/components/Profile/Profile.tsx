@@ -92,7 +92,7 @@ export default function Profile({
                 width={100}
                 height={100}
 
-              /> : <Avatar {...stringAvatar(name)} className='w-full h-full text-3xl' />}
+              /> : <Avatar {...stringAvatar(name?.toUpperCase() || localUsername?.toUpperCase())} className='w-full h-full text-3xl' />}
             </figure>
             <div className="flex flex-col gap-[.2rem]">
               <p className="mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:mt-0">
