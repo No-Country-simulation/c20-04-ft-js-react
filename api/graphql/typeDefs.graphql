@@ -63,6 +63,7 @@ type Query {
     getUserSearch(username: String!) : [User]
     getPost : [Post]
     getMyPost : [Post]
+    getAllPostByUsername(username: String!): [Post]
     getMyComment : [Comment]
     getMyPets : [Pets]
     getPetsByUsername(username: String!): [Pets]

@@ -19,7 +19,15 @@ export const postRosolves = {
             const allMyPost = await Post.find({ id_user: user.payload })
 
             return allMyPost;
-        }
+        },
+        async getAllPostByUsername(_, { username }) {
+            const pUser = await User.findOne({ username });
+            if (!pUser) {
+              throw new Error("User not found");
+            }
+            const userPosts = await Post.find({ id_user: pUser._id });
+            return userPosts;
+        }      
     },
     Mutation: {
         async PostC(_, { postInput }, { user }) {
