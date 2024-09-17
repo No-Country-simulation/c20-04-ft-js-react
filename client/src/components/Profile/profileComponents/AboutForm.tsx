@@ -36,13 +36,33 @@ interface errorForm {
 
 interface props {
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  description: string;
+  address: string;
+}
+
+interface savedProps {
+  description: string;
+  address: string;
 }
 import { useUpdateAboutInfoMutation } from "@/redux/apiSlices/userApi";
 
-export default function AboutForm({setEditMode}: props) {
+export default function AboutForm({setEditMode, description, address}: props) {
 
   const [updateAboutInfo, {isLoading, isError, data, error}]= useUpdateAboutInfoMutation()
+
   
+  const [savedProps, setSavedProps] = useState<savedProps>({
+    description: description,
+    address: address,
+  })
+
+  const verifyInfoChanged = ()=> {
+    if(savedProps.description === form.description && savedProps.address === form.country){
+      return false
+    } else {
+      return true
+    }
+  }
   
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +71,8 @@ export default function AboutForm({setEditMode}: props) {
     if (Object.keys(errors).length > 0) {
       setErrorForm(errors as errorForm);
     } else {
-      //matching the backend props
+      if(verifyInfoChanged()){
+        //matching the backend props
       const result = await updateAboutInfo({address: form.country, description: form.description}).unwrap()
       setEditMode(false)
       console.log(result);
@@ -60,12 +81,15 @@ export default function AboutForm({setEditMode}: props) {
         description: "",
         country: "",
       });
+      } else {
+        window.alert("you havent done any changes yet")
+      }
     }
   };
 
   const [form, setForm] = useState<form>({
-    description: "",
-    country: "",
+    description: description,
+    country: address,
   });
 
   const [errorForm, setErrorForm] = useState<errorForm>({
@@ -111,6 +135,7 @@ export default function AboutForm({setEditMode}: props) {
         name="description"
         placeholder="Share something interesting!"
         onChange={handleChange}
+        value={form.description}
       />
       {errorForm.description && (
         <p className="text-red-500 text-center text-[.8rem] mt-[.2rem]">
