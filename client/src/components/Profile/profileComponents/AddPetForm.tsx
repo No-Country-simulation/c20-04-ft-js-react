@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import { SelectChangeEvent } from '@mui/material';
 
 //? redux
 import { useUploadPetMutation } from "@/redux/apiSlices/petsApi";
@@ -74,8 +75,8 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
     setErrors({ ...errors, [e.target.name]: "" }); // Clear error on change
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<{ value: unknown }>) => {
-    setPetForm({ ...petForm, petType: e.target.value as string });
+  const handleSelectChange = (e: SelectChangeEvent<string>) => {
+    setPetForm({ ...petForm, petType: e.target.value });
     setErrors({ ...errors, petType: "" });
   };
 

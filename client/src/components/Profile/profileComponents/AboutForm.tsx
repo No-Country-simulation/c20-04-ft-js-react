@@ -34,7 +34,7 @@ interface errorForm {
 }
 
 export default function AboutForm() {
-  const submitForm = (e) => {
+  const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateForm();
 
@@ -60,7 +60,7 @@ export default function AboutForm() {
     country: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrorForm({ ...errorForm, [e.target.name]: "" }); //when on change being activated we clearing the input error
     console.log(form);
