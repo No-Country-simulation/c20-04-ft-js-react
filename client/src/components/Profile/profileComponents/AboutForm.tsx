@@ -176,7 +176,7 @@ export default function AboutForm({setEditMode, description, address}: props) {
         <button
           type="submit"
           className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 flex items-center gap-2"
-          disabled={isLoading} // Disable the button when loading
+          disabled={isLoading || !verifyInfoChanged()} // Disable the button when loading
         >
           {isLoading ? <CircularProgress size={20} color="inherit" /> : "Submit"} 
         </button>
