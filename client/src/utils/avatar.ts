@@ -23,6 +23,9 @@ export function stringAvatar(name: string = "") {
   if (name) {
     nameParts = name.toUpperCase().split(' ');
   }
+
+  console.log(name);
+  
   
   return {
     sx: {
