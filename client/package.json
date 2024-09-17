@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "again": "^0.0.1",
     "dayjs": "^1.11.13",
+    "multer": "^1.4.5-lts.1",
     "next": "^14.2.6",
     "next-auth": "^4.24.7",
     "node": "^22.7.0",

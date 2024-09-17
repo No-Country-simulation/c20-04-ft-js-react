@@ -47,6 +47,8 @@ export default function Post({ post }: { post: Post }) {
         {post.url_img && (
           <Image
             className='rounded-md overflow-hidden'
+            width={500}
+            height={500}
             src={post.url_img}
             alt={`image from post ${post.id}`}
           />
