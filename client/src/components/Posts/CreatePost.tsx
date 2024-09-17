@@ -60,7 +60,7 @@ export default function CreatePost() {
     <Card onSubmit={handleSubmit} component={'form'} elevation={0} className='max-w-[450px] space-y-4 p-4 rounded-lg border transition-colors border-neutral-300 dark:border-neutral-700'>
       <Box>
         <Box className='flex gap-x-2'>
-          <Avatar {...stringAvatar(user?.username.toUpperCase() || 'USER')} />
+          <Avatar {...stringAvatar(user?.name?.toUpperCase() || user?.username?.toUpperCase())} />
           <Box className='w-full'>
             <TextField
               label="¿Qué está haciendo tu mascota?"
