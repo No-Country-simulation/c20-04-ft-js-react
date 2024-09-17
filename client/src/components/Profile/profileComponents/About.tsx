@@ -6,7 +6,6 @@ import { FaPaw } from "react-icons/fa";
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { useGetAboutPropertiesQuery } from "@/redux/apiSlices/userQueryApi";
-import { useUpdateProfileInfoMutation } from "@/redux/apiSlices/userApi";
 import { useParams } from "next/navigation";
 
 import AboutForm from "./AboutForm";
@@ -18,7 +17,6 @@ export default function About() {
   //? redux
   const { data, isError, isLoading } = useGetAboutPropertiesQuery(username);
   console.log(data);
-  const [updateProfileInfo] = useUpdateProfileInfoMutation();
 
   //form
   const [editMode, setEditMode] = useState(false);
