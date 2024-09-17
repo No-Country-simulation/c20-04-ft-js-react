@@ -6,16 +6,21 @@ import Post from '@/components/Posts/Post'
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import type { Post as PostType } from '@/types'
-import { useGetAllPostQuery } from '@/redux/apiSlices/postApi';
+import { useGetAllPostByUsernameQuery } from '@/redux/apiSlices/postApi';
+import { useParams } from 'next/navigation';
+import { Box } from '@mui/material';
 
 export default function ProfilePosts() {
   const [posts, setPosts] = useState<PostType[]>([])
-  const { data, isError, isLoading } = useGetAllPostQuery({})
+  const params = useParams()
+  const username: string = params.userName as string;
+
+  const { data, isError, isLoading } = useGetAllPostByUsernameQuery(username)
 
   useEffect(() => {
     if (isLoading == false) {
       console.log(data);
-      setPosts(data.data.getPost)
+      setPosts(data.data.getAllPostByUsername)
     }
   }, [data, isLoading])
 
@@ -25,14 +30,20 @@ export default function ProfilePosts() {
 
   return (
     <>
-      {
-        posts.map((post) => (
+      {data?.length ? (
+        posts.toReversed().map((post) => (
           <Post
             key={post.id}
             post={post}
           />
         ))
-      }
+      ) : (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
+            No hay publicaciones disponibles.
+          </p>
+        </Box>
+      )}
     </>
   )
 }

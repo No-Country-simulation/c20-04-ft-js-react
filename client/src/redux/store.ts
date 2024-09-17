@@ -9,7 +9,7 @@ import { petsApi } from './apiSlices/petsApi'
 //import de los slices van aca:
 import userSlice from "./slices/userSlice"
 import themeSlice from './slices/themeSlice'
-import { getAllPostQueryApi } from './apiSlices/postApi'
+import { getPostQueryApi,  } from './apiSlices/postApi'
 
 const store = configureStore({
     reducer: {
@@ -21,11 +21,11 @@ const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [userQueryApi.reducerPath]: userQueryApi.reducer,
-        [getAllPostQueryApi.reducerPath]: getAllPostQueryApi.reducer,
+        [getPostQueryApi.reducerPath]: getPostQueryApi.reducer,
         [petsApi.reducerPath]: petsApi.reducer
     },
     //concatenamos los apiSlices que usamos para hacer las peticiones a nuestro backend
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userApi.middleware, authApi.middleware, userQueryApi.middleware, getAllPostQueryApi.middleware, petsApi.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userApi.middleware, authApi.middleware, userQueryApi.middleware, getPostQueryApi.middleware, petsApi.middleware)
 })
 
 // typescript necesita el root state para poder saber que tipo de valores estamos asignando en nuestro estado global, de otra forma, no podra leerlos
