@@ -27,7 +27,7 @@ export default function Header() {
       color="inherit"
       elevation={0}
       sx={{
-        zIndex: 1,
+        zIndex: 100,
         display: "flex",
         justifyContent: "center",
         border: `1px solid ${theme.palette.divider}`,
