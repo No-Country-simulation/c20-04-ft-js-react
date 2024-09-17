@@ -38,6 +38,7 @@ interface props {
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
   description: string;
   address: string;
+  onSubmitSuccess: ()=> void;
 }
 
 interface savedProps {
@@ -46,7 +47,7 @@ interface savedProps {
 }
 import { useUpdateAboutInfoMutation } from "@/redux/apiSlices/userApi";
 
-export default function AboutForm({setEditMode, description, address}: props) {
+export default function AboutForm({setEditMode, description, address, onSubmitSuccess}: props) {
 
   const [updateAboutInfo, {isLoading, isError, data, error}]= useUpdateAboutInfoMutation()
 
@@ -76,6 +77,8 @@ export default function AboutForm({setEditMode, description, address}: props) {
       const result = await updateAboutInfo({address: form.country, description: form.description}).unwrap()
       setEditMode(false)
       console.log(result);
+
+      onSubmitSuccess()
 
       setErrorForm({
         description: "",

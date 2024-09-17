@@ -15,8 +15,13 @@ export default function About() {
   const username: string = params.userName as string;
 
   //? redux
-  const { data, isError, isLoading } = useGetAboutPropertiesQuery(username);
+  const { data, isError, isLoading, refetch } = useGetAboutPropertiesQuery(username);
   console.log(data);
+
+  const handleFormSubmitSuccess = () => {
+    // Refetch data after successful form submission
+    refetch();
+  };
 
   //form
   const [editMode, setEditMode] = useState(false);
@@ -44,6 +49,7 @@ export default function About() {
           setEditMode={setEditMode}
           description={data?.data?.getUserByUsername?.description}
           address={data?.data?.getUserByUsername.address}
+          onSubmitSuccess={handleFormSubmitSuccess}
           />
         ) : (
           <div className="flex flex-col gap-[.6rem] items-start">
