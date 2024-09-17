@@ -126,7 +126,7 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
     } else {
       // Handle form submission (e.g., send data to backend)
       uploadPet(petForm);
-      // console.log(data)
+      console.log(data)
       // Reset form
       setPetForm({
         petName: "",
@@ -144,12 +144,13 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
         <input
           accept="image/*"
           type="file"
-          style={{ display: "none" }}
+          style={{ display: "none" }} // Hide the file input
           id="upload-image"
           name="petImage"
           onChange={handleFileChange}
         />
-        <label htmlFor="upload-image relative">
+        {/* Label triggers the file input */}
+        <label htmlFor="upload-image" className="relative">
           <button
             className="absolute top-2 right-2 z-10  bg-black/50 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center"
             onClick={() => setShowPetForm(false)}
@@ -182,17 +183,6 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
               helperText={errors.petName}
               margin="normal"
             />
-            {/* <TextField
-              fullWidth
-              label="Pet Age"
-              name="petAge"
-              type="number"
-              value={petForm.petAge}
-              onChange={handleChange}
-              error={!!errors.petAge}
-              helperText={errors.petAge}
-              margin="normal"
-            /> */}
             <TextField
               fullWidth
               label="Pet Description"
