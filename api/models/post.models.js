@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const postSchema = new mongoose.Schema({
     category: {
         type: String,
-        required:true
+        required:true,
+        default:"genral"
     },
     tags: {
         type : Array,
