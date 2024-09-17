@@ -9,6 +9,8 @@ import { useGetAboutPropertiesQuery } from "@/redux/apiSlices/userQueryApi";
 import { useUpdateProfileInfoMutation } from "@/redux/apiSlices/userApi";
 import { useParams } from "next/navigation";
 
+import AboutForm from "./AboutForm";
+
 export default function About() {
   const params = useParams();
   const username: string = params.userName as string;
@@ -20,30 +22,6 @@ export default function About() {
 
   //form
   const [editMode, setEditMode] = useState(false);
-
-  const [editData, setEditData] = useState({
-    address: "",
-    description: "",
-  });
-
-  const handleEditClick = () => {
-    setEditData({
-      address: data?.data?.getUserByUsername.address || "",
-      description: data?.data?.getUserByUsername.description || "",
-    });
-    setEditMode(true);
-  };
-
-  const handleCancel = () => {
-    setEditMode(false);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditData({
-      ...editData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading data</p>;
@@ -62,8 +40,12 @@ export default function About() {
 
   return (
     <article>
-      <div className="flex flex-col gap-[.6rem] items-start">
-        {/* Title */}
+      < >
+        {editMode ? (
+          <AboutForm/>
+        ) : (
+          <div className="flex flex-col gap-[.6rem] items-start">
+          {/* Title */}
         <p className="text-2xl font-bold text-center text-purple-600 flex items-center">
           <FaPaw className="mr-2 text-purple-500" />
           Self Introduction
@@ -89,13 +71,23 @@ export default function About() {
           <p className="text-sm font-semibold">Member since {formatedDate}</p>
         </section>
 
-        <div className="mt-4">
+        <div className="mt-2">
           <p className="text-sm text-gray-700">
             <span className="font-bold text-purple-500">Location:</span>{" "}
             {data?.data?.getUserByUsername.address || "Not provided"}
           </p>
         </div>
-      </div>
+        <button className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 self-center lg:self-start"
+        onClick={()=> setEditMode(true)}
+        >
+          Edit Info
+        </button>
+          
+          </div >
+          
+        )}
+      </>
     </article>
   );
 }
+
