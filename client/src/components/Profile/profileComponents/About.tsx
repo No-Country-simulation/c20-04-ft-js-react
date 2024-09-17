@@ -7,12 +7,14 @@ import { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { useGetAboutPropertiesQuery } from "@/redux/apiSlices/userQueryApi";
 import { useParams } from "next/navigation";
+import { useAppSelector } from "@/redux/hooks";
 
 import AboutForm from "./AboutForm";
 
 export default function About() {
   const params = useParams();
   const username: string = params.userName as string;
+  const localUsername = useAppSelector(state=> state.userReducer.user?.username)
 
   //? redux
   const { data, isError, isLoading, refetch } = useGetAboutPropertiesQuery(username);
@@ -64,12 +66,22 @@ export default function About() {
           {data?.data?.getUserByUsername?.description ? (
             data?.data?.getUserByUsername?.description
           ) : (
-            <span className="text-gray-500 italic">
+            <>
+            {localUsername === username ? (
+              <span className="text-gray-500 italic">
+              {" "}
+              <FaPaw className="inline mr-1" />
+              Please tell us a little bit about yourself 🐾
+            </span>
+            ) : (
+              <span className="text-gray-500 italic">
               {" "}
               <FaPaw className="inline mr-1" />
               Oops! Looks like this user was too busy to write a
               self-introduction. 🐾
             </span>
+            )}
+            </>
           )}
         </p>
 
@@ -85,11 +97,15 @@ export default function About() {
             {data?.data?.getUserByUsername.address || "Not provided"}
           </p>
         </div>
-        <button className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 self-center lg:self-start"
+        {localUsername === username && (
+          <>
+          <button className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 self-center lg:self-start"
         onClick={()=> setEditMode(true)}
         >
           Edit Info
         </button>
+          </>
+        )}
           
           </div >
           
