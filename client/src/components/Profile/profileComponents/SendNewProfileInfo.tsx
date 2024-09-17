@@ -64,7 +64,6 @@ export default function SendNewProfileInfo({
     };
     fetchData();
     console.log(dataToSend);
-    console.log(dataToSend)
   };
 
   const verifyData = (data: Record<string, any>) => {

@@ -66,6 +66,11 @@ export default function AboutForm() {
     console.log(form);
   };
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>)=> {
+        setForm({...form, country: e.target.value})
+        setErrorForm({...errorForm, country: e.target.value})
+  }
+
   const validateForm = () => {
     let errors: Partial<errorForm> = {};
     if (form.description.length > 500) {
@@ -112,6 +117,8 @@ export default function AboutForm() {
       <select
         name="country"
         id="country"
+        onChange={handleSelectChange}
+        value={form.country}
         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
       >
         <option value="">select a country</option>
