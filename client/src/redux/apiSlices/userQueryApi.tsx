@@ -60,7 +60,29 @@ export const userQueryApi = createApi({
         },
       }),
     }),
+    getUserByUsername: builder.mutation({
+      query: (username) => ({
+        url: "",
+        method: "POST",
+        credentials: "include",
+        body: {
+          query: `
+            query ($username: String!) {
+              getUserByUsername(username: $username) {
+                name
+                profile_photo
+                username
+                _id
+              }
+            }
+          `,
+          variables: {
+            username,
+          },
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetProfilePropertiesQuery,useGetAboutPropertiesQuery } = userQueryApi;
+export const { useGetProfilePropertiesQuery,useGetAboutPropertiesQuery, useGetUserByUsernameMutation } = userQueryApi;
