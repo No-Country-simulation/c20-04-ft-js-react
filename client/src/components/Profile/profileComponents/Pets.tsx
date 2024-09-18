@@ -1,13 +1,14 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import { useParams } from "next/navigation"
-
+import { useParams } from "next/navigation";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
 
 import AddPetForm from "./AddPetForm";
 
@@ -20,7 +21,7 @@ interface Pet {
   petName: string;
   petImage: string;
   petInfo: string;
-  species: string
+  species: string;
 }
 
 interface profileProps {
@@ -31,37 +32,42 @@ interface profileProps {
 export default function Pets({ dataUsername, localUsername }: profileProps) {
   const [showPetForm, setShowPetForm] = useState<boolean>(false);
 
-  const params = useParams()
+  const params = useParams();
   const username: string = params.userName as string;
-  
-  const {data, isLoading, error} = useGetPetsByUsernameQuery(username)
-  const petsInfo = data?.data?.getPetsByUsername
-  console.log(petsInfo)
 
-  // const onShowForm = ()=> {
-  //   setShowPetForm(true)
-  // }
+  const { data, isLoading, error, refetch } = useGetPetsByUsernameQuery(username);
+  const petsInfo = data?.data?.getPetsByUsername;
+  console.log(petsInfo);
+
+  const onRefetch = ()=> {
+    refetch()
+  }
 
   return (
     <div className="flex flex-wrap justify-center gap-[2rem]">
       {dataUsername === localUsername && petsInfo?.length > 0 ? (
         <>
-        {showPetForm ? (
-            <AddPetForm setShowPetForm={setShowPetForm}/>
-        ): (
-          <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
-            <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
-              Add new pet:
+          {showPetForm ? (
+            <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
+          ) : (
+            <div className="flex flex-col items-center gap-2 w-full p-4">
+            {/* Header text */}
+            <p className="font-extrabold text-[1.2rem] text-gray-800 lg:text-[1.6rem] text-center mb-4">
+              Add New Pet
             </p>
-            <IoIosAddCircleOutline
-              size={60}
-              className="cursor-pointer"
-              onClick={() => setShowPetForm(true)}
-            />
+          
+            {/* Add New Pet Button */}
+            <Tooltip title="Add a new pet" arrow>
+              <IconButton onClick={() => setShowPetForm(true)} className="hover:scale-110 transition-transform duration-300">
+                <IoIosAddCircleOutline
+                  size={60}
+                  className="text-purple-500 hover:text-purple-700 transition-colors duration-300 cursor-pointer"
+                />
+              </IconButton>
+            </Tooltip>
           </div>
-        )}
+          )}
         </>
-       
       ) : null}
 
       {petsInfo?.length > 0 ? (
@@ -70,10 +76,9 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="140"
                 image={pet.profile_photo}
                 alt={pet.name}
-                className="max-h-[220px]"
+                className="max-h-[220px] min-w-[345px]"
               />
               <CardContent className="relative">
                 <Typography gutterBottom variant="h5" component="div">
@@ -94,20 +99,25 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
         <>
           {showPetForm ? (
             <>
-              <AddPetForm setShowPetForm={setShowPetForm}/>
+              <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
             </>
           ) : (
             <>
               <div className="flex flex-col items-center justify-center">
-                <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">
-                  You haven't add any pets yet
+                {/* Main message */}
+                <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem] text-purple-600">
+                  You haven't added any pets yet
                 </p>
-                <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
-                  click here to add your first pet:
+
+                {/* Secondary message */}
+                <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem] text-gray-700">
+                  Click here to add your first pet:
                 </p>
+
+                {/* Add pet icon */}
                 <IoIosAddCircleOutline
                   size={60}
-                  className="cursor-pointer"
+                  className="cursor-pointer text-purple-500 hover:text-purple-700 transition-colors duration-300"
                   onClick={() => setShowPetForm(true)}
                 />
               </div>
@@ -115,8 +125,8 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
           )}
         </>
       ) : (
-        <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">
-          This user has not added any pets yet
+        <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem] text-purple-600">
+          It looks like this animal lover hasn't added any furry friends yet!
         </p>
       )}
     </div>
