@@ -17,7 +17,6 @@ export default function CreatePost() {
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Crea una URL temporal para la previsualización
       const objectUrl = URL.createObjectURL(file);
       setImageFile(file);
       setImagePreview(objectUrl);

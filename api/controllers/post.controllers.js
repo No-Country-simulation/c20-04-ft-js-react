@@ -58,3 +58,27 @@ export const upDatePost = async (req, res) => {
         res.status(500).json({ message: 'Error update post', error });
     }
 };
+export const likePost = async (req, res) => {
+    try {
+        const { idpost, url_img, ...restOfBody } = req.body;
+        const { token } = req.cookies
+        const userid = jwt.verify(token, TOKEN_KEY);
+        const postfind = Post.findById(idpost)
+        if (!postfind.likereport.includes(userid.payload.id)){
+            await Post.updateOne(
+                //like
+                { _id: idpost },
+                { $addToSet: { likereport: id } }
+            );
+        }else{
+            //no like
+            await Post.updateOne(
+                { _id: idpost },
+                { $pull: { likereport: id } }
+            );
+        }
+        res.status(200).json({ message: 'like/unlike successful' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error update post', error });
+    }
+};

@@ -1,9 +1,9 @@
-import Comment from "../models/comment.models.js"
+import Comment from "../models/comments.models.js"
 import jwt from 'jsonwebtoken';
 import User from "../models/user.models.js"
 import { TOKEN_KEY } from '../config.js';
 
-export const createPet = async (req, res) => {
+export const createCmt = async (req, res) => {
     try {
         const { token } = req.cookies
         const userid = jwt.verify(token, TOKEN_KEY);
