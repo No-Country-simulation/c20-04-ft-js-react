@@ -17,7 +17,8 @@ import { useUploadPetMutation } from "@/redux/apiSlices/petsApi";
 
 interface PetForm {
   petName: string;
-  petImage: string;
+  petImage: File | null;
+  previewUrl: string | null
   // petAge: string;
   petDescription: string;
   petType: string;
@@ -26,6 +27,7 @@ interface PetForm {
 interface PetFormErrors {
   petName: string;
   petImage: string;
+  previewUrl: string
   // petAge: string;
   petDescription: string;
   petType: string;
@@ -41,15 +43,18 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
 
   const [petForm, setPetForm] = useState<PetForm>({
     petName: "",
-    petImage: "",
+    petImage: null as File | null,
+    previewUrl: "",
     // petAge: "",
     petDescription: "",
     petType: "",
   });
+  
 
   const [errors, setErrors] = useState<PetFormErrors>({
     petName: "",
     petImage: "",
+    previewUrl: "",
     // petAge: "",
     petDescription: "",
     petType: "",
@@ -83,13 +88,9 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPetForm({ ...petForm, petImage: reader.result as string });
-        setErrors({ ...errors, petImage: "" });
-        console.log(petForm);
-      };
-      reader.readAsDataURL(file);
+      const previewUrl = URL.createObjectURL(file)
+      setPetForm({...petForm, petImage: file, previewUrl: previewUrl});
+      setErrors({...errors, petImage: '', previewUrl: ""})
     }
   };
 
@@ -119,24 +120,31 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
     return formErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors as PetFormErrors);
     } else {
       // Handle form submission (e.g., send data to backend)
-      uploadPet(petForm);
-      console.log(data)
-      // Reset form
-      setPetForm({
-        petName: "",
-        petImage: "",
-        // petAge: "",
-        petDescription: "",
-        petType: "",
-      });
+      const formData = new FormData();
+      formData.append('name', petForm.petName);
+      formData.append('description', petForm.petDescription);
+      formData.append('species', petForm.petType);
+  
+      if (petForm.petImage) {
+        formData.append('image', petForm.petImage); // Match the field name expected by Multer
+      }
+  
+      try {
+        const response = await uploadPet(formData).unwrap();
+        console.log(response);
+        setShowPetForm(false);
+      } catch (error) {
+        console.log('Error uploading pet:', error);
+      }
     }
+    
   };
 
   return (
@@ -161,7 +169,7 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
           <CardMedia
             component="img"
             height="140"
-            image={petForm.petImage || "https://via.placeholder.com/345x140"}
+            image={petForm.previewUrl || "https://via.placeholder.com/345x140"}
             alt="Pet Image"
             className="max-h-[220px] min-w-[345px] min-h-[220px]"
             style={{ cursor: "pointer" }}
