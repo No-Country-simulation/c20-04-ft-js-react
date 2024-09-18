@@ -9,7 +9,7 @@ import { useState } from 'react'
 import PawFillIcon from '@/icons/PawFill'
 import Image from 'next/image'
 
-export default function Post({ post }: { post: Post }) {
+export default function Post({ post, onClick, className, selected }: { post: Post, onClick?: () => void, className?: string, selected?: boolean }) {
   const [liked, setLiked] = useState(false)
 
   const toggleLike = () => {
@@ -17,7 +17,7 @@ export default function Post({ post }: { post: Post }) {
   }
 
   return (
-    <Card elevation={0} className='max-w-[450px] space-y-4 w-full px-4 py-4 rounded-lg border transition-colors border-neutral-300 dark:border-neutral-700'>
+    <Card onClick={onClick} elevation={0} className={`max-w-[450px] space-y-4 w-full p-4 rounded-lg border transition-colors border-neutral-300 dark:border-neutral-700 ${className} ${selected && "border-neutral-500 dark:border-neutral-400"}`}>
       <Box className='flex items-center'>
         <Avatar
           {...stringAvatar(post.user.name?.toUpperCase() || post.user.username?.toUpperCase())}
@@ -50,7 +50,7 @@ export default function Post({ post }: { post: Post }) {
             width={500}
             height={500}
             src={post.url_img}
-            alt={`image from post ${post.id}`}
+            alt={`image from post ${post._id}`}
           />
         )}
       </Box>
