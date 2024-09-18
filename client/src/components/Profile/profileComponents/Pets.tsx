@@ -7,6 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
+import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 
 import AddPetForm from "./AddPetForm";
@@ -52,16 +53,18 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
             <div className="flex flex-col items-center gap-2 w-full p-4">
             {/* Header text */}
             <p className="font-extrabold text-[1.2rem] text-gray-800 lg:text-[1.6rem] text-center mb-4">
-              Add New Pet 🐾
+              Add New Pet
             </p>
           
             {/* Add New Pet Button */}
+            <Tooltip title="Add a new pet" arrow>
               <IconButton onClick={() => setShowPetForm(true)} className="hover:scale-110 transition-transform duration-300">
                 <IoIosAddCircleOutline
                   size={60}
                   className="text-purple-500 hover:text-purple-700 transition-colors duration-300 cursor-pointer"
                 />
               </IconButton>
+            </Tooltip>
           </div>
           )}
         </>
