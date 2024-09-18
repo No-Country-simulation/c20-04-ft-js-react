@@ -22,10 +22,6 @@ const resolvers = {
 Comment:{
    ...commentResolves.Comment
  },
-Comment: {
-   ...userResolves.Comment
-},
-
 User: {
    ...userResolves.User
 },

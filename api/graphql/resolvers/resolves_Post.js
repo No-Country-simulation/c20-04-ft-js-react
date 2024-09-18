@@ -1,6 +1,6 @@
 import User from "../../models/user.models.js"
 import Post from "../../models/post.models.js";
-import Comment from "../../models/comments.models.js"
+import Comments from "../../models/comments.models.js"
 export const postRosolves = {
     Query: {
         async getPost(_, __,) {
@@ -74,7 +74,11 @@ export const postRosolves = {
             return await User.findById(id_user)
         },
         comment: async ({ _id }) =>{
-            return await Comment.find( _id )
+            const postId = _id.toString()
+            //console.log(postId);
+            const a = await Comments.find({id_post: postId })
+            console.log(a);
+            return await Comments.find({id_post:postId} )
         }
     }
 }

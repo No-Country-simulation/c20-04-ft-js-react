@@ -1,4 +1,4 @@
-import Comment from "../models/comments.models.js"
+import Comments from "../models/comments.models.js"
 import jwt from 'jsonwebtoken';
 import User from "../models/user.models.js"
 import { TOKEN_KEY } from '../config.js';
@@ -11,7 +11,7 @@ export const createCmt = async (req, res) => {
         if (!aut) {
             res.status(500).json({ message: 'not authenticated', error });
         }
-        const commentC = new Comment({
+        const commentC = new Comments({
             ...req.body,
             id_user: userid.payload.id
         })
@@ -33,7 +33,7 @@ export const upDateComment = async (req, res) => {
         const upcomment = {
             ...restOfBody
         };
-        const commentp = await Comment.findByIdAndUpdate(idcomment, upcomment, { new: true })
+        const commentp = await Comments.findByIdAndUpdate(idcomment, upcomment, { new: true })
         res.status(200).json(commentp)
     } catch (error) {
         res.status(500).json({ message: 'Error update post', error });
