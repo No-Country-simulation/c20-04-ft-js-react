@@ -59,6 +59,7 @@ type Pets{
 type Query {
     getMsg : Msg
     getUser : User
+    getComment(id_post: String):[Comment]
     getUserByUsername(username: String!) : User
     getUserSearch(username: String!) : [User]
     getPost : [Post]
