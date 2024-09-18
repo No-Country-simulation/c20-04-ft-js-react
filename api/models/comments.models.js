@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const commentShema = new mongoose.Schema({
+const commentsShema = new mongoose.Schema({
     id_user: {
         type: String,
         required:true
@@ -24,4 +24,4 @@ const commentShema = new mongoose.Schema({
 },
     { timestamps: true }
 )
-export default mongoose.model("Comment", commentShema)
+export default mongoose.model("Comments", commentsShema)
