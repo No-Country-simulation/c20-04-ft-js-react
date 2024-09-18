@@ -35,9 +35,10 @@ interface PetFormErrors {
 
 interface petFormProps {
   setShowPetForm: React.Dispatch<React.SetStateAction<boolean>>;
+  onRefetch: ()=> void
 }
 
-export default function AddPetForm({ setShowPetForm }: petFormProps) {
+export default function AddPetForm({ setShowPetForm, onRefetch }: petFormProps) {
   const [uploadPet, { data, isLoading, isError, error }] =
     useUploadPetMutation();
 
@@ -139,6 +140,7 @@ export default function AddPetForm({ setShowPetForm }: petFormProps) {
       try {
         const response = await uploadPet(formData).unwrap();
         console.log(response);
+        onRefetch()
         setShowPetForm(false);
       } catch (error) {
         console.log('Error uploading pet:', error);

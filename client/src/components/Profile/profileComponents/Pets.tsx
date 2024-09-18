@@ -33,20 +33,20 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
   const params = useParams();
   const username: string = params.userName as string;
 
-  const { data, isLoading, error } = useGetPetsByUsernameQuery(username);
+  const { data, isLoading, error, refetch } = useGetPetsByUsernameQuery(username);
   const petsInfo = data?.data?.getPetsByUsername;
   console.log(petsInfo);
 
-  // const onShowForm = ()=> {
-  //   setShowPetForm(true)
-  // }
+  const onRefetch = ()=> {
+    refetch()
+  }
 
   return (
     <div className="flex flex-wrap justify-center gap-[2rem]">
       {dataUsername === localUsername && petsInfo?.length > 0 ? (
         <>
           {showPetForm ? (
-            <AddPetForm setShowPetForm={setShowPetForm} />
+            <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
           ) : (
             <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
               <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
