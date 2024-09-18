@@ -1,7 +1,6 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import { useParams } from "next/navigation"
-
+import { useParams } from "next/navigation";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -20,7 +19,7 @@ interface Pet {
   petName: string;
   petImage: string;
   petInfo: string;
-  species: string
+  species: string;
 }
 
 interface profileProps {
@@ -31,37 +30,36 @@ interface profileProps {
 export default function Pets({ dataUsername, localUsername }: profileProps) {
   const [showPetForm, setShowPetForm] = useState<boolean>(false);
 
-  const params = useParams()
+  const params = useParams();
   const username: string = params.userName as string;
-  
-  const {data, isLoading, error} = useGetPetsByUsernameQuery(username)
-  const petsInfo = data?.data?.getPetsByUsername
-  console.log(petsInfo)
 
-  // const onShowForm = ()=> {
-  //   setShowPetForm(true)
-  // }
+  const { data, isLoading, error, refetch } = useGetPetsByUsernameQuery(username);
+  const petsInfo = data?.data?.getPetsByUsername;
+  console.log(petsInfo);
+
+  const onRefetch = ()=> {
+    refetch()
+  }
 
   return (
     <div className="flex flex-wrap justify-center gap-[2rem]">
       {dataUsername === localUsername && petsInfo?.length > 0 ? (
         <>
-        {showPetForm ? (
-            <AddPetForm setShowPetForm={setShowPetForm}/>
-        ): (
-          <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
-            <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
-              Add new pet:
-            </p>
-            <IoIosAddCircleOutline
-              size={60}
-              className="cursor-pointer"
-              onClick={() => setShowPetForm(true)}
-            />
-          </div>
-        )}
+          {showPetForm ? (
+            <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
+          ) : (
+            <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
+              <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
+                Add new pet:
+              </p>
+              <IoIosAddCircleOutline
+                size={60}
+                className="cursor-pointer"
+                onClick={() => setShowPetForm(true)}
+              />
+            </div>
+          )}
         </>
-       
       ) : null}
 
       {petsInfo?.length > 0 ? (
@@ -94,20 +92,25 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
         <>
           {showPetForm ? (
             <>
-              <AddPetForm setShowPetForm={setShowPetForm}/>
+              <AddPetForm setShowPetForm={setShowPetForm} />
             </>
           ) : (
             <>
               <div className="flex flex-col items-center justify-center">
-                <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">
-                  You haven't add any pets yet
+                {/* Main message */}
+                <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem] text-purple-600">
+                  You haven't added any pets yet
                 </p>
-                <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
-                  click here to add your first pet:
+
+                {/* Secondary message */}
+                <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem] text-gray-700">
+                  Click here to add your first pet:
                 </p>
+
+                {/* Add pet icon */}
                 <IoIosAddCircleOutline
                   size={60}
-                  className="cursor-pointer"
+                  className="cursor-pointer text-purple-500 hover:text-purple-700 transition-colors duration-300"
                   onClick={() => setShowPetForm(true)}
                 />
               </div>
@@ -115,8 +118,8 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
           )}
         </>
       ) : (
-        <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">
-          This user has not added any pets yet
+        <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem] text-purple-600">
+          It looks like this animal lover hasn't added any furry friends yet!
         </p>
       )}
     </div>
