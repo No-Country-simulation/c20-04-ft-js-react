@@ -1,5 +1,6 @@
 import User from "../../models/user.models.js"
-import Comment from "../../models/comments.models.js"
+import Comments from "../../models/comments.models.js"
+import Post from "../../models/post.models.js";
 
 export const commentResolves={
     Query:{
@@ -11,7 +12,12 @@ export const commentResolves={
             if (!CUser) {
                 throw new Error("Not authenticated");
             }
-            return Comment.find({id_user:user.payload})
+            return Comments.find({id_user:user.payload})
+        },
+        async getComment(_, {id_post}) {
+            console.log(id_post);
+            
+            return Comments.find({ id_post: id_post })
         }
     },
     Mutation:{
@@ -23,7 +29,7 @@ export const commentResolves={
             if (!CUser) {
                 throw new Error("Not authenticated");
             }
-            const co = new Comment({
+            const co = new Comments({
                 ...commentInput,
                 id_user:user.payload
             })
@@ -40,10 +46,10 @@ export const commentResolves={
             if (!CUser) {
                 throw new Error("Not authenticated");
             }
-            if (!Comment.findById(_id).id_user == {id_user:user.payload}) {
+            if (!Comments.findById(_id).id_user == {id_user:user.payload}) {
                 throw new Error("Not authenticated");
             }
-            const co = new Comment({
+            const co = new Comments({
                 ...commentInput,
                 id_user: {id_user:user.payload}
             })
@@ -54,10 +60,10 @@ export const commentResolves={
     },
     Comment: {
         user: async ({ id_user }) => {
-            return  await User.find(id_user)
+            return  await User.findById(id_user)
         },
-        post: async ({ id_user }) => {
-            return await Comment.find(id_user)
+        post: async ({ id_post }) => {
+            return await Post.findById(id_post)
         }
     }
 }
