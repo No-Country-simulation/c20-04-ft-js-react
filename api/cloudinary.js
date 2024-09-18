@@ -98,8 +98,8 @@ export async function uploadPetImage (image,id){
     const autoCropUrl = cloudinary.url(id, {
         crop: 'auto',
         gravity: 'auto',
-        width: 220,
-        height: 140,
+        width: 400,
+        height: 200,
     });
     
     console.log(autoCropUrl);

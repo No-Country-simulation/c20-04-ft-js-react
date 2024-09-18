@@ -1,6 +1,7 @@
 import User from '../models/user.models.js'
 import  jwt  from 'jsonwebtoken';
 import { TOKEN_KEY } from '../config.js';
+import fs from 'fs-extra';
 
 // cloudinary
 import {uploadPfpImage} from '../cloudinary.js'

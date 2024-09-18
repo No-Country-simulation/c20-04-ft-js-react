@@ -4,7 +4,6 @@
 # Ignora la carpeta node_modules
 /node_modules
 /uploads
-
 # Ignora todos los archivos de texto
 *.txt
 

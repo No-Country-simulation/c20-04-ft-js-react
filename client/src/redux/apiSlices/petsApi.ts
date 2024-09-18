@@ -29,10 +29,10 @@ export const petsApi = createApi({
       }),
     }),
     uploadPet: builder.mutation({
-      query: (pet) => ({
+      query: (formData) => ({
         url: "createPets",
         method: "POST",
-        body: pet,
+        body: formData,
       }),
     }),
   }),
