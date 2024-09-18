@@ -33,6 +33,7 @@ export default function Header() {
       color="inherit"
       elevation={0}
       sx={{
+        zIndex: 100,
         display: "flex",
         justifyContent: "center",
         border: `1px solid ${theme.palette.divider}`,
@@ -62,8 +63,7 @@ export default function Header() {
             </IconButton>
             <Avatar
               alt={user?.username.toUpperCase()}
-              /* Cambiar por user.name */
-              {...stringAvatar("luciano repetti".toUpperCase())}
+              {...stringAvatar(user?.name?.toUpperCase() || user?.username?.toUpperCase())}
               className="hidden md:flex"
             />
             <Box sx={{ flexDirection: "column" }} className="hidden md:flex">
@@ -81,8 +81,7 @@ export default function Header() {
                 component="div"
                 sx={{ fontSize: ".8em" }}
               >
-                {/* Cambiar por user.name */}
-                {"Luciano Repetti"}
+                {user?.name ? user?.name : ""}
               </Typography>
             </Box>
           </Box>

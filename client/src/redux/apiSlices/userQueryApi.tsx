@@ -11,11 +11,13 @@ export const userQueryApi = createApi({
       query: (username) => ({
         url: "",
         method: "POST",
+        credentials: "include",
         body: {
           query: `
             query ($username: String!) {
               getUserByUsername(username: $username) {
                 _id
+                description
                 followers
                 following
                 name
@@ -35,7 +37,30 @@ export const userQueryApi = createApi({
         },
       }),
     }),
+    getAboutProperties: builder.query({
+      query: (username) => ({
+        url: "",
+        method: "POST",
+        credentials: "include",
+        body: {
+          query: `
+            query ($username: String!) {
+              getUserByUsername(username: $username) {
+                tags
+                description
+                address
+                contact
+                createdAt
+              }
+            }
+          `,
+          variables: {
+            username,
+          },
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetProfilePropertiesQuery } = userQueryApi;
+export const { useGetProfilePropertiesQuery,useGetAboutPropertiesQuery } = userQueryApi;

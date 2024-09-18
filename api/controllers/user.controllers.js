@@ -1,6 +1,7 @@
 import User from '../models/user.models.js'
 import  jwt  from 'jsonwebtoken';
 import { TOKEN_KEY } from '../config.js';
+import fs from 'fs-extra';
 
 // cloudinary
 import {uploadPfpImage} from '../cloudinary.js'
@@ -42,12 +43,13 @@ export const prifileUpDate = async (req, res) => {
       const upuser = {
           ...restOfBody,
       };
-
-      if(profile_photo){
-        const uploadImage = await uploadPfpImage(profile_photo,userid.payload.id)
-        upuser.profile_photo = uploadImage          
-        }
-      
+      console.log("!");
+      if (req.tempFilePath) {
+          const uploadImage = await uploadPfpImage(req.tempFilePath, req.user._id);
+          upuser.url_img = uploadImage;
+          await fs.remove(req.tempFilePath);
+      }
+      console.log("userid");
         const userp = await User.findByIdAndUpdate(userid.payload.id, upuser, { new: true })
       console.log(Userfind)
       res.status(200).json(userp)

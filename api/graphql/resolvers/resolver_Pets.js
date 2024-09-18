@@ -16,16 +16,30 @@ export const petsResolves = {
             return Pets.find({ id_user: user.payload })
         },
         async getPetsByUsername(_, { username }) {
-            console.log(username)
-            const gUser = await User.findOne({ username })
-            const userId = gUser.id_user
-
+            console.log(username);
+        
+            // Find the user by username
+            const gUser = await User.findOne({ username });
+        
+            // Check if the user exists
             if (!gUser) {
-                throw new Error("Not authenticated");
+                throw new Error("User not found");
             }
-            const petsfind = await Pets.find({ id_user: userId.id })
-
-        },
+        
+            // Extract the user ID (ensure this matches the field in your database)
+            const userId = gUser._id
+        
+            // Check if userId exists
+            if (!userId) {
+                throw new Error("User ID not found");
+            }
+        
+            // Now, use the userId to find the pets associated with the user
+            const petsfind = await Pets.find({ id_user: userId });
+        
+            // Return the found pets
+            return petsfind;
+        }
     }, 
     Pets: {
         user: async ({ id_user }) => {

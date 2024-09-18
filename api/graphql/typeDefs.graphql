@@ -6,6 +6,7 @@ type idf{
 }
 type User {
     _id: String,
+    tags:[String],
     username: String,
     name : String,
     email: String,
@@ -58,10 +59,12 @@ type Pets{
 type Query {
     getMsg : Msg
     getUser : User
+    getComment(id_post: String):[Comment]
     getUserByUsername(username: String!) : User
     getUserSearch(username: String!) : [User]
     getPost : [Post]
     getMyPost : [Post]
+    getAllPostByUsername(username: String!): [Post]
     getMyComment : [Comment]
     getMyPets : [Pets]
     getPetsByUsername(username: String!): [Pets]

@@ -10,7 +10,8 @@ const petsShema = new mongoose.Schema({
         required: true
     },
     profile_photo: {
-        type: String
+        type: String,
+        default: ""
     },
     tag: {
         type: Array,

@@ -1,54 +1,120 @@
 import BirthdayIcon from "@/icons/Birthday";
 import ClockIcon from "@/icons/Clock";
 import HomeIcon from "@/icons/HomeIcon";
+import { FaPaw } from "react-icons/fa";
 
-// Datos para probar
-const features = [
-  {
-    name: 'Mis Mascotas',
-    features: ['3 Perros', '2 Gatos']
-  },
-  {
-    name: 'Experiencia',
-    features: ['Adiestramiento', 'Primeros auxilios', 'Nutricion']
-  },
-  {
-    name: 'Intereses',
-    features: ['Adopcion', 'Cuidado de mascotas', 'Fotografia de mascotas']
-  },
-  {
-    name: 'Servicios',
-    features: ['Paseo de perros', 'Cuidado temporal']
-  }
-]
+import { useState } from "react";
+import { TextField, Button } from "@mui/material";
+import { useGetAboutPropertiesQuery } from "@/redux/apiSlices/userQueryApi";
+import { useParams } from "next/navigation";
+import { useAppSelector } from "@/redux/hooks";
+
+import AboutForm from "./AboutForm";
 
 export default function About() {
-  return (
-    <section className="space-y-6">
-      <p>Amante de los animales 🐾 | Dueña orgullosa de 3 perros y 2 gatos 🐶🐱 | Voluntaria en refugio local 🏠</p>
-      <div className="flex gap-x-4 border-b border-neutral-500 pb-3">
-        <p className="flex items-end gap-x-2"><BirthdayIcon className="size-6" /> <span>21 de Mayo</span></p>
-        <p className="flex items-end gap-x-2"><HomeIcon className="size-6" /> <span>Madrid, España</span></p>
-        <p className="flex items-end gap-x-2"><ClockIcon className="size-6" /> <span>Miembro desde 2023</span></p>
-      </div>
-      <div className="grid grid-cols-2 gap-y-5 gap-x-10">
-        {features.map(f => <FeaturesAbout key={f.name} {...f} />)}
-      </div>
-    </section>
-  )
-}
+  const params = useParams();
+  const username: string = params.userName as string;
+  const localUsername = useAppSelector(
+    (state) => state.userReducer.user?.username
+  );
 
-// De momento este componente esta aqui y no en un archivo por que puede que no se implemente
-function FeaturesAbout({ name, features }: {
-  name: string
-  features: string[]
-}) {
+  //? redux
+  const { data, isError, isLoading, refetch } =
+    useGetAboutPropertiesQuery(username);
+  console.log(data);
+
+  const handleFormSubmitSuccess = () => {
+    // Refetch data after successful form submission
+    refetch();
+  };
+
+  //form
+  const [editMode, setEditMode] = useState(false);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading data</p>;
+
+  const newData = data?.data?.getUserByUsername;
+  const createdAt = Number(newData.createdAt);
+  const date = new Date(createdAt);
+
+  const formatedDate = isNaN(date.getTime())
+    ? "date not avalaible"
+    : new Intl.DateTimeFormat("en-EN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(date);
+
   return (
-    <div>
-      <h4 className="text-xl mb-3">{name}</h4>
-      <ul className="flex gap-3">
-        {features.map((f, i) => <li key={f} className="rounded-full py-1 px-2 text-xs bg-neutral-400/30">{f}</li>)}
-      </ul>
-    </div>
-  )
+    <article>
+      <>
+        {editMode ? (
+          <AboutForm
+            setEditMode={setEditMode}
+            description={data?.data?.getUserByUsername?.description}
+            address={data?.data?.getUserByUsername.address}
+            onSubmitSuccess={handleFormSubmitSuccess}
+          />
+        ) : (
+          <div className="flex flex-col gap-[.6rem] items-start">
+            {/* Title */}
+            <p className="text-2xl font-bold text-center text-purple-600 flex items-center">
+              <FaPaw className="mr-2 text-purple-500" />
+              Self Introduction
+            </p>
+
+            {/* Description or default funny message */}
+            <p className="text-lg text-gray-700">
+              {data?.data?.getUserByUsername?.description ? (
+                data?.data?.getUserByUsername?.description
+              ) : (
+                <>
+                  {localUsername === username ? (
+                    <span className="text-gray-500 italic">
+                      {" "}
+                      <FaPaw className="inline mr-1" />
+                      Please tell us a little bit about yourself 🐾
+                    </span>
+                  ) : (
+                    <span className="text-gray-500 italic">
+                      {" "}
+                      <FaPaw className="inline mr-1" />
+                      Oops! Looks like this user was too busy to write a
+                      self-introduction. 🐾
+                    </span>
+                  )}
+                </>
+              )}
+            </p>
+
+            {/* location and time joined*/}
+            <section className="flex items-center gap-2 mt-8 text-gray-600">
+              <ClockIcon className="text-purple-500" />
+              <p className="text-sm font-semibold">
+                Member since {formatedDate}
+              </p>
+            </section>
+
+            <div className="mt-2">
+              <p className="text-sm text-gray-700">
+                <span className="font-bold text-purple-500">Location:</span>{" "}
+                {data?.data?.getUserByUsername.address || "Not provided"}
+              </p>
+            </div>
+            {localUsername === username && (
+              <>
+                <button
+                  className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 self-center lg:self-start"
+                  onClick={() => setEditMode(true)}
+                >
+                  Edit Info
+                </button>
+              </>
+            )}
+          </div>
+        )}
+      </>
+    </article>
+  );
 }

@@ -1,7 +1,9 @@
 'use client'
 
 import Profile from "@/components/Profile/Profile";
+import About from "@/components/Profile/profileComponents/About";
 import { useParams } from "next/navigation"
+
 
 //redux 
 import { useGetUserByUsernameQuery } from "@/redux/apiSlices/userApi";
@@ -15,9 +17,13 @@ export default function UserProfile() {
   const {data, isError, isLoading} = useGetProfilePropertiesQuery(username)
   const newData = data?.data?.getUserByUsername
   console.log(newData)
+  console.log(username);
+  
   return (
     <>
-      <Profile dataUsername={newData?.username} 
+      <Profile 
+      usernameObject={newData}
+      dataUsername={newData?.username} 
       paramsUsername={username}
       name={newData?.name || "not specified"}
       profilePicture={newData?.profile_photo}

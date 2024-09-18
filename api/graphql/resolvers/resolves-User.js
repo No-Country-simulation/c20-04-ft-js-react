@@ -2,6 +2,7 @@ import User from "../../models/user.models.js"
 import Post from '../../models/post.models.js'
 import crip from "bcryptjs";
 import Pets from "../../models/pets.models.js"
+import Comments from "../../models/comments.models.js"
 
 import { createAccess } from "../../libs/jwt.js"
 
@@ -180,7 +181,7 @@ export const userResolves = {
         },
         comment: async ({ _id }) => {
             const userId = _id.toString()
-            return await Comment.find({ id_user: userId })
+            return await Comments.find({ id_user: userId })
         },
         pets: async ({ _id }) => {
             console.log(_id);

@@ -1,18 +1,27 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { useParams } from "next/navigation";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+
+import AddPetForm from "./AddPetForm";
 
 import { IoIosAddCircleOutline } from "react-icons/io";
+
+//? redux
+import { useGetPetsByUsernameQuery } from "@/redux/apiSlices/petsApi";
 
 interface Pet {
   petName: string;
   petImage: string;
   petInfo: string;
-  age: number;
+  species: string;
 }
 
 interface profileProps {
@@ -20,114 +29,104 @@ interface profileProps {
   localUsername?: string;
 }
 
-const petsInfo: Pet[] = [
-  {
-    petName: "Baggy",
-    petImage:
-      "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
-    petInfo: "This is my pet Baggy, a playful dog who loves to fetch.",
-    age: 14,
-  },
-  {
-    petName: "Whiskers",
-    petImage:
-      "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
-    petInfo: "Whiskers is a curious cat who loves to climb and explore.",
-    age: 11,
-  },
-  {
-    petName: "Goldie",
-    petImage:
-      "https://images.pexels.com/photos/128756/pexels-photo-128756.jpeg",
-    petInfo: "Goldie is a peaceful goldfish who loves to swim in circles.",
-    age: 9,
-  },
-  {
-    petName: "Shadow",
-    petImage:
-      "https://images.pexels.com/photos/458799/pexels-photo-458799.jpeg",
-    petInfo: "Shadow is a loyal dog who enjoys running and playing outdoors.",
-    age: 16,
-  },
-  {
-    petName: "Bella",
-    petImage:
-      "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg",
-    petInfo: "Bella is a friendly rabbit who loves to hop around the garden.",
-    age: 5,
-  },
-  {
-    petName: "Spike",
-    petImage:
-      "https://miro.medium.com/v2/resize:fit:1400/1*rIkmavUeqyRySwlQdA9kKg.jpeg",
-    petInfo: "Spike is a mischievous hedgehog who enjoys curling up in a ball.",
-    age: 2,
-  },
-  {
-    petName: "Fluffy",
-    petImage:
-      "https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg",
-    petInfo: "Fluffy is a gentle cat who loves to nap in the sun.",
-    age: 7,
-  },
-  {
-    petName: "Buddy",
-    petImage:
-      "https://prod-printler-front-as.azurewebsites.net/media/photo/176171-1.jpg?mode=crop&width=425&height=600&rnd=0.0.1",
-    petInfo: "Buddy is an energetic dog who enjoys long walks in the park.",
-    age: 1,
-  },
-];
-
 export default function Pets({ dataUsername, localUsername }: profileProps) {
+  const [showPetForm, setShowPetForm] = useState<boolean>(false);
+
+  const params = useParams();
+  const username: string = params.userName as string;
+
+  const { data, isLoading, error, refetch } = useGetPetsByUsernameQuery(username);
+  const petsInfo = data?.data?.getPetsByUsername;
+  console.log(petsInfo);
+
+  const onRefetch = ()=> {
+    refetch()
+  }
+
   return (
     <div className="flex flex-wrap justify-center gap-[2rem]">
-      
-      {dataUsername === localUsername && petsInfo.length > 0 ? (
-        <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
-        <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
-              Add new pet:
+      {dataUsername === localUsername && petsInfo?.length > 0 ? (
+        <>
+          {showPetForm ? (
+            <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
+          ) : (
+            <div className="flex flex-col items-center gap-2 w-full p-4">
+            {/* Header text */}
+            <p className="font-extrabold text-[1.2rem] text-gray-800 lg:text-[1.6rem] text-center mb-4">
+              Add New Pet
             </p>
-          <IoIosAddCircleOutline size={60} className="cursor-pointer" />
-        </div>
+          
+            {/* Add New Pet Button */}
+            <Tooltip title="Add a new pet" arrow>
+              <IconButton onClick={() => setShowPetForm(true)} className="hover:scale-110 transition-transform duration-300">
+                <IoIosAddCircleOutline
+                  size={60}
+                  className="text-purple-500 hover:text-purple-700 transition-colors duration-300 cursor-pointer"
+                />
+              </IconButton>
+            </Tooltip>
+          </div>
+          )}
+        </>
       ) : null}
-      
-      {petsInfo.length > 0 ? (
+
+      {petsInfo?.length > 0 ? (
         petsInfo.map((pet) => (
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={{ maxWidth: 345 }} key={crypto.randomUUID()}>
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="140"
-                image={pet.petImage}
-                alt={pet.petName}
-                className="max-h-[220px]"
+                image={pet.profile_photo}
+                alt={pet.name}
+                className="max-h-[220px] min-w-[345px]"
               />
-              <CardContent className="realative">
+              <CardContent className="relative">
                 <Typography gutterBottom variant="h5" component="div">
-                  {pet.petName}
+                  {pet.name}
                 </Typography>
-                <div className="mb-[1rem]">Age: {pet.age}</div>
+                <div className="mb-[1rem]">specie: {pet.species}</div>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {pet.petInfo}
+                </Typography>
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  {pet.description}
                 </Typography>
               </CardContent>
             </CardActionArea>
           </Card>
         ))
       ) : dataUsername === localUsername ? (
-        <div className="flex flex-col items-center justify-center">
-          <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">
-            You haven't add any pets yet
-          </p>
-          <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
-            click here to add your first pet:
-          </p>
-          <IoIosAddCircleOutline size={60} className="cursor-pointer" />
-        </div>
+        <>
+          {showPetForm ? (
+            <>
+              <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col items-center justify-center">
+                {/* Main message */}
+                <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem] text-purple-600">
+                  You haven't added any pets yet
+                </p>
+
+                {/* Secondary message */}
+                <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem] text-gray-700">
+                  Click here to add your first pet:
+                </p>
+
+                {/* Add pet icon */}
+                <IoIosAddCircleOutline
+                  size={60}
+                  className="cursor-pointer text-purple-500 hover:text-purple-700 transition-colors duration-300"
+                  onClick={() => setShowPetForm(true)}
+                />
+              </div>
+            </>
+          )}
+        </>
       ) : (
-        <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem]">
-          This user has not added any pets yet
+        <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem] text-purple-600">
+          It looks like this animal lover hasn't added any furry friends yet!
         </p>
       )}
     </div>

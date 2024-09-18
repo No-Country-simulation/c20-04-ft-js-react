@@ -4,7 +4,7 @@ const url = process.env.NEXT_PUBLIC_BACKEND_URL
 
 export const userApi = createApi({
     reducerPath: "userApi",
-    baseQuery: fetchBaseQuery({ baseUrl: url }),
+    baseQuery: fetchBaseQuery({ baseUrl: url, credentials: "include" }),
     endpoints: (builder) => ({
         
         getUserByUsername: builder.query({
@@ -16,8 +16,16 @@ export const userApi = createApi({
 
         updateProfileInfo: builder.mutation({
             query: (reqbody)=> ({
-                url: `/profileUpDate`,
-                method: "POST",
+                url: `profileUpDate`,
+                method: "PUT",
+                body: reqbody,
+            })
+        }),
+
+        updateAboutInfo: builder.mutation({
+            query: (reqbody)=> ({
+                url: `profileUpDate`,
+                method: "PUT",
                 body: reqbody,
             })
         })
@@ -25,4 +33,4 @@ export const userApi = createApi({
     }),
 });
 
-export const {useGetUserByUsernameQuery, useUpdateProfileInfoMutation} = userApi
+export const {useGetUserByUsernameQuery, useUpdateProfileInfoMutation, useUpdateAboutInfoMutation} = userApi
