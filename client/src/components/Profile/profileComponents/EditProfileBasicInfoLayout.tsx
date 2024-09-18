@@ -106,87 +106,96 @@ export default function EditProfileBasicInfoLayout({
 
 
   return (
-    <div className="flex w-full flex-col mt-[1rem] items-center self-center justify-self-center gap-4 lg:flex-row relative">
-      {/* Profile Picture Section */}
-      <div className="relative flex flex-col gap-4">
-        {/* Hidden input for profile picture upload */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => handleProfilePictureUpload(e.target.files)}
-          className="hidden"
-          id="profile-picture-upload"
+    <div className="flex w-full flex-col mt-[1rem] items-center justify-center gap-6 p-6 bg-[#f8f9fa] rounded-lg shadow-md">
+  {/* Profile Picture Section */}
+  <div className="relative flex flex-col gap-4 items-center">
+    {/* Hidden input for profile picture upload */}
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => handleProfilePictureUpload(e.target.files)}
+      className="hidden"
+      id="profile-picture-upload"
+    />
+
+    {/* Label that acts as visible button */}
+    <label
+      htmlFor="profile-picture-upload"
+      className="w-24 h-24 rounded-full border-4 border-[#8c52ff] cursor-pointer flex justify-center items-center relative bg-[#e2e5e9] hover:bg-[#8c52ff] transition-all duration-300"
+    >
+      {/* Display profile picture or default upload text */}
+      {localPfp ? (
+        <img
+          className="w-full h-full rounded-full object-cover"
+          src={localPfp}
+          alt="Profile Picture"
         />
+      ) : (
+        <span className="text-[#8c52ff] font-bold">Upload</span>
+      )}
 
-        {/* Label that acts as visible button */}
-        <label
-          htmlFor="profile-picture-upload"
-          className="w-20 h-20 rounded-full border-2 border-red-500 cursor-pointer flex justify-center items-center relative"
-        >
-          {/* Display profile picture or default upload text */}
-          {localPfp ? (
-            <img
-              className="w-full h-full rounded-full object-cover"
-              src={localPfp}
-              alt="Profile Picture"
-            />
-          ) : (
-            <span className="text-red-500">Upload</span>
-          )}
+      {/* Text overlay */}
+      <span className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-sm rounded-full text-center transition-opacity duration-300 opacity-0 hover:opacity-100">
+        Tap to change
+      </span>
+    </label>
+  </div>
 
-          {/* Text overlay */}
-          <span className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-sm rounded-full text-center">
-            Tap here to change PFP
-          </span>
-        </label>
-      </div>
-
-      {/* Form Section */}
-      <div className="flex flex-col gap-4 text-center lg:text-left lg:flex-row">
-        {/* Name Input */}
-        <div className="mb-4 text-center">
-          <label htmlFor="newName" className="text-xl font-extrabold">
-            Current Name: {name}
-          </label>
-          <input
-            type="text"
-            name="newName"
-            value={dataToUpdate.newName}
-            onChange={(e) =>
-              setDataToUpdate({ ...dataToUpdate, newName: e.target.value })
-            }
-            placeholder="Enter new name"
-            className="w-[90%] h-[60px] max-w-[320px] text-center font-extrabold text-lg border border-[#8c52ff] rounded lg:text-2xl lg:max-w-[220px]"
-          />
-          <p className="text-[red]">{errorForm.newName}</p>
-        </div>
-
-        {/* Username Input */}
-        <div className="mb-4 text-center">
-          <label htmlFor="newUsername" className="text-xl font-extrabold ">
-            Current Username: {username}
-          </label>
-          <input
-            type="text"
-            name="newUsername"
-            value={dataToUpdate.newUsername}
-            onChange={(e) =>
-              setDataToUpdate({ ...dataToUpdate, newUsername: e.target.value.trim() })
-            }
-            placeholder="Enter new username"
-            className="w-[90%] h-[60px] max-w-[320px] text-center font-extrabold text-lg border border-[#8c52ff] rounded lg:text-2xl lg:max-w-[220px]"
-          />
-          <p className="text-[red]">{errorForm.newUsername}</p>
-        </div>
-      </div>
-      <div className="flex justify-center gap-[1rem] w-[90%] mx-auto">
-        <button className='w-[100%] h-[2.4rem] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300  hover:bg-[#e2e5e9]'
-          onClick={onClose}
-        >X</button>
-        <SendNewProfileInfo editFlag={editFlag} setEditFlag={setEditFlag} dataToUpdate={dataToUpdate} isFormValid={isFormInvalid} />
-
-      </div>
-
+  {/* Form Section */}
+  <div className="flex flex-col gap-6 text-center lg:text-left lg:flex-row w-full justify-around items-center">
+    {/* Name Input */}
+    <div className="flex flex-col items-center">
+      <label htmlFor="newName" className="text-lg font-extrabold text-[#8c52ff] mb-2">
+        Your name: {name}
+      </label>
+      <input
+        type="text"
+        name="newName"
+        value={dataToUpdate.newName}
+        onChange={(e) =>
+          setDataToUpdate({ ...dataToUpdate, newName: e.target.value })
+        }
+        placeholder="Enter your new name"
+        className="w-[90%] h-[50px] max-w-[300px] text-center font-semibold text-lg border border-[#8c52ff] rounded-lg bg-white placeholder-gray-500 focus:ring-[#8c52ff] focus:border-[#8c52ff] lg:text-xl lg:max-w-[220px]"
+      />
+      <p className="text-red-500">{errorForm.newName}</p>
     </div>
+
+    {/* Username Input */}
+    <div className="flex flex-col items-center">
+      <label htmlFor="newUsername" className="text-lg text-center font-extrabold text-[#8c52ff] mb-2">
+        Username: {username}
+      </label>
+      <input
+        type="text"
+        name="newUsername"
+        value={dataToUpdate.newUsername}
+        onChange={(e) =>
+          setDataToUpdate({ ...dataToUpdate, newUsername: e.target.value.trim() })
+        }
+        placeholder="Enter your pet-friendly username"
+        className="w-[90%] h-[50px] max-w-[320px] text-center font-semibold text-lg border border-[#8c52ff] rounded-lg bg-white placeholder-gray-500 focus:ring-[#8c52ff] focus:border-[#8c52ff] lg:text-xl lg:max-w-[220px]"
+      />
+      <p className="text-red-500">{errorForm.newUsername}</p>
+    </div>
+  </div>
+
+  {/* Buttons Section */}
+  <div className="flex justify-center gap-[1rem] w-[90%] mx-auto mt-4 lg:max-w-[200px]">
+    <button className='w-[100%] h-[40px] rounded max-w-[6rem] justify-self-start lg:min-w-[100px] border border-gray-300 text-gray-700 hover:bg-[#e2e5e9] transition-all duration-200'
+      onClick={onClose}
+    >Cancel</button>
+    
+    <SendNewProfileInfo
+      editFlag={editFlag}
+      setEditFlag={setEditFlag}
+      dataToUpdate={dataToUpdate}
+      isFormValid={isFormInvalid}
+      className="w-[100%] h-[40px] bg-[#8c52ff] text-white rounded max-w-[6rem] justify-self-start lg:min-w-[100px] hover:bg-[#732fdb] transition-all duration-200"
+    >
+      Save
+    </SendNewProfileInfo>
+  </div>
+</div>
   );
 }
