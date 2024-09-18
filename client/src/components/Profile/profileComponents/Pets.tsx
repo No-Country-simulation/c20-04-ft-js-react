@@ -68,10 +68,9 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="140"
                 image={pet.profile_photo}
                 alt={pet.name}
-                className="max-h-[220px]"
+                className="max-h-[220px] min-w-[345px]"
               />
               <CardContent className="relative">
                 <Typography gutterBottom variant="h5" component="div">
@@ -92,7 +91,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
         <>
           {showPetForm ? (
             <>
-              <AddPetForm setShowPetForm={setShowPetForm} />
+              <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
             </>
           ) : (
             <>
