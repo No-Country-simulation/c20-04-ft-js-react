@@ -23,10 +23,14 @@ export default function SearchBarr({ movile }: { movile?: boolean }) {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (searchUser.trim()) {
-      // Trigger the mutation to search for the user
-      getUserByUsername(searchUser)
-      setOpenSuggestions(true)
+    if(searchUser !== ""){
+      if (searchUser.trim()) {
+        // Trigger the mutation to search for the user
+        getUserByUsername(searchUser.toLocaleLowerCase())
+        setOpenSuggestions(true)
+      }
+    } else {
+      window.alert("please write a username")
     }
   }
 
