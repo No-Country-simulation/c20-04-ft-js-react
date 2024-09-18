@@ -7,6 +7,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
 
 import AddPetForm from "./AddPetForm";
 
@@ -48,16 +50,22 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
           {showPetForm ? (
             <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
           ) : (
-            <div className="flex flex-col items-center gap-[.6rem] w-[100%]">
-              <p className="mb-[1rem] font-extrabold text-[1rem] lg:text-[1.4rem]">
-                Add new pet:
-              </p>
-              <IoIosAddCircleOutline
-                size={60}
-                className="cursor-pointer"
-                onClick={() => setShowPetForm(true)}
-              />
-            </div>
+            <div className="flex flex-col items-center gap-2 w-full p-4">
+            {/* Header text */}
+            <p className="font-extrabold text-[1.2rem] text-gray-800 lg:text-[1.6rem] text-center mb-4">
+              Add New Pet
+            </p>
+          
+            {/* Add New Pet Button */}
+            <Tooltip title="Add a new pet" arrow>
+              <IconButton onClick={() => setShowPetForm(true)} className="hover:scale-110 transition-transform duration-300">
+                <IoIosAddCircleOutline
+                  size={60}
+                  className="text-purple-500 hover:text-purple-700 transition-colors duration-300 cursor-pointer"
+                />
+              </IconButton>
+            </Tooltip>
+          </div>
           )}
         </>
       ) : null}
@@ -68,10 +76,9 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="140"
                 image={pet.profile_photo}
                 alt={pet.name}
-                className="max-h-[220px]"
+                className="max-h-[220px] min-w-[345px]"
               />
               <CardContent className="relative">
                 <Typography gutterBottom variant="h5" component="div">
@@ -92,7 +99,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
         <>
           {showPetForm ? (
             <>
-              <AddPetForm setShowPetForm={setShowPetForm} />
+              <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
             </>
           ) : (
             <>
