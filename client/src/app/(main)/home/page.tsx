@@ -52,6 +52,7 @@ export default function Home() {
       <Box gap={4} sx={{
         display: 'flex',
         flexDirection: 'column',
+        width: isMediumScreen ? '100%' : '50%',
       }}>
         {user && <CreatePost addNewPost={addNewPost} />}
         <ul className='space-y-5 transition-colors'>
