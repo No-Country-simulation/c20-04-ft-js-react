@@ -39,7 +39,7 @@ export default function Post({ post, onClick, className, selected }: { post: Pos
         <Typography
           color='text.primary'
           sx={{ wordBreak: 'break-word' }}
-          className='px-4 sm:px-0'
+          className='px-0'
         >
           {post.text}
         </Typography>
@@ -55,7 +55,7 @@ export default function Post({ post, onClick, className, selected }: { post: Pos
         )}
       </Box>
 
-      <Box className='flex justify-between gap-x-4 items-center md:max-w-lg px-4 sm:px-0'>
+      <Box className='flex justify-between gap-x-4 items-center md:max-w-lg px-0'>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton
             size='small'
