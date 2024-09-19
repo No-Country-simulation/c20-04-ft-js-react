@@ -1,6 +1,7 @@
 "use client"
 
-import Header from '@/components/Header/Header'
+import Header from '@/components/header/Header'
+import MovileSearch from '@/components/shared/MovileSearch'
 import SideNavBar from '@/components/shared/SideNavBar'
 import { useRefreshTokenMutation } from '@/redux/apiSlices/authApi';
 import { useEffect, useState } from 'react';
@@ -36,34 +37,15 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   }, [refreshToken]);
 
   return (
-    <main className="min-h-dvh max-w-screen-xl mx-auto relative">
-      {loading ? (
-        // Mostrar CircularProgress mientras isLoading sea true
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          position="fixed"
-          top="0"
-          left="0"
-          width="100%"
-          height="100%"
-          bgcolor="background.paper" // Fondo blanco para el contenedor de carga
-          zIndex="tooltip"
-        >
-          <CircularProgress />
-        </Box>
-      ) : (
-        <>
-          <Header />
-          <div className="md:flex md:flex-row relative">
-            <SideNavBar />
-            <div className="flex-1 pb-[85.05px] sm:pb-[85.05px] sm:p-5 border-r transition-colors border-neutral-300 dark:border-neutral-700">
-              {children}
-            </div>
-          </div>
-        </>
-      )}
-    </main>
-  );
+    <main className='min-h-dvh max-w-screen-xl mx-auto'>
+      <Header />
+      <div className='md:flex md:flex-row relative'>
+        <SideNavBar />
+        <div className='flex-1 pb-[85.05px] sm:pb-[85.05px] sm:p-5 border-r transition-colors border-neutral-300 dark:border-neutral-700'>
+          {children}
+        </div>
+      </div>
+      <MovileSearch />
+    </main >
+  )
 }

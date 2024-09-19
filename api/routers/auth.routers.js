@@ -15,7 +15,7 @@ rou.get("/profile", validToken, profile)
 rou.put('/users/:username', getUserByUsername)
 
 rou.get('/users/:username', getUserByUsername)
-rou.put("/profileUpDate", validToken, uploadMiddleware, handleImageUpload,prifileUpDate)
+rou.put("/profileUpDate", validToken, uploadMiddleware, handleImageUpload, prifileUpDate)
 rou.post("/follow", validToken, followCntrol)
 
 rou.post("/createPost", validToken, uploadMiddleware, handleImageUpload,createPost)

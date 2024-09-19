@@ -13,13 +13,19 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useTheme } from "@mui/material/styles";
 import PawPalIcon from "@/icons/PawPal";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import SearchIcon from "@/icons/Search";
 import { stringAvatar } from "@/utils/avatar";
+import { toggleSearch } from "@/redux/slices/searchSlice";
 
 export default function Header() {
   const theme = useTheme();
   const user = useAppSelector(state => state.userReducer.user)
+  const dispatch = useAppDispatch()
+
+  const openSerach = () => {
+    dispatch(toggleSearch())
+  }
 
   return (
     <AppBar
@@ -33,8 +39,9 @@ export default function Header() {
         border: `1px solid ${theme.palette.divider}`,
         borderTop: "none",
       }}
+      className='z-40'
     >
-      <Toolbar className="justify-between py-3 px-5">
+      <Toolbar className="justify-between py-3 px-4 md:px-5">
         <Box className='flex items-center gap-x-3'>
           <PawPalIcon className="size-10 md:size-auto" />
           <Typography
@@ -49,9 +56,9 @@ export default function Header() {
         {user && user.username ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton color="inherit" sx={{ mr: 1 }}>
-              <NotificationsIcon />
+              <NotificationsIcon className='size-8' />
             </IconButton>
-            <IconButton color="inherit" className='md:hidden'>
+            <IconButton color="inherit" className='md:hidden' onClick={openSerach}>
               <SearchIcon />
             </IconButton>
             <Avatar

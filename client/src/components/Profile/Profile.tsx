@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 import ProfileSettingsBtn from "./profileComponents/ProfileSettingsBtn";
 import SendNewProfileInfo from "./profileComponents/SendNewProfileInfo";
 import ShowFollowersBtn from "./profileComponents/ShowFollowersBtn";
@@ -19,7 +21,7 @@ import { IoPawOutline } from "react-icons/io5";
 import { CiCircleQuestion } from "react-icons/ci";
 import { useState } from "react";
 
-//reduc
+//?redux
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Box } from "@mui/material";
@@ -47,6 +49,12 @@ export default function Profile({
   const localUsername = useSelector(
     (state: RootState) => state.userReducer.user?.username
   );
+  const localPicture = useSelector(
+    (state: RootState) => state.userReducer.user?.profile_photo
+  );
+  const localName = useSelector(
+    (state: RootState) => state.userReducer.user?.name
+  );
 
   const [selectedComponent, setSelectedComponent] = useState<string>("posts");
   const [editFlag, setEditFlag] = useState<boolean>(false);
@@ -70,6 +78,8 @@ export default function Profile({
     }
   };
 
+ 
+
   return (
     <div className=" relative max-w-full flex-grow w-9/10 mx-auto md:w-full md:mx-0 md:max-w-[none]">
       {/* segunda parte del perfil */}
@@ -84,24 +94,58 @@ export default function Profile({
       ) : (
         <div className="flex justify-center sm:justify-between flex-wrap my-6 gap-4 pl-2 md:pl-[50px]">
           <div className="flex gap-4">
-            <figure className="w-16 h-16 md:w-20 md:h-20 rounded-full">
-              {profilePicture ? <Image
-                className="w-full h-full rounded-full object-cover"
-                src={profilePicture}
-                alt=""
-                width={100}
-                height={100}
-
-              /> : <Avatar {...stringAvatar(name?.toUpperCase() || localUsername?.toUpperCase())} className='w-full h-full text-3xl' />}
-            </figure>
+          <figure className="w-16 h-16 md:w-20 md:h-20 rounded-full">
+  {localUsername === dataUsername ? (
+    profilePicture ? (
+      <Image
+        className="w-full h-full rounded-full object-cover"
+        src={localPicture}
+        alt=""
+        width={100}
+        height={100}
+      />
+    ) : (
+      <Avatar
+        {...stringAvatar(localUsername?.toUpperCase() || localUsername?.toUpperCase())}
+        className="w-full h-full text-3xl"
+      />
+    )
+  ) : (
+    profilePicture ? (
+      <Image
+        className="w-full h-full rounded-full object-cover"
+        src={profilePicture}
+        alt=""
+        width={100}
+        height={100}
+      />
+    ) : (
+      <Avatar
+        {...stringAvatar(name?.toUpperCase() || localUsername?.toUpperCase())}
+        className="w-full h-full text-3xl"
+      />
+    )
+  )}
+</figure>
+           {localUsername === dataUsername ? (
+             <div className="flex flex-col gap-[.2rem]">
+             <p className="mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:mt-0">
+               {localName}
+             </p>
+             <p className="lg:w-[6.4rem] lg:h-[3rem]">
+               @{localUsername}
+             </p>
+           </div>
+           ) : (
             <div className="flex flex-col gap-[.2rem]">
-              <p className="mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:mt-0">
-                {name}
-              </p>
-              <p className="lg:w-[6.4rem] lg:h-[3rem]">
-                @{dataUsername}
-              </p>
-            </div>
+            <p className="mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:mt-0">
+              {name}
+            </p>
+            <p className="lg:w-[6.4rem] lg:h-[3rem]">
+              @{dataUsername}
+            </p>
+          </div>
+           )}
           </div>
           <div className="flex flex-col lg:w-1/2 items-center gap-4">
             <div className="flex">
