@@ -33,23 +33,23 @@ export const getUserByUsername = async (req, res) => {
     }
 };
 export const prifileUpDate = async (req, res) => {
-  try {
+    console.log(req.body)
+    try {
+      console.log("hola")
       const { token } = req.cookies
       const userid = jwt.verify(token, TOKEN_KEY);
-      console.log(userid);
       const Userfind = await User.findById(userid.payload.id)
+
       const { password, profile_photo,...restOfBody } = req.body;
       
       const upuser = {
           ...restOfBody,
-      };
-      console.log("!");
-      if (req.tempFilePath) {
-          const uploadImage = await uploadPfpImage(req.tempFilePath, req.user._id);
-          upuser.url_img = uploadImage;
-          await fs.remove(req.tempFilePath);
+        };
+        if (req.tempFilePath) {
+            const uploadImage = await uploadPfpImage(req.tempFilePath, req.user._id);
+            upuser.profile_photo = uploadImage;
+            await fs.remove(req.tempFilePath);
       }
-      console.log("userid");
         const userp = await User.findByIdAndUpdate(userid.payload.id, upuser, { new: true })
       console.log(Userfind)
       res.status(200).json(userp)

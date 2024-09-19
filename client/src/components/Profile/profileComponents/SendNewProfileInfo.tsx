@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useUpdateProfileInfoMutation } from "@/redux/apiSlices/userApi";
 
 interface updateData {
-  newPfp?: string;
+  newPfp?: File | null;
   newUsername: string;
   newName: string;
+  previewUrl: string
 }
 
 interface sendButtonProps {
@@ -41,30 +42,45 @@ export default function SendNewProfileInfo({
   }, [isError])
 
 
-  const handleConfirm = ({
+  const handleConfirm = async ({
     newUsername: username,
     newName: name,
     newPfp: profile_photo,
   }: updateData) => {
     const dataToSend = verifyData({ username, name, profile_photo });
-
+  
+    console.log('Data to send:', dataToSend); // Debugging
+  
     if (Object.keys(dataToSend).length === 0) {
       return setEditFlag(false);
     }
-
+  
     const fetchData = async () => {
+      const formData = new FormData();
+      
+      if(dataToSend.username){
+        formData.append('username', username)
+      }
+
+      if(dataToSend.name){
+        formData.append('name', name)
+      }
+  
+      if (profile_photo) {
+        formData.append('image', profile_photo);
+      }
+  
       try {
-        const result = await updateProfileInfo(dataToSend).unwrap();
-        console.log(result);
-        setEditFlag(false);
+        const response = await updateProfileInfo(formData).unwrap();
+        console.log(response);
       } catch (error) {
-        console.log(error);
-        // setEditFlag(false)
+        console.log('Error uploading the picture:', error);
       }
     };
+  
     fetchData();
-    console.log(dataToSend);
   };
+  
 
   const verifyData = (data: Record<string, any>) => {
     const filteredData = Object.fromEntries(

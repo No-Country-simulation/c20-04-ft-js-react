@@ -15,12 +15,17 @@ export const userApi = createApi({
         }),
 
         updateProfileInfo: builder.mutation({
-            query: (reqbody)=> ({
+            query: (formData) => {
+              // Log the formData for debugging
+              console.log("FormData being sent:", formData);
+          
+              return {
                 url: `profileUpDate`,
                 method: "PUT",
-                body: reqbody,
-            })
-        }),
+                body: formData, // Send the formData as the body
+              };
+            },
+          }),
 
         updateAboutInfo: builder.mutation({
             query: (reqbody)=> ({

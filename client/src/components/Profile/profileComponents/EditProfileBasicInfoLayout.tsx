@@ -68,7 +68,7 @@ export default function EditProfileBasicInfoLayout({
 
 
   const validateForm = () => {
-    if (dataToUpdate.newName !== "" && (dataToUpdate.newName.length < 3 || dataToUpdate.newName.length > 20)) {
+    if (dataToUpdate.newName !== "" && (dataToUpdate.newName.trim().length < 3 || dataToUpdate.newName.length > 20)) {
       setErrorForm({
         ...errorForm,
         newName: "Name should contain at least 3 characters and a maximum of 20"
