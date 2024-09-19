@@ -56,13 +56,11 @@ export default function EditProfileBasicInfoLayout({
     const file = e.target.files?.[0]
     if(file){
       const previewUrl = URL.createObjectURL(file)
-      setDataToUpdate({...dataToUpdate, newPfp: file,})
-      dispatch(setPreviewProfilePicture(previewUrl))
+      setDataToUpdate({...dataToUpdate, newPfp: file, previewUrl: previewUrl})
     }
   };
 
   const onClose = () => {
-    dispatch(setPreviewProfilePicture(prevPicture))
     setEditFlag(false)
   }
 
@@ -117,10 +115,10 @@ export default function EditProfileBasicInfoLayout({
       className="w-24 h-24 rounded-full border-4 border-[#8c52ff] cursor-pointer flex justify-center items-center relative bg-[#e2e5e9] hover:bg-[#8c52ff] transition-all duration-300"
     >
       {/* Display profile picture or default upload text */}
-      {localPfp ? (
+      {dataToUpdate.previewUrl || localPfp ? (
         <img
           className="w-full h-full rounded-full object-cover"
-          src={localPfp}
+          src={dataToUpdate.previewUrl || localPfp}
           alt="Profile Picture"
         />
       ) : (
