@@ -9,6 +9,7 @@ import { Avatar, IconButton } from '@mui/material'
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
 import { useGetUserByUsernameMutation } from '@/redux/apiSlices/userQueryApi'
+import SearchIcon from '@mui/icons-material/Search'; // Import the Search Icon
 
 export default function SearchBarr({ movile }: { movile?: boolean }) {
   const [openSuggestions, setOpenSuggestions] = useState(false)
@@ -23,7 +24,7 @@ export default function SearchBarr({ movile }: { movile?: boolean }) {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if(searchUser !== ""){
+    if (searchUser !== "") {
       if (searchUser.trim()) {
         // Trigger the mutation to search for the user
         getUserByUsername(searchUser.toLocaleLowerCase())
@@ -38,22 +39,22 @@ export default function SearchBarr({ movile }: { movile?: boolean }) {
     dispatch(toggleSearch())
   }
 
-  useEffect(()=> {
-    if(data?.errors){
+  useEffect(() => {
+    if (data?.errors) {
       setErrorSearch('user could not be found')
 
-    setTimeout(()=> {
-      setErrorSearch('')
-    },3000)
+      setTimeout(() => {
+        setErrorSearch('')
+      }, 3000)
     }
-  },[data?.errors])
+  }, [data?.errors])
 
   return (
     <form
       onSubmit={handleSubmit}
       className={movile ? 'max-h-dvh flex flex-col' : 'relative h-[42px] hidden md:block'}
     >
-      <div className={movile ? 'flex items-center justify-between gap-x-4 px-5 py-4' : 'flex'}>
+      <div className={movile ? 'flex items-center justify-between gap-x-4 px-5 py-4' : 'flex relative'}>
         <input
           onBlur={() => setOpenSuggestions(false)}
           onFocus={() => setOpenSuggestions(true)}
@@ -65,15 +66,20 @@ export default function SearchBarr({ movile }: { movile?: boolean }) {
           placeholder='Search by username'
           value={searchUser}
           onChange={(e) => setSearchUser(e.target.value)}
+          style={{ paddingRight: '40px' }} // Add space for the icon
         />
 
-        {/* Search Button */}
+        {/* Search Icon inside the Input */}
         {!movile && (
           <button
             type="submit"
-            className="ml-2 bg-[#8C52FF] text-white px-4 py-2 rounded-full hover:bg-blue-600"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2"
           >
-            Search
+            {isLoading ? (
+              <CircularProgress size={20} style={{ color: '#8C52FF' }} />
+            ) : (
+              <SearchIcon style={{ color: '#8C52FF' }} />
+            )}
           </button>
         )}
 
@@ -90,14 +96,14 @@ export default function SearchBarr({ movile }: { movile?: boolean }) {
             movile
               ? 'overflow-y-scroll flex-1 max-h-full'
               : 'bg-neutral-200 dark:bg-neutral-800 rounded-b-lg max-h-[360px] overflow-auto ' +
-                'border-x border-b border-neutral-300 dark:border-neutral-700 max-w-[249px]'
+              'border-x border-b border-neutral-300 dark:border-neutral-700 w-full absolute z-10'
           }
         >
           {/* Loading State */}
-          {isLoading 
-          && <div className='flex justify-center m-[.6rem]'>
-            <CircularProgress size={40} style={{ color: '#8C52FF',  }} />
-          </div> 
+          {isLoading
+            && <div className='flex justify-center m-[.6rem]'>
+              <CircularProgress size={40} style={{ color: '#8C52FF', }} />
+            </div>
           }
 
           {/* Error State */}
