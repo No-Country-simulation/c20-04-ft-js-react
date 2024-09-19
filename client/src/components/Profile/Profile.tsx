@@ -130,7 +130,7 @@ export default function Profile({
             {localUsername === dataUsername ? (
               <div className="flex flex-col gap-[.2rem]">
                 <p className="mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:mt-0">
-                  {localName}
+                  {localName || 'Enter your name'}
                 </p>
                 <p className="lg:w-[6.4rem] lg:h-[3rem]">
                   @{localUsername}
@@ -139,7 +139,7 @@ export default function Profile({
             ) : (
               <div className="flex flex-col gap-[.2rem]">
                 <p className="mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:mt-0">
-                  {name}
+                  {name || 'not specified'}
                 </p>
                 <p className="lg:w-[6.4rem] lg:h-[3rem]">
                   @{dataUsername}
