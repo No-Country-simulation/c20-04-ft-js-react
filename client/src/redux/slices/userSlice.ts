@@ -20,9 +20,16 @@ const userSlice = createSlice({
       if(state.user){
         state.user.profile_photo = action.payload;
       }
+    },
+    setAnyUserProp: (state: UserState, action: { payload: { propToChange: keyof User, value: any } }) => {
+      const { propToChange, value } = action.payload;
+    
+      if (state.user) {
+        state.user[propToChange] = value;
+      }
     }
   },
 });
 
-export const { setUser, setPreviewProfilePicture } = userSlice.actions;
+export const { setUser, setPreviewProfilePicture, setAnyUserProp } = userSlice.actions;
 export default userSlice.reducer;

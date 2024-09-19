@@ -51,12 +51,10 @@ export default function SideNavBar() {
 
   return (
     <Paper component='section' elevation={0} sx={{ borderRadius: '0' }}
-      className='sidenavbar z-30 md:sticky md:top-[85.1px] border-neutral-300 dark:border-neutral-700 px-0 md:px-5 py-2 md:py-10 
-      border-t md:border-t-0 md:border-x order-last md:order-none fixed bottom-0 md:bottom-auto w-full md:w-auto'
+      className='sidenavbar z-50 md:sticky md:top-[85.1px] border-neutral-300 dark:border-neutral-700 px-4 md:px-5 py-3 md:py-10 
+      border-t md:space-y-10 md:border-t-0 md:border-x order-last md:order-none fixed bottom-0 md:bottom-auto w-full md:w-auto'
     >
-      <div className='hidden md:block'>
-        <SearchBarr />
-      </div>
+      <SearchBarr />
 
       <nav className='flex justify-between md:flex-col md:gap-5'>
         <NavLink
@@ -110,9 +108,9 @@ export default function SideNavBar() {
           className='flex text-neutral-400 dark:text-neutral-500 gap-x-4 py-2 px-4 items-center font-semibold rounded-md md:rounded-full md:border border-transparent transition md:hover:text-black md:dark:hover:text-white md:hover:border-neutral-300 md:dark:hover:border-neutral-700 md:flex'
         >
           <LogOutIcon />
-          Log out
+          <span className='hidden md:inline'>Log out</span>
         </button>}
-        {user && <Link href={`/profile/${user.username}`} className='flex items-center py-2 px-4 md:hidden'>
+        {user && <Link href={`/profile/${user.username}`} className='md:hidden'>
           <Avatar {...stringAvatar('User Name')} className='size-8 text-sm font-semibold' />
         </Link>}
       </nav>

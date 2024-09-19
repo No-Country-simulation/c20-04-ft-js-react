@@ -23,8 +23,14 @@ export const getPostQueryApi = createApi({
                 createdAt
                 comment {
                   text
+                  user {
+                    name
+                    username
+                    profile_photo
+                  }
                 }
                 user {
+                  _id
                   name
                   username
                   profile_photo
@@ -51,8 +57,14 @@ export const getPostQueryApi = createApi({
                 createdAt
                 comment {
                   text
+                  user {
+                    name
+                    username
+                    profile_photo
+                  }
                 }
                 user {
+                  _id
                   name
                   username
                   profile_photo

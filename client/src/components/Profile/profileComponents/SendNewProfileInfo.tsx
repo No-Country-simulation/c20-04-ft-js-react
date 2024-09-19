@@ -2,11 +2,21 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useUpdateProfileInfoMutation } from "@/redux/apiSlices/userApi";
+import { setAnyUserProp } from "@/redux/slices/userSlice";
+import { AppDispatch } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { useLogoutMutation } from '@/redux/apiSlices/authApi'
+import { useAppSelector } from "@/redux/hooks";
+import { usePathname, useRouter } from 'next/navigation'
+import { setUser } from "@/redux/slices/userSlice";
+
+
 
 interface updateData {
-  newPfp?: string;
+  newPfp?: File | null;
   newUsername: string;
   newName: string;
+  previewUrl: string
 }
 
 interface sendButtonProps {
@@ -23,6 +33,10 @@ export default function SendNewProfileInfo({
   dataToUpdate,
   isFormValid,
 }: sendButtonProps) {
+  const router = useRouter()
+  const [logout] = useLogoutMutation()
+  const dispatch = useDispatch()
+  const localUsername = useAppSelector(state=> state.userReducer?.user?.username)
   const [updateProfileInfo, { isLoading, error, isError, isSuccess }] = useUpdateProfileInfoMutation();
   const [showError, setShowError] = useState<boolean>(false)
 
@@ -41,30 +55,74 @@ export default function SendNewProfileInfo({
   }, [isError])
 
 
-  const handleConfirm = ({
+  const handleConfirm = async ({
     newUsername: username,
     newName: name,
     newPfp: profile_photo,
   }: updateData) => {
     const dataToSend = verifyData({ username, name, profile_photo });
-
+  
+    console.log('Data to send:', dataToSend); // Debugging
+  
     if (Object.keys(dataToSend).length === 0) {
       return setEditFlag(false);
     }
-
+  
     const fetchData = async () => {
+      const formData = new FormData();
+      
+      if(dataToSend.username){
+        formData.append('username', username)
+      }
+
+      if(dataToSend.name){
+        formData.append('name', name)
+      }
+  
+      if (profile_photo) {
+        formData.append('image', profile_photo);
+      }
+  
       try {
-        const result = await updateProfileInfo(dataToSend).unwrap();
-        console.log(result);
-        setEditFlag(false);
+        const response = await updateProfileInfo(formData).unwrap();
+        console.log(response);
+        const {username, profile_photo, name} = response
+        // in the futere, backend should send only the changed prop
+        // dispatch(setAnyUserProp({propToChange: 'username', value: username}))
+        dispatch(setAnyUserProp({propToChange: 'profile_photo', value: profile_photo}))
+        dispatch(setAnyUserProp({propToChange: 'name', value: name}))
+
+        if(username !== localUsername){
+          handleLogout()
+        }
+
+        //and here we should change whatever the prop we got
+        setEditFlag(false)
       } catch (error) {
-        console.log(error);
-        // setEditFlag(false)
+        console.log('Error uploading the picture:', error);
       }
     };
+  
     fetchData();
-    console.log(dataToSend);
   };
+
+  const handleLogout = () => {
+    const attemptRefreshToken = async () => {
+      try {
+        const response = await logout({}).unwrap();
+        if (response.code == 200) {
+          router.push('/login')
+          dispatch(setUser(response.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    attemptRefreshToken();
+  }
+  
+  
 
   const verifyData = (data: Record<string, any>) => {
     const filteredData = Object.fromEntries(

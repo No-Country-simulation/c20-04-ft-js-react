@@ -1,87 +1,27 @@
 'use client'
 
 import { RootState } from '@/redux/store'
-import { Box } from '@mui/material'
+import { Box, IconButton, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { Post as PostType } from '@/types'
 import Post from '@/components/Posts/Post'
 import CreatePost from '@/components/Posts/CreatePost'
 import { useGetAllPostQuery } from '@/redux/apiSlices/postApi'
-
-// tuve que pasar a use client para que funcione el useTheme y al ser un hook de mui no se puede importar
-//import type { Metadata } from "next";
-// export const metadata: Metadata = {
-//   title: "Home",
-// };
-
-const author = {
-  username: 'username',
-  name: 'Nombre de Usuario'
-}
-
-const postsData = [
-  {
-    id: '1sd.we-23',
-    author: {
-      name: 'Dante Dantesco Lopez',
-      username: 'lopexDantez',
-      avatar: 'https://cdn.discordapp.com/avatars/935707268090056734/d1cf86141f8e36e274b445375c7f0e82.webp?size=2048'
-    },
-    createdAt: '2024-04-06T19:08:25.649Z',
-    content: 'Los quiero admiradores..',
-    likes: 2203,
-    comments: 12043
-  },
-  {
-    id: '1sd.we-22',
-    author: {
-      name: 'Dante Dantesco Lopez',
-      username: 'lopexDantez',
-      avatar: 'https://cdn.discordapp.com/avatars/935707268090056734/d1cf86141f8e36e274b445375c7f0e82.webp?size=2048'
-    },
-    createdAt: '2024-04-06T19:08:25.649Z',
-    content: 'Los quiero admiradores..',
-    likes: 2203,
-    comments: 12043
-  },
-  {
-    id: '1123-23p-23',
-    author,
-    createdAt: '2024-09-01T19:09:25.649Z',
-    content: 'Hola mundo',
-    image: 'https://images-ext-1.discordapp.net/external/UVfrSkwCAsBhp3vQZThNgyIWaD1oQUvXj5TD4UdEM4Q/https/1.bp.blogspot.com/-l4ENbjEoXDw/XD9PPNWIxmI/AAAAAAAAV5M/uVEboPRHjjEKvQ4KOHWpOiGwduqGVNFtACLcBGAs/s1600/statuscode.png?format=webp&quality=lossless&width=964&height=467',
-    likes: 2,
-    comments: 0
-  },
-  {
-    id: '12-ds3',
-    author,
-    createdAt: '2024-09-04T19:03:25.649Z',
-    content: 'Tengo un camello, solo lo comentaba jajaja',
-    likes: 240092309,
-    comments: 1209320312
-  },
-  {
-    id: '123',
-    author,
-    createdAt: '2024-09-06T19:08:25.649Z',
-    content:
-      'Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    likes: 2,
-    comments: 1
-  }
-]
+import PostDetail from '@/components/Posts/PostDetail'
+import { IoCloseCircleOutline } from 'react-icons/io5'
 
 export default function Home() {
   const [posts, setPosts] = useState<PostType[]>([])
+  const [selectedPost, setSelectedPost] = useState<PostType | null>(null) // Estado para el post seleccionado
   const user = useSelector((state: RootState) => state.userReducer.user)
 
   const { data, isError, isLoading } = useGetAllPostQuery({})
 
   useEffect(() => {
-    if (isLoading == false) {
-      setPosts(data.data.getPost)
+    if (!isLoading) {
+      setPosts(data?.data?.getPost || [])
+      console.log(data?.data?.getPost);
     }
   }, [data, isLoading])
 
@@ -89,27 +29,95 @@ export default function Home() {
     setPosts((ps) => [...ps, { ...newPost, comments: 0, likes: 0 }])
   }
 
+  useEffect(() => {
+    console.log(selectedPost);
+  }, [selectedPost])
+
+  const handlePostClick = (post: PostType) => {
+    setSelectedPost(prevSelectedPost =>
+      prevSelectedPost?._id === post._id ? null : post
+    );
+  }
+
+  const isSmallScreen = useMediaQuery('(max-width:1200px)');
+  const isMediumScreen = useMediaQuery('(max-width:600px)');
+
   return (
-    <Box
-      gap={4}
-      sx={{
+    <Box gap={4} sx={{
+      display: 'flex',
+      width: '100%',
+    }}
+      className='p-2 md:p-[1em]'
+    >
+      <Box gap={4} sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '100% ',
-      }}
-      className='p-2 md:p-[50px]'
-    >
-      {user && (
-        <CreatePost addNewPost={addNewPost} />
+        width: isMediumScreen ? '100%' : '50%',
+      }}>
+        {user && <CreatePost addNewPost={addNewPost} />}
+        <ul className='space-y-5 transition-colors'>
+          {posts.toReversed().map((post) => (
+            <Post
+              menu={true}
+              key={post._id}
+              post={post}
+              selected={post._id === selectedPost?._id}
+              onClick={() => handlePostClick(post)}
+            />
+          ))}
+        </ul>
+      </Box>
+
+      {/* Overlay */}
+      {isSmallScreen && selectedPost && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo oscuro con opacidad
+            zIndex: 9998, // Justo por debajo del modal
+          }}
+        />
       )}
-      <ul className='sm:space-y-5 transition-colors divide-neutral-300 dark:divide-neutral-700'>
-        {posts.toReversed().map((post) => (
-          <Post
-            key={post.id}
-            post={post}
-          />
-        ))}
-      </ul>
+
+      {/* Modal */}
+      {selectedPost && (
+        <Box
+          sx={{
+            display: 'flex',
+            flex: '1',
+            position: isSmallScreen ? 'fixed' : 'sticky',
+            top: isSmallScreen ? '50%' : 100,
+            left: isSmallScreen ? '50%' : 'auto',
+            transform: isSmallScreen ? 'translate(-50%, -50%)' : 'none',
+            width: isMediumScreen ? '90%' : 'auto',
+            padding: isSmallScreen ? '2.5em 0 1em 0' : '0',
+            maxHeight: 'calc(100svh - 110px)',
+            zIndex: isSmallScreen ? 9999 : 'auto', // Asegura que esté por encima del overlay
+          }}
+          className='overflow-hidden bg-white dark:bg-neutral-900 rounded-lg border border-neutral-300 dark:border-neutral-700'
+        >
+          {/* Ícono de cerrar */}
+          {isSmallScreen && (
+            <IconButton
+              onClick={() => setSelectedPost(null)}
+              className='text-neutral-900 dark:text-white'
+              sx={{
+                position: 'absolute',
+                top: '0',
+                right: '0',
+              }}
+            >
+              <IoCloseCircleOutline />
+            </IconButton>
+          )}
+
+          <PostDetail selectedPost={selectedPost} />
+        </Box>
+      )}
     </Box>
   )
 }

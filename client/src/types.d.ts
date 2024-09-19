@@ -9,15 +9,25 @@ export interface User {
 }
 
 export interface Post {
-  id: string
+  _id: string
   text: string
   likereport: []
-  comment: []
+  comment: Comment[]
   url_img?: string
   user: {
+    _id: string
     name: string
     username: string
     avatar?: string
   }
   createdAt: string
+}
+
+export interface Comment {
+  text: string
+  user: {
+    name: string
+    username: string
+    profile_photo?: string
+  }
 }

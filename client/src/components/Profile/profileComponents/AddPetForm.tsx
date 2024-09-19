@@ -17,7 +17,7 @@ import { useUploadPetMutation } from "@/redux/apiSlices/petsApi";
 
 interface PetForm {
   petName: string;
-  petImage: File | null;
+  petImage?: File | null;
   previewUrl: string | null
   // petAge: string;
   petDescription: string;
@@ -136,7 +136,8 @@ export default function AddPetForm({ setShowPetForm, onRefetch }: petFormProps) 
       if (petForm.petImage) {
         formData.append('image', petForm.petImage); // Match the field name expected by Multer
       }
-  
+      console.log(formData)
+      
       try {
         const response = await uploadPet(formData).unwrap();
         console.log(response);

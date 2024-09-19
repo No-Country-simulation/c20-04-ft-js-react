@@ -39,33 +39,33 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
   const petsInfo = data?.data?.getPetsByUsername;
   console.log(petsInfo);
 
-  const onRefetch = ()=> {
+  const onRefetch = () => {
     refetch()
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-[2rem]">
+    <div className="flex flex-wrap w-full justify-center gap-[2rem]">
       {dataUsername === localUsername && petsInfo?.length > 0 ? (
         <>
           {showPetForm ? (
-            <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
+            <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch} />
           ) : (
             <div className="flex flex-col items-center gap-2 w-full p-4">
-            {/* Header text */}
-            <p className="font-extrabold text-[1.2rem] text-gray-800 lg:text-[1.6rem] text-center mb-4">
-              Add New Pet
-            </p>
-          
-            {/* Add New Pet Button */}
-            <Tooltip title="Add a new pet" arrow>
-              <IconButton onClick={() => setShowPetForm(true)} className="hover:scale-110 transition-transform duration-300">
-                <IoIosAddCircleOutline
-                  size={60}
-                  className="text-purple-500 hover:text-purple-700 transition-colors duration-300 cursor-pointer"
-                />
-              </IconButton>
-            </Tooltip>
-          </div>
+              {/* Header text */}
+              <p className="font-extrabold text-[1.2rem] text-gray-800 lg:text-[1.6rem] text-center mb-4">
+                Add New Pet
+              </p>
+
+              {/* Add New Pet Button */}
+              <Tooltip title="Add a new pet" arrow>
+                <IconButton onClick={() => setShowPetForm(true)} className="hover:scale-110 transition-transform duration-300">
+                  <IoIosAddCircleOutline
+                    size={60}
+                    className="text-purple-500 hover:text-purple-700 transition-colors duration-300 cursor-pointer"
+                  />
+                </IconButton>
+              </Tooltip>
+            </div>
           )}
         </>
       ) : null}
@@ -99,7 +99,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
         <>
           {showPetForm ? (
             <>
-              <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch}/>
+              <AddPetForm setShowPetForm={setShowPetForm} onRefetch={onRefetch} />
             </>
           ) : (
             <>

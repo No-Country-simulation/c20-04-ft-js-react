@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export type ThemeType = 'system' | 'light' | 'dark'
 
-const userSlice = createSlice({
-  name: 'user',
+const themeSlice = createSlice({
+  name: 'theme',
   initialState: 'system',
   reducers: {
     setTheme: (state, action: PayloadAction<ThemeType>) => {
@@ -13,5 +13,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { setTheme } = userSlice.actions
-export default userSlice.reducer
+export const { setTheme } = themeSlice.actions
+export default themeSlice.reducer
