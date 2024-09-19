@@ -16,7 +16,10 @@ export default function Home() {
   const [selectedPost, setSelectedPost] = useState<PostType | null>(null) // Estado para el post seleccionado
   const user = useSelector((state: RootState) => state.userReducer.user)
 
-  const { data, isError, isLoading } = useGetAllPostQuery({})
+  const { data, isError, isLoading, refetch } = useGetAllPostQuery({})
+  const onRefetch = () => {
+    refetch()
+  }
 
   useEffect(() => {
     if (!isLoading) {
@@ -54,7 +57,7 @@ export default function Home() {
         flexDirection: 'column',
         width: isMediumScreen ? '100%' : '50%',
       }}>
-        {user && <CreatePost addNewPost={addNewPost} />}
+        {user && <CreatePost addNewPost={addNewPost} onRefetch={onRefetch} />}
         <ul className='space-y-5 transition-colors'>
           {posts.toReversed().map((post) => (
             <Post

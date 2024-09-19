@@ -5,8 +5,11 @@ import { stringAvatar } from '@/utils/avatar';
 import { useAppSelector } from '@/redux/hooks';
 import { useCreatePostMutation } from '@/redux/apiSlices/authApi';
 import { CloseRounded } from '@mui/icons-material';
-
-export default function CreatePost() {
+interface postFormProps {
+  addNewPost: React.Dispatch<React.SetStateAction<boolean>>;
+  onRefetch: () => void
+}
+export default function CreatePost({ addNewPost, onRefetch }: postFormProps) {
   const user = useAppSelector(state => state.userReducer.user);
   const [text, setText] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -36,16 +39,17 @@ export default function CreatePost() {
 
     const formData = new FormData();
     formData.append('text', text);
-    formData.append('category', category);
     if (imageFile) {
       formData.append('image', imageFile);
     }
 
     try {
       const response = await createPost(formData).unwrap();
+      onRefetch()
       console.log('Post creado con éxito:', response);
       setText('');
       setImageFile(null);
+      setImagePreview(null)
       setCategory('');
     } catch (error) {
       console.error('Error al crear el post:', error);
@@ -95,21 +99,6 @@ export default function CreatePost() {
                 </IconButton>
               </Box>
             )}
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="category-label">Categoría</InputLabel>
-              <Select
-                labelId="category-label"
-                id="category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                label="Categoría"
-              >
-                <MenuItem value="category1">Categoría 1</MenuItem>
-                <MenuItem value="category2">Categoría 2</MenuItem>
-                <MenuItem value="category3">Categoría 3</MenuItem>
-                {/* Añade más opciones según sea necesario */}
-              </Select>
-            </FormControl>
           </Box>
         </Box>
       </Box>
