@@ -52,6 +52,7 @@ export default function ProfilePosts() {
             <Post
               key={post.id}
               post={post}
+              menu={true}
             />
           ))
         ) : (

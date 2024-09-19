@@ -15,6 +15,7 @@ export interface Post {
   comment: Comment[]
   url_img?: string
   user: {
+    _id: string
     name: string
     username: string
     avatar?: string

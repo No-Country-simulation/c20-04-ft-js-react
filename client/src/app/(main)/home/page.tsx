@@ -57,6 +57,7 @@ export default function Home() {
         <ul className='space-y-5 transition-colors'>
           {posts.toReversed().map((post) => (
             <Post
+              menu={true}
               key={post._id}
               post={post}
               selected={post._id === selectedPost?._id}

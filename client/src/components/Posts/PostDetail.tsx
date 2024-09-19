@@ -28,7 +28,7 @@ const PostDetail = ({ selectedPost }: { selectedPost: PostType }) => {
     return (
         <StyledBox className="bg-white dark:bg-neutral-900" gap={2}>
             <h2 className="text-xl font-semibold mb-4">Detalles de la publicación</h2>
-            <Post post={selectedPost} className="bg-white dark:bg-neutral-900 border-none !p-0" />
+            <Post post={selectedPost} menu={false} className="bg-white dark:bg-neutral-900 border-none !p-0" />
             <div className="mt-2 space-y-4">
                 {selectedPost.comment.length > 0 ? (
                     <>
@@ -65,7 +65,7 @@ const Comment = ({ comment }: { comment: CommentProps }) => {
                         sx={{ wordBreak: 'break-word' }}
                         className='px-4 sm:px-0'
                     >
-                        {comment.text} Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet illum officia mollitia! Numquam totam non error nihil eius ad labore vel illo! Deserunt, aperiam eum tempore dicta quos error temporibus.
+                        {comment.text}
                     </Typography>
                 </Box>
             </Box>

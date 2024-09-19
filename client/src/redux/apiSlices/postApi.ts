@@ -30,6 +30,7 @@ export const getPostQueryApi = createApi({
                   }
                 }
                 user {
+                  _id
                   name
                   username
                   profile_photo
@@ -63,6 +64,7 @@ export const getPostQueryApi = createApi({
                   }
                 }
                 user {
+                  _id
                   name
                   username
                   profile_photo
