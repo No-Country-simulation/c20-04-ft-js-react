@@ -37,15 +37,24 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   }, [refreshToken]);
 
   return (
-    <main className='min-h-dvh max-w-screen-xl mx-auto'>
-      <Header />
-      <div className='md:flex md:flex-row relative'>
-        <SideNavBar />
-        <div className='flex-1 pb-[85.05px] sm:pb-[85.05px] sm:p-5 border-r transition-colors border-neutral-300 dark:border-neutral-700'>
-          {children}
-        </div>
-      </div>
-      <MovileSearch />
-    </main >
+    <>
+      {loading ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <CircularProgress />
+        </Box>
+
+      ) : (
+        <main className='min-h-dvh max-w-screen-xl mx-auto'>
+          <Header />
+          <div className='md:flex md:flex-row relative'>
+            <SideNavBar />
+            <div className='flex-1 pb-[85.05px] sm:pb-[85.05px] sm:p-5 border-r transition-colors border-neutral-300 dark:border-neutral-700'>
+              {children}
+            </div>
+          </div>
+          <MovileSearch />
+        </main >
+      )}
+    </>
   )
 }
