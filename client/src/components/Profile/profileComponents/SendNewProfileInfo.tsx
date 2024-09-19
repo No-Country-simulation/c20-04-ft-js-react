@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useLogoutMutation } from '@/redux/apiSlices/authApi'
 import { useAppSelector } from "@/redux/hooks";
 import { usePathname, useRouter } from 'next/navigation'
+import { setUser } from "@/redux/slices/userSlice";
 
 
 
