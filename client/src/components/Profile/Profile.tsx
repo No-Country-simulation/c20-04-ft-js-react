@@ -195,14 +195,11 @@ export default function Profile({
           </div>
         </div>
       </div>
-      <Box
-        gap={4}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100% ",
-        }}
-        className="p-2 md:p-[30px]"
+      <Box gap={4} sx={{
+        display: 'flex',
+        width: '100%',
+      }}
+        className='p-2 md:p-[1em]'
       >
         {renderSelectedComponent()}
       </Box>

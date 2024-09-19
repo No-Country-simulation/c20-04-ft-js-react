@@ -6,6 +6,7 @@ import { stringAvatar } from "@/utils/avatar";
 const StyledBox = styled(Box)(({ theme }) => ({
     overflow: 'auto',
     padding: '1em',
+    width: '100%',
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
         width: '6px',
