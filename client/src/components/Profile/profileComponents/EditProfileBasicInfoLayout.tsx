@@ -222,10 +222,8 @@ export default function EditProfileBasicInfoLayout({
           setEditFlag={setEditFlag}
           dataToUpdate={dataToUpdate}
           isFormValid={isFormInvalid}
-          className="w-[100%] h-[40px] bg-[#8c52ff] text-white rounded max-w-[6rem] justify-self-start lg:min-w-[100px] hover:bg-[#732fdb] transition-all duration-200"
-        >
-          Save
-        </SendNewProfileInfo>
+        />
+
       </div>
     </div>
   );
