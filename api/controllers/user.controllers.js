@@ -34,6 +34,8 @@ export const getUserByUsername = async (req, res) => {
 };
 export const prifileUpDate = async (req, res) => {
   try {
+        console.log("aa",req.body);
+        
       const { token } = req.cookies
       const userid = jwt.verify(token, TOKEN_KEY);
       console.log(userid);
