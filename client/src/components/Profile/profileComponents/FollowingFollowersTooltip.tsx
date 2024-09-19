@@ -72,8 +72,8 @@ const UserTooltip: React.FC<UserTooltipProps> = ({ user }) => {
                   {user?.followers?.map((follower) => (
                     <li key={follower._id} className="flex items-center">
                       <img
-                        src={follower.profile_photo}
-                        alt={follower.username}
+                        src={follower?.profile_photo}
+                        alt={follower?.username}
                         className="w-8 h-8 rounded-full mr-2"
                       />
                       <span>{follower.username}</span>

@@ -97,3 +97,64 @@ export const followCntrol = async (req, res) => {
         res.status(500).json({ message: 'Error in follow/unfollow operation', error });
     }
 };
+
+export const followUser = async (req, res) => {
+    try {
+      const { token } = req.cookies;
+      const { id: targetUserId } = req.params;
+  
+      // Verificamos el token JWT
+      const decodedToken = jwt.verify(token, TOKEN_KEY);
+      const userId = decodedToken.payload.id;
+  
+      // Buscamos los usuarios
+      const currentUser = await User.findById(userId);
+      const targetUser = await User.findById(targetUserId);
+  
+      // Verificamos que ambos usuarios existan
+      if (!currentUser || !targetUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      // Si el usuario ya está siguiendo al otro, devolvemos un mensaje informativo
+      if (currentUser.following.includes(targetUserId)) {
+        return res.status(400).json({ message: "You are already following this user" });
+      }
+  
+      // Actualizamos las listas de "following" y "followers" sin usar .save()
+      await User.findByIdAndUpdate(userId, { $addToSet: { following: targetUserId } });
+      await User.findByIdAndUpdate(targetUserId, { $addToSet: { followers: userId } });
+  
+      res.status(200).json({ message: "User followed successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error following user", error });
+    }
+  };
+
+  export const unfollowUser = async (req, res) => {
+    try {
+      const { token } = req.cookies;
+      const { id: targetUserId } = req.params;
+  
+      const decodedToken = jwt.verify(token, TOKEN_KEY);
+      const userId = decodedToken.payload.id;
+  
+      const currentUser = await User.findById(userId);
+      const targetUser = await User.findById(targetUserId);
+  
+      if (!currentUser || !targetUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      if (!currentUser.following.includes(targetUserId)) {
+        return res.status(400).json({ message: "You are not following this user" });
+      }
+  
+      await User.findByIdAndUpdate(userId, { $pull: { following: targetUserId } });
+      await User.findByIdAndUpdate(targetUserId, { $pull: { followers: userId } });
+  
+      res.status(200).json({ message: "User unfollowed successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error unfollowing user", error });
+    }
+  };

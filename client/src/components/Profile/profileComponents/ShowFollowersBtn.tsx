@@ -9,6 +9,7 @@ export default function ShowFollowersBtn() {
   const username: string = params.userName as string;
   const {data, isError, isLoading} = useGetProfilePropertiesQuery(username)
   const newData = data?.data?.getUserByUsername
+  console.log('followers data')
   console.log(newData);
   
 

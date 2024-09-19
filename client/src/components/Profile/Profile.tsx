@@ -4,8 +4,6 @@ import { useEffect } from "react";
 
 import ProfileSettingsBtn from "./profileComponents/ProfileSettingsBtn";
 import SendNewProfileInfo from "./profileComponents/SendNewProfileInfo";
-import ShowFollowersBtn from "./profileComponents/ShowFollowersBtn";
-import ShowFollowingBtn from "./profileComponents/ShowFollowingBtn";
 import SendMessageBtn from "./profileComponents/SendMessageBtn";
 import FollowOrUnfollowBtn from "./profileComponents/FollowOrUnfollowBtn";
 import EditProfileBasicInfoLayout from "./profileComponents/EditProfileBasicInfoLayout";
