@@ -26,7 +26,8 @@ export default function EditProfileBasicInfoLayout({
   const dispatch = useDispatch()
 
   interface UpdateData {
-    newPfp?: string;
+    newPfp?: File | null;
+    previewUrl: string
     newUsername: string;
     newName: string;
   }
@@ -42,7 +43,8 @@ export default function EditProfileBasicInfoLayout({
   })
 
   const [dataToUpdate, setDataToUpdate] = useState<UpdateData>({
-    newPfp: "",
+    newPfp: null as File | null,
+    previewUrl: "",
     newUsername: "",
     newName: "",
   });
@@ -50,23 +52,13 @@ export default function EditProfileBasicInfoLayout({
   const [prevPicture, setPrevPicture] = useState<string>(profilePicture)
   const localPfp = useSelector((state: RootState) => state.userReducer.user?.profile_photo);
 
-  const handleProfilePictureUpload = (files: FileList | null) => {
-    if (!files || files.length === 0) return;
-
-    const picture = files[0]
-    const reader = new FileReader()
-
-    reader.onloadend = () => {
-      const base64String = reader.result as string;
-
-      setDataToUpdate({
-        ...dataToUpdate,
-        newPfp: base64String
-      })
-      dispatch(setPreviewProfilePicture(base64String))
+  const handleProfilePictureUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if(file){
+      const previewUrl = URL.createObjectURL(file)
+      setDataToUpdate({...dataToUpdate, newPfp: file,})
+      dispatch(setPreviewProfilePicture(previewUrl))
     }
-
-    reader.readAsDataURL(picture)
   };
 
   const onClose = () => {
@@ -113,8 +105,9 @@ export default function EditProfileBasicInfoLayout({
     <input
       type="file"
       accept="image/*"
-      onChange={(e) => handleProfilePictureUpload(e.target.files)}
+      onChange={handleProfilePictureUpload}
       className="hidden"
+      name="newPfp"
       id="profile-picture-upload"
     />
 
