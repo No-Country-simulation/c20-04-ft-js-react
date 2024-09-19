@@ -265,7 +265,7 @@ export default function Register() {
               label="Nombre de usuario"
               variant="outlined"
               id="username"
-              value={formData?.username}
+              value={formData?.username.toLowerCase()}
               onChange={handleInputChange}
               className="w-full dark:bg-neutral-800 rounded-lg"
               error={!!errors.username}
