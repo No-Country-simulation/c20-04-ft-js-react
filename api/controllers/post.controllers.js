@@ -60,25 +60,45 @@ export const upDatePost = async (req, res) => {
 };
 export const likePost = async (req, res) => {
     try {
-        const { idpost, url_img, ...restOfBody } = req.body;
-        const { token } = req.cookies
+        const { idpost } = req.body;
+        const { token } = req.cookies;
         const userid = jwt.verify(token, TOKEN_KEY);
-        const postfind = Post.findById(idpost)
-        if (!postfind.likereport.includes(userid.payload.id)){
-            await Post.updateOne(
-                //like
-                { _id: idpost },
-                { $addToSet: { likereport: id } }
-            );
-        }else{
-            //no like
-            await Post.updateOne(
-                { _id: idpost },
-                { $pull: { likereport: id } }
-            );
+        const user = await User.findById(userid.payload.id);
+        
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
         }
-        res.status(200).json({ message: 'like/unlike successful' });
+
+        const post = await Post.findById(idpost);
+
+        if (!post) {
+            return res.status(404).json({ 
+                code: 404,
+                message: 'Post not found',
+                status: 'error', 
+            })
+        }
+
+        if (!post.likereport.includes(user.id)) {
+            post.likereport.push(user.id);
+        } else {
+            post.likereport.pull(user.id);
+        }
+
+        await post.save();
+
+        res.status(200).json({ 
+            code: 200,
+            message: 'Like/unlike successful',
+            status: 'success', 
+        })
     } catch (error) {
-        res.status(500).json({ message: 'Error update post', error });
+        console.error(error);
+        res.status(500).json({ 
+            code: 500,
+            error,
+            message: 'Error Like/unlike.',
+            status: 'error', 
+        })
     }
 };

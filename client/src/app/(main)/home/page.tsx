@@ -24,7 +24,6 @@ export default function Home() {
   useEffect(() => {
     if (!isLoading) {
       setPosts(data?.data?.getPost || [])
-      console.log(data?.data?.getPost);
     }
   }, [data, isLoading])
 
@@ -33,8 +32,12 @@ export default function Home() {
   }
 
   useEffect(() => {
-    console.log(selectedPost);
-  }, [selectedPost])
+    const idPostSelected = selectedPost?._id
+    if (idPostSelected) {
+      const post = posts.find((post) => post._id === idPostSelected)
+      setSelectedPost(post || null)
+    }
+  }, [posts, selectedPost?._id])
 
   const handlePostClick = (post: PostType) => {
     setSelectedPost(prevSelectedPost =>
@@ -64,6 +67,7 @@ export default function Home() {
               menu={true}
               key={post._id}
               post={post}
+              setPost={setPosts}
               selected={post._id === selectedPost?._id}
               onClick={() => handlePostClick(post)}
             />
@@ -97,28 +101,26 @@ export default function Home() {
             left: isSmallScreen ? '50%' : 'auto',
             transform: isSmallScreen ? 'translate(-50%, -50%)' : 'none',
             width: isMediumScreen ? '90%' : 'auto',
-            padding: isSmallScreen ? '2.5em 0 1em 0' : '0',
+            padding: isSmallScreen ? '1em 0 1em 0' : '0',
             maxHeight: 'calc(100svh - 110px)',
             zIndex: isSmallScreen ? 9999 : 'auto', // Asegura que esté por encima del overlay
           }}
           className='overflow-hidden bg-white dark:bg-neutral-900 rounded-lg border border-neutral-300 dark:border-neutral-700'
         >
           {/* Ícono de cerrar */}
-          {isSmallScreen && (
-            <IconButton
-              onClick={() => setSelectedPost(null)}
-              className='text-neutral-900 dark:text-white'
-              sx={{
-                position: 'absolute',
-                top: '0',
-                right: '0',
-              }}
-            >
-              <IoCloseCircleOutline />
-            </IconButton>
-          )}
+          <IconButton
+            onClick={() => setSelectedPost(null)}
+            className='text-neutral-900 dark:text-white'
+            sx={{
+              position: 'absolute',
+              top: '0',
+              right: '5px',
+            }}
+          >
+            <IoCloseCircleOutline />
+          </IconButton>
 
-          <PostDetail selectedPost={selectedPost} />
+          <PostDetail selectedPost={selectedPost} user={user} setPost={setPosts} />
         </Box>
       )}
     </Box>

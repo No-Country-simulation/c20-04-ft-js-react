@@ -121,7 +121,7 @@ export default function CreatePost({ addNewPost, onRefetch }: postFormProps) {
             </Typography>
           )}
         </Box>
-        <Button type="submit" variant="contained" color="primary" disabled={isLoading}>
+        <Button type="submit" variant="contained" color="primary" disabled={isLoading || (!text && !imageFile)}>
           {isLoading ? 'Publicando...' : 'Publicar'}
         </Button>
       </Box>

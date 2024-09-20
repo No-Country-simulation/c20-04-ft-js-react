@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const url = process.env.NEXT_PUBLIC_BACKEND_URL;
 const apolloUrl = process.env.NEXT_PUBLIC_BACKEND_APOLLO;
 
-export const getPostQueryApi = createApi({
+export const postQueryApi = createApi({
   reducerPath: "getPost",
   baseQuery: fetchBaseQuery({ baseUrl: apolloUrl }),
   endpoints: (builder) => ({
@@ -78,7 +78,23 @@ export const getPostQueryApi = createApi({
         },
       }),
     }),
+    likePost: builder.mutation({
+      query: (reqbody) => ({
+          url: 'api/likePost',
+          credentials: "include",
+          method: 'POST',
+          body: reqbody,
+      }),
+    }),
+    createComment: builder.mutation({
+      query: (reqbody) => ({
+          url: 'api/createComment',
+          credentials: "include",
+          method: 'POST',
+          body: reqbody,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllPostQuery, useGetAllPostByUsernameQuery } = getPostQueryApi;
+export const { useGetAllPostQuery, useGetAllPostByUsernameQuery, useLikePostMutation, useCreateCommentMutation } = postQueryApi;
