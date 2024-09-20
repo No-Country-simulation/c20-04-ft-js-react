@@ -125,7 +125,7 @@ export default function Pets({ dataUsername, localUsername }: profileProps) {
           )}
         </>
       ) : (
-        <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[2.4rem] text-purple-600">
+        <p className="mb-[2rem] font-extrabold text-[1.4rem] text-center lg:text-[1.9rem] text-purple-600">
           It looks like this animal lover hasn't added any furry friends yet!
         </p>
       )}
