@@ -24,6 +24,7 @@ export default function UserProfile() {
       <Profile
         usernameObject={newData}
         dataUsername={newData?.username}
+        dataId={newData?._id}
         paramsUsername={username}
         name={newData?.name || "not specified"}
         profilePicture={newData?.profile_photo}

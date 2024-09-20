@@ -35,6 +35,7 @@ interface profileProps {
   paramsUsername: string;
   name: string;
   profilePicture: string;
+  dataId: string
 }
 
 export default function Profile({
@@ -43,6 +44,8 @@ export default function Profile({
   paramsUsername,
   name,
   profilePicture,
+  // we need this prop for follow or unfollow btn
+  dataId,
 }: profileProps) {
   const localUsername = useSelector(
     (state: RootState) => state.userReducer.user?.username
@@ -156,7 +159,7 @@ export default function Profile({
                   setEditFlag={setEditFlag}
                 />
               ) : (<>
-                <FollowOrUnfollowBtn dataUsername={dataUsername}/>
+                <FollowOrUnfollowBtn dataUsername={dataUsername} dataId={dataId}/>
                 <SendMessageBtn/>
               </>)}
             </div>
