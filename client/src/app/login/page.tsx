@@ -103,7 +103,7 @@ export default function PageLogin() {
 
   const postLogin = async (dataForm: FormDataInterface) => {
     try {
-      const response = await login(dataForm).unwrap(); // Llama a la mutación y espera la respuesta
+      const response = await login(dataForm).unwrap();
       console.log('Usuario autenticado:', response);
       dispatch(setUser(response))
       router.push('/home')

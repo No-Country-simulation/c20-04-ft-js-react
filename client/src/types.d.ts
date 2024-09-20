@@ -11,7 +11,7 @@ export interface User {
 export interface Post {
   _id: string
   text: string
-  likereport: []
+  likereport: string[]
   comment: Comment[]
   url_img?: string
   user: {

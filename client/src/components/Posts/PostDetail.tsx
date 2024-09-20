@@ -24,12 +24,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
     },
 }));
 
-const PostDetail = ({ selectedPost }: { selectedPost: PostType }) => {
+const PostDetail = ({ selectedPost, setPost }: { selectedPost: PostType, setPost: React.Dispatch<React.SetStateAction<PostType[]>> }) => {
 
     return (
         <StyledBox className="bg-white dark:bg-neutral-900" gap={2}>
             <h2 className="text-xl font-semibold mb-4">Detalles de la publicación</h2>
-            <Post post={selectedPost} menu={false} className="bg-white dark:bg-neutral-900 border-none !p-0" />
+            <Post post={selectedPost} setPost={setPost} menu={false} className="bg-white dark:bg-neutral-900 border-none !p-0" />
             <div className="mt-2 space-y-4">
                 {selectedPost.comment.length > 0 ? (
                     <>
