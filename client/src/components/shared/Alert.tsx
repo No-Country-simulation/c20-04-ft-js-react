@@ -66,7 +66,7 @@ const Alert: React.FC<AlertProps> = ({ type, title, message, onClose }) => {
 
     return (
         <div
-            className={`fixed top-4 right-4 flex items-center p-4 text-sm ${text} border ${border} rounded-lg ${bg} dark:bg-gray-800 ${darkText} dark:border-gray-800 transition-transform transform ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+            className={`absolute left-10 p-4 text-sm ${text} border ${border} rounded-lg ${bg} dark:bg-gray-800 ${darkText} dark:border-gray-800 transition-transform transform ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
                 }`}
             role="alert"
         >

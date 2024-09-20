@@ -208,80 +208,86 @@ export default function Profile({
             About
             <CiCircleQuestion size={30} />
           </button>
-          <div className="relative">
-          <button
-            onClick={toggleMenu}
-            className="flex gap-[.8rem] items-center justify-center font-semibold text-[#68686c] rounded h-[2rem] w-[3.6rem] hover:bg-[#e2e5e9] lg:text-[1.4rem] lg:w-[6.4rem] lg:h-[3rem]"
-          >
-            Help
-            <CiCircleQuestion size={30} />
-            {menuOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-neutral-800 border rounded shadow-lg p-4 z-50">
-                <button
-                  onClick={() => {
-                    closeMenu();
-                    handleOpenModal("deactivate");
-                  }}
-                    className="block text-base text-neutral-200 hover:text-neutral-400 mb-2"
-                >
-                  Desactivar cuenta
-                </button>
-                <button
-                  onClick={() => {
-                    closeMenu();
-                    handleOpenModal("report");
-                  }}
-                    className="block text-base text-neutral-200 hover:text-neutral-400"
-                >
-                  Reportar problema
-                </button>
-              </div>
-            )}
-          </button>
+          <div className="relative hidden lg:block">
+  <button
+    onClick={toggleMenu}
+    className="flex gap-2 items-center justify-center font-semibold text-[#68686c] rounded h-[2.4rem] w-[4rem] hover:bg-[#e2e5e9] lg:text-lg lg:w-[6.4rem] lg:h-[3rem] transition-colors duration-200 ease-in-out"
+  >
+    Help
+    <CiCircleQuestion size={28} />
+    {menuOpen && (
+      <div className="absolute top-full right-0 mt-2 bg-[#1f2937] border border-gray-700 rounded-lg shadow-lg p-4 z-50">
+        <button
+          onClick={() => {
+            closeMenu();
+            handleOpenModal("deactivate");
+          }}
+          className="block text-base text-neutral-200 hover:text-[#8c52ff] mb-2 transition-colors duration-200 ease-in-out"
+        >
+          Delete account
+        </button>
+        <button
+          onClick={() => {
+            closeMenu();
+            handleOpenModal("report");
+          }}
+          className="block text-base text-neutral-200 hover:text-[#8c52ff] transition-colors duration-200 ease-in-out"
+        >
+          Report a problem
+        </button>
+      </div>
+    )}
+  </button>
+</div>
+
+{modalOpen && (
+  <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+    <div className="bg-neutral-900 p-6 rounded-lg shadow-lg max-w-md w-full border border-[#8c52ff]">
+      {modalType === "deactivate" ? (
+        <>
+          <h2 className="text-xl font-bold text-white">Delete account</h2>
+          <p className="text-neutral-300 mt-2">
+            Are you sure you want to delete your account?
+          </p>
+          <div className="flex justify-end gap-4 mt-6">
+            <button
+              className="text-neutral-400 hover:text-gray-200 transition-colors duration-200 ease-in-out"
+              onClick={handleCloseModal}
+            >
+              Cancelar
+            </button>
+            <button className="text-red-500 hover:text-red-700 transition-colors duration-200 ease-in-out">
+              Desactivar
+            </button>
           </div>
-          {modalOpen && (
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-              <div className="bg-neutral-800 p-6 rounded shadow-lg max-w-md w-full">
-                {modalType === "deactivate" ? (
-                  <>
-                    <h2 className="text-x1 font-bold">Desactivar cuenta</h2>
-                    <p>¿Estás seguro de que deseas desactivar tu cuenta?</p>
-                    <div className="flex justify-end gap-4 mt-4">
-                      <button
-                        className=" hover:text-gray-600"
-                        onClick={handleCloseModal}
-                      >
-                        Cancelar
-                      </button>
-                      <button className="text-red-600 hover:text-red-800">
-                        Desactivar
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <h2 className="text-xl font-bold">Reportar un problema</h2>
-                    <p>Por favor describe el problema que has encontrado:</p>
-                    <textarea
-                      className="w-full h-24 mt-2 p-2 border rounded bg-neutral-800"
-                      placeholder="Describe tu problema aquí..."
-                    ></textarea>
-                    <div className="flex justify-end gap-4 mt-4">
-                      <button
-                        className=" hover:text-gray-600"
-                        onClick={handleCloseModal}
-                      >
-                        Cancelar
-                      </button>
-                      <button className="text-blue-600 hover:text-blue-800">
-                        Enviar reporte
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
+        </>
+      ) : (
+        <>
+          <h2 className="text-xl font-bold text-white">Report a problem</h2>
+          <p className="text-neutral-300 mt-2">
+            please describe the problem in detail:
+          </p>
+          <textarea
+            className="w-full h-24 mt-4 p-3 border border-gray-600 rounded-lg bg-neutral-800 text-neutral-200 placeholder-gray-500 focus:ring-2 focus:ring-[#8c52ff] transition duration-200 ease-in-out"
+            placeholder="Describe tu problema aquí..."
+          ></textarea>
+          <div className="flex justify-end gap-4 mt-6">
+            <button
+              className="text-neutral-400 hover:text-gray-200 transition-colors duration-200 ease-in-out"
+              onClick={handleCloseModal}
+            >
+              Cancelar
+            </button>
+            <button className="text-blue-500 hover:text-blue-700 transition-colors duration-200 ease-in-out">
+              send report
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+)}
+
           
         </div>
       </div>
