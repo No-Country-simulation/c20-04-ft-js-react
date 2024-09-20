@@ -1,116 +1,189 @@
 import React, { useState } from "react";
 import { FaPaw } from "react-icons/fa";
-import { CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
-const reasons = ["Spam", "Harassment", "Inappropriate Content", "Other"];
+const countries = [
+  "China",
+  "India",
+  "United States",
+  "Indonesia",
+  "Brazil",
+  "Russia",
+  "Japan",
+  "Mexico",
+  "Germany",
+  "Philippines",
+  "Vietnam",
+  "United Kingdom",
+  "France",
+  "Italy",
+  "South Korea",
+  "Honduras",
+  "Argentina",
+  "Colombia",
+  "Egypt",
+];
 
-export default function AccountActions() {
-  const [reportReason, setReportReason] = useState("");
-  const [isReporting, setIsReporting] = useState(false);
-  const [isDeactivating, setIsDeactivating] = useState(false);
-  const [deactivateReason, setDeactivateReason] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+interface form {
+  description: string;
+  country: string;
+}
 
-  const handleReport = () => {
-    setIsReporting(true);
+interface errorForm {
+  description: string;
+  country: string;
+}
+
+interface props {
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  description: string;
+  address: string;
+  onSubmitSuccess: () => void;
+}
+
+interface savedProps {
+  description: string;
+  address: string;
+}
+import { useUpdateAboutInfoMutation } from "@/redux/apiSlices/userApi";
+
+export default function AboutForm({ setEditMode, description, address, onSubmitSuccess }: props) {
+
+  const [updateAboutInfo, { isLoading, isError, data, error }] = useUpdateAboutInfoMutation()
+
+
+  const [savedProps, setSavedProps] = useState<savedProps>({
+    description: description,
+    address: address,
+  })
+
+  const verifyInfoChanged = () => {
+    if (savedProps.description === form.description && savedProps.address === form.country) {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  const submitForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const errors = validateForm();
+
+    if (Object.keys(errors).length > 0) {
+      setErrorForm(errors as errorForm);
+    } else {
+      if (verifyInfoChanged()) {
+        //matching the backend props
+        const result = await updateAboutInfo({ address: form.country, description: form.description }).unwrap()
+        setEditMode(false)
+        console.log(result);
+
+        onSubmitSuccess()
+
+        setErrorForm({
+          description: "",
+          country: "",
+        });
+      } else {
+        window.alert("you havent done any changes yet")
+      }
+    }
   };
 
-  const handleDeactivate = () => {
-    setIsDeactivating(true);
+  const [form, setForm] = useState<form>({
+    description: description,
+    country: address,
+  });
+
+  const [errorForm, setErrorForm] = useState<errorForm>({
+    description: "",
+    country: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setErrorForm({ ...errorForm, [e.target.name]: "" }); //when on change being activated we clearing the input error
+    console.log(form);
   };
 
-  const handleSubmitReport = () => {
-    // Aquí envías el reporte al backend (ignorar para esta implementación)
-    console.log("Reported for:", reportReason);
-    setIsReporting(false);
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 2000); // Simulación de carga
-  };
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setForm({ ...form, country: e.target.value })
+    setErrorForm({ ...errorForm, country: e.target.value })
+  }
 
-  const handleSubmitDeactivate = () => {
-    // Aquí envías la desactivación al backend (ignorar para esta implementación)
-    console.log("Deactivated for:", deactivateReason);
-    setIsDeactivating(false);
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 2000); // Simulación de carga
+  const validateForm = () => {
+    let errors: Partial<errorForm> = {};
+    if (form.description.length > 500) {
+      errors.description = "max characters it's 500";
+    }
+
+    return errors;
   };
 
   return (
-    <div className="flex flex-col items-center gap-[1.4rem] w-[90%] mx-auto max-w-[500px]">
-      {/* Form title */}
-      <label className="text-2xl font-bold text-center text-purple-600 flex items-center">
-        Account Actions
+    <form
+      className="flex flex-col items-center gap-[1.4rem] w-[90%] mx-auto max-w-[500px]"
+      onSubmit={submitForm}
+    >
+      {/* form title */}
+      <label
+        className="text-2xl font-bold text-center text-purple-600 flex items-center"
+        htmlFor="description"
+      >
+        Tell us about yourself
+        <FaPaw className="ml-2 text-purple-500" />
+      </label>
+      <textarea
+        className="w-full min-h-[250px] text-center px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+        name="description"
+        placeholder="Share something interesting!"
+        onChange={handleChange}
+        value={form.description}
+      />
+      {errorForm.description && (
+        <p className="text-red-500 text-center text-[.8rem] mt-[.2rem]">
+          {errorForm.description}
+        </p>
+      )}
+
+      {/* countries selection */}
+      <label
+        htmlFor="country"
+        className="text-xl font-bold text-center text-purple-600 flex items-center"
+      >
+        select a country
         <FaPaw className="ml-2 text-purple-500" />
       </label>
 
-      {/* Report button */}
-      <button
-        className="mt-4 px-6 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all duration-300 flex items-center gap-2"
-        onClick={handleReport}
+      <select
+        name="country"
+        id="country"
+        onChange={handleSelectChange}
+        value={form.country}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
       >
-        {isLoading ? <CircularProgress size={20} color="inherit" /> : "Report"}
-      </button>
+        <option value="">select a country</option>
+        {countries.map((country) => (
+          <option key={country} value={country}>
+            {country}
+          </option>
+        ))}
+      </select>
 
-      {/* Deactivate button */}
-      <button
-        className="mt-4 px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition-all duration-300 flex items-center gap-2"
-        onClick={handleDeactivate}
-      >
-        {isLoading ? <CircularProgress size={20} color="inherit" /> : "Deactivate Account"}
-      </button>
+      {/* Submit button */}
+      <div className="flex gap-[.6rem]">
+        <button className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300">
+          Cancel
+        </button>
 
-      {/* Report Dialog */}
-      <Dialog open={isReporting} onClose={() => setIsReporting(false)}>
-        <DialogTitle>Report Account</DialogTitle>
-        <DialogContent>
-          <label htmlFor="reportReason">Reason for Reporting</label>
-          <select
-            id="reportReason"
-            value={reportReason}
-            onChange={(e) => setReportReason(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-          >
-            <option value="">Select a reason</option>
-            {reasons.map((reason) => (
-              <option key={reason} value={reason}>
-                {reason}
-              </option>
-            ))}
-          </select>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsReporting(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmitReport} color="primary" disabled={!reportReason}>
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Deactivate Dialog */}
-      <Dialog open={isDeactivating} onClose={() => setIsDeactivating(false)}>
-        <DialogTitle>Deactivate Account</DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            label="Reason for Deactivating"
-            variant="outlined"
-            value={deactivateReason}
-            onChange={(e) => setDeactivateReason(e.target.value)}
-            multiline
-            rows={4}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsDeactivating(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmitDeactivate} color="primary" disabled={!deactivateReason}>
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        <button
+          type="submit"
+          className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 flex items-center gap-2"
+          disabled={isLoading || !verifyInfoChanged()} // Disable the button when loading
+        >
+          {isLoading ? <CircularProgress size={20} color="inherit" /> : "Submit"}
+        </button>
+      </div>
+    </form>
   );
 }
