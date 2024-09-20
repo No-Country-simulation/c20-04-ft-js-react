@@ -27,6 +27,6 @@ rou.post("/createPets", validToken, uploadMiddleware, handleImageUpload,createPe
 rou.put("/upDatePets", validToken, uploadMiddleware, handleImageUpload,upDatePets)
 
 
-rou.post("/createCmt", createCmt)
+rou.post("/createComment", createCmt)
 rou.put("/upDateComment", upDateComment)
 export default rou

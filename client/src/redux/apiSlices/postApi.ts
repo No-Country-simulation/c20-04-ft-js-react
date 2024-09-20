@@ -85,8 +85,16 @@ export const postQueryApi = createApi({
           method: 'POST',
           body: reqbody,
       }),
-  }),
+    }),
+    createComment: builder.mutation({
+      query: (reqbody) => ({
+          url: 'api/createComment',
+          credentials: "include",
+          method: 'POST',
+          body: reqbody,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllPostQuery, useGetAllPostByUsernameQuery, useLikePostMutation } = postQueryApi;
+export const { useGetAllPostQuery, useGetAllPostByUsernameQuery, useLikePostMutation, useCreateCommentMutation } = postQueryApi;

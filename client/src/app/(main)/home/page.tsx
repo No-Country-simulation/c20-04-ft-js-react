@@ -24,7 +24,6 @@ export default function Home() {
   useEffect(() => {
     if (!isLoading) {
       setPosts(data?.data?.getPost || [])
-      console.log(data?.data?.getPost);
     }
   }, [data, isLoading])
 
@@ -121,7 +120,7 @@ export default function Home() {
             <IoCloseCircleOutline />
           </IconButton>
 
-          <PostDetail selectedPost={selectedPost} setPost={setPosts} />
+          <PostDetail selectedPost={selectedPost} user={user} setPost={setPosts} />
         </Box>
       )}
     </Box>

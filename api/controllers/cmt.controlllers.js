@@ -5,20 +5,39 @@ import { TOKEN_KEY } from '../config.js';
 
 export const createCmt = async (req, res) => {
     try {
+        const {id_post, text} = req.body
         const { token } = req.cookies
+
         const userid = jwt.verify(token, TOKEN_KEY);
-        const aut = User.findById(userid.payload.id)
-        if (!aut) {
-            res.status(500).json({ message: 'not authenticated', error });
+        const user = await User.findById(userid.payload.id);
+
+        if (!user.id) {
+            return res.status(404).json({ message: "User not found" });
         }
+
         const commentC = new Comments({
-            ...req.body,
-            id_user: userid.payload.id
+            id_post,
+            text,
+            id_user: user.id
         })
-        const commentS = await commentC.save()
-        res.status(200).json(commentS);
+        
+        await commentC.save()
+
+        res.status(200).json({ 
+            code: 200,
+            data: {
+                text: commentC.text,
+                user: {
+                    name: user.name,
+                    username: user.username,
+                    profile_photo: user.profile_photo
+                }
+            },
+            message: 'Comment successful',
+            status: 'success', 
+        })
     } catch (error) {
-        res.status(500).json({ message: 'Error crear pet', error });
+        res.status(500).json({ message: 'Error create comment', error });
     }
 };
 export const upDateComment = async (req, res) => {
