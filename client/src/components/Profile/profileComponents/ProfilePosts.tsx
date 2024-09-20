@@ -104,7 +104,7 @@ export default function ProfilePosts() {
             {user?.username !== username && (
               <>
               {posts?.length === 0 ? (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-self-end">
                 <Pets style={{ fontSize: 50, color: "#8c52ff" }} />
                 <p className="mt-4 text-lg text-gray-700 font-semibold text-center">
                   This user hasn't shared any moments yet!
