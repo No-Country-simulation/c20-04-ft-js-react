@@ -103,7 +103,7 @@ export default function ProfilePosts() {
 
             {user?.username !== username && (
               <>
-              {posts.length === 0 ? (
+              {posts?.length === 0 ? (
                 <div className="flex flex-col items-center justify-center">
                 <Pets style={{ fontSize: 50, color: "#8c52ff" }} />
                 <p className="mt-4 text-lg text-gray-700 font-semibold text-center">
