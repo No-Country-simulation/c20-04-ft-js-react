@@ -2,9 +2,10 @@ import React from 'react'
 
 interface props {
   followersLength: number
+  followers: string[]
 }
 
-export default function ShowFollowersBtn({followersLength}: props) {
+export default function ShowFollowersBtn({followersLength, followers}: props) {
   
 
   return (

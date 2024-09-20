@@ -5,8 +5,8 @@ import ShowFollowingBtn from './ShowFollowingBtn';
 
 export interface User {
   _id: string;
-  followers: User[];
-  following: User[];
+  followers: string[];
+  following: string[];
   name: string;
   profile_photo: string;
   username: string;
@@ -18,33 +18,15 @@ interface UserTooltipProps {
 }
 
 const UserTooltip: React.FC<UserTooltipProps> = ({ user }) => {
-  const [showFollowers, setShowFollowers] = useState(false);
-  const [showFollowing, setShowFollowing] = useState(false);
-
-  // Función para cerrar todos los tooltips
-  const closeTooltips = () => {
-    setShowFollowers(false);
-    setShowFollowing(false);
-  };
-
-  const handleFollowersClick = () => {
-    setShowFollowers(!showFollowers);
-    setShowFollowing(false);
-  };
-
-  const handleFollowingClick = () => {
-    setShowFollowing(!showFollowing);
-    setShowFollowers(false);
-  };
 
   return (
     <div className="flex justify-center items-center gap-4">
       {/* Botón para abrir la lista de followers */}
-        <ShowFollowersBtn followersLength={user?.followers?.length}/>
+        <ShowFollowersBtn followersLength={user?.followers?.length} followers={user?.followers}/>
 
       {/* Botón para abrir la lista de following */}
 
-        <ShowFollowingBtn followingsLength={user?.following?.length}/>
+        <ShowFollowingBtn followingsLength={user?.following?.length} following={user?.following}/>
 
       {/* Fondo oscuro y tooltip */}
       

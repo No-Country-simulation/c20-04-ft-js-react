@@ -82,7 +82,26 @@ export const userQueryApi = createApi({
         },
       }),
     }),
+    getUserFollowers: builder.query({
+      query: (username) => ({
+        url: "",
+        method: "POST",
+        credentials: "include",
+        body: {
+          query: `
+            query ($username: String!) {
+              getUserByUsername(username: $username) {
+                followers
+              }
+            }
+          `,
+          variables: {
+            username,
+          },
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetProfilePropertiesQuery,useGetAboutPropertiesQuery, useGetUserByUsernameMutation } = userQueryApi;
+export const { useGetProfilePropertiesQuery,useGetAboutPropertiesQuery, useGetUserByUsernameMutation, useGetUserFollowersQuery } = userQueryApi;

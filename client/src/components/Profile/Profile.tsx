@@ -156,8 +156,8 @@ export default function Profile({
                   setEditFlag={setEditFlag}
                 />
               ) : (<>
-                <FollowOrUnfollowBtn />
-                <SendMessageBtn />
+                <FollowOrUnfollowBtn dataUsername={dataUsername}/>
+                <SendMessageBtn/>
               </>)}
             </div>
           </div>
