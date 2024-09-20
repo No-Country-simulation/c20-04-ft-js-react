@@ -92,7 +92,7 @@ const PostDetail = ({ selectedPost, setPost, user }: { selectedPost: PostType, s
                     </Box>
                 )}
 
-                {selectedPost?.comment.map((comment: CommentProps, index: number) => (
+                {selectedPost?.comment.toReversed().map((comment: CommentProps, index: number) => (
                     <Comment key={index} comment={comment} />
                 ))}
             </div>

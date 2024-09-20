@@ -35,6 +35,14 @@ export default function ProfilePosts() {
     setPosts((ps) => [...ps, { ...newPost, comments: 0, likes: 0 }])
   }
 
+  useEffect(() => {
+    const idPostSelected = selectedPost?._id
+    if (idPostSelected) {
+      const post = posts.find((post) => post._id === idPostSelected)
+      setSelectedPost(post || null)
+    }
+  }, [posts, selectedPost?._id])
+
   const handlePostClick = (post: PostType) => {
     setSelectedPost(prevSelectedPost =>
       prevSelectedPost?._id === post._id ? null : post
@@ -72,6 +80,7 @@ export default function ProfilePosts() {
             <ul className='space-y-5 transition-colors'>
               {posts.toReversed().map((post) => (
                 <Post
+                  setPost={setPosts}
                   menu={true}
                   key={post._id}
                   post={post}
@@ -129,7 +138,7 @@ export default function ProfilePosts() {
                 </IconButton>
               )}
 
-              <PostDetail selectedPost={selectedPost} />
+              <PostDetail user={user} setPost={setPosts} selectedPost={selectedPost} />
             </Box>
           )}
         </>
