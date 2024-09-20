@@ -9,6 +9,8 @@ import {
   useUnFollowUserMutation,
 } from "@/redux/apiSlices/userApi";
 
+import Alert from "@/components/shared/Alert";
+
 interface Props {
   dataUsername: string;
   dataId: string;
@@ -18,6 +20,11 @@ export default function FollowOrUnfollowBtn({ dataUsername, dataId }: Props) {
   const localUserId = useAppSelector((state) => state.userReducer?.user?.id);
   const { data, isLoading, error, refetch } =
     useGetUserFollowersQuery(dataUsername);
+
+  //state to controll loading btn when following and unfollowing
+  const [onload, setOnLoad] = useState<boolean>(false);
+  const [alertVisible, setAlertVisible] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>("");
 
   // follow mutations
   const [followUser] = useFollowUserMutation();
@@ -36,24 +43,33 @@ export default function FollowOrUnfollowBtn({ dataUsername, dataId }: Props) {
 
   const onFollow = async () => {
     try {
+      setOnLoad(true);
       const response = await followUser(dataId).unwrap();
       console.log(response);
       refetch();
+      setOnLoad(false);
     } catch (error) {
       console.log(error);
-      window.alert("Error when following this user");
+      setAlertMessage("Error when following this user");
+      setAlertVisible(true);
+      setOnLoad(false);
     }
   };
 
   const onUnfollow = async () => {
     try {
+      setOnLoad(true);
       const response = await unFollowUser(dataId).unwrap();
       console.log(response);
       refetch();
       setShowConfirmation(false); // Oculta la tarjeta de confirmación
+      setOnLoad(false);
     } catch (error) {
-      window.alert("Error when unfollowing this user");
       console.log(error);
+      setAlertMessage("Error when unfollowing this user");
+      setAlertVisible(true);
+      setOnLoad(false);
+      setShowConfirmation(false);
     }
   };
 
@@ -66,20 +82,32 @@ export default function FollowOrUnfollowBtn({ dataUsername, dataId }: Props) {
   if (error) return <button>Error loading data</button>;
 
   return (
-    <>
+    <div className="relative">
+      {alertVisible && (
+        <div className="absolute z-10 bottom-[-30%] left-[-50%] lg:left-[-45%]">
+          <Alert
+            type="danger"
+            title="action failed"
+            message={alertMessage}
+            onClose={() => setAlertVisible(false)}
+          />
+        </div>
+      )}
       {!isFollowing ? (
         <button
           className="w-[100%] px-2 h-[2.4rem] rounded justify-self-start border border-gray-300 hover:bg-[#e2e5e9]"
           onClick={onFollow}
+          disabled={onload}
         >
-          Follow
+          {onload ? "loading" : "Follow"}
         </button>
       ) : (
         <button
           className="w-[100%] px-2 h-[2.4rem] rounded justify-self-start border border-gray-300 hover:bg-[#e2e5e9]"
           onClick={handleUnfollowClick}
+          disabled={onload}
         >
-          Unfollow
+          {onload ? "loading" : "Unfollow"}
         </button>
       )}
 
@@ -111,6 +139,6 @@ export default function FollowOrUnfollowBtn({ dataUsername, dataId }: Props) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
