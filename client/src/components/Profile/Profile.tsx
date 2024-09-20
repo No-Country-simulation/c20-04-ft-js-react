@@ -90,7 +90,7 @@ export default function Profile({
           setEditFlag={setEditFlag}
         />
       ) : (
-        <div className="flex justify-center sm:justify-between flex-wrap my-6 gap-4 pl-2 md:pl-[50px]">
+        <div className="flex justify-center sm:justify-between flex-wrap my-6 gap-5 pl-2 md:pl-[50px]">
           <div className="flex gap-4">
             <figure className="w-16 h-16 md:w-20 md:h-20 rounded-full">
               {localUsername === dataUsername ? (
