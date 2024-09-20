@@ -23,7 +23,7 @@ export default function FollowOrUnfollowBtn({ dataUsername, dataId }: Props) {
 
   //state to controll loading btn when following and unfollowing
   const [onload, setOnLoad] = useState<boolean>(false);
-  const [alertVisible, setAlertVisible] = useState<boolean>(true);
+  const [alertVisible, setAlertVisible] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
 
   // follow mutations
@@ -59,7 +59,7 @@ export default function FollowOrUnfollowBtn({ dataUsername, dataId }: Props) {
   const onUnfollow = async () => {
     try {
       setOnLoad(true);
-      const response = await unFollowUser("id").unwrap();
+      const response = await unFollowUser(dataId).unwrap();
       console.log(response);
       refetch();
       setShowConfirmation(false); // Oculta la tarjeta de confirmación

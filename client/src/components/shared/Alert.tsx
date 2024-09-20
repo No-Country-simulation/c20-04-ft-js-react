@@ -66,23 +66,24 @@ const Alert: React.FC<AlertProps> = ({ type, title, message, onClose }) => {
 
     return (
         <div
-        // alert will always need to be inside a container that has the properties for its position
-            className={`absolute p-4 text-sm w-[240px] text-center max-h-[200px] ${text} border ${border} rounded-lg ${bg} dark:bg-gray-800 ${darkText} dark:border-gray-800 transition-transform transform ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+            className={`absolute p-4 text-sm w-[300px] text-center max-h-[200px] ${text} border ${border} rounded-lg ${bg} dark:bg-gray-800 ${darkText} dark:border-gray-800 transition-transform transform ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
                 }`}
             role="alert"
         >
-            <svg
-                className="flex-shrink-0 inline w-4 h-4 me-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-            >
-                <path d={iconPath} />
-            </svg>
-            <span className="sr-only">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
-            <div>
-                {title && (<span className="font-medium">{title}</span>)} {message}
+            <div className="flex items-center gap-2">
+                <svg
+                    className="flex-shrink-0 inline w-5 h-5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                >
+                    <path d={iconPath} />
+                </svg>
+                <span className="font-semibold text-lg">{title}</span>
+            </div>
+            <div className="mt-2 text-gray-700 dark:text-gray-300">
+                {message}
             </div>
         </div>
     );
