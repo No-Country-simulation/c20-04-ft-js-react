@@ -1,21 +1,18 @@
 import React from 'react'
 
-import { useParams } from "next/navigation"
-import { useGetProfilePropertiesQuery } from "@/redux/apiSlices/userQueryApi";
+interface props {
+  followingsLength: number
+  following: string[]
+}
 
-export default function ShowFollowingBtn() {
-  
-  const params = useParams()
-  const username: string = params.userName as string;
-  const {data, isError, isLoading} = useGetProfilePropertiesQuery(username)
-  const newData = data?.data?.getUserByUsername
-  console.log(newData);
+export default function ShowFollowingBtn({followingsLength, following}: props) {
+
   
 
   return (
     <>
-      <div className='flex flex-col'>
-        <p>{newData?.following.length.toString()}</p>
+      <div className='flex flex-col text-center'>
+        <p>{followingsLength}</p>
         <button className='rounded w-[40%] lg:h-[2.4rem]'>Following</button>
       </div>
     </>

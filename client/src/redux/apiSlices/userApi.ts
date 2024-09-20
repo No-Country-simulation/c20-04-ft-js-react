@@ -33,9 +33,23 @@ export const userApi = createApi({
                 method: "PUT",
                 body: reqbody,
             })
-        })
+        }),
+        followUser: builder.mutation({
+            query: (id)=> ({
+                url: `follow/${id}`,
+                method: "POST",
+                credentials: "include"
+            })
+        }),
+        unFollowUser: builder.mutation({
+            query: (id)=> ({
+                url: `unfollow/${id}`,
+                method: "POST",
+                credentials: "include"
+            })
+        }),
         
     }),
 });
 
-export const {useGetUserByUsernameQuery, useUpdateProfileInfoMutation, useUpdateAboutInfoMutation} = userApi
+export const {useGetUserByUsernameQuery, useUpdateProfileInfoMutation, useUpdateAboutInfoMutation, useFollowUserMutation, useUnFollowUserMutation} = userApi

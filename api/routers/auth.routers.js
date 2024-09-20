@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { register, login, loguot, profile, refreshAccessToken} from "../controllers/auth.controllers.js";
-import { getUserByUsername, prifileUpDate,followCntrol } from "../controllers/user.controllers.js";
+import { getUserByUsername, prifileUpDate,followCntrol, followUser, unfollowUser } from "../controllers/user.controllers.js";
 import { createPost, upDatePost , likePost} from "../controllers/post.controllers.js"
 import { validToken } from "../middlewares/validete.token.js";
 import { uploadMiddleware, handleImageUpload } from "../middlewares/uploadMiddleware.js";
@@ -16,7 +16,9 @@ rou.put('/users/:username', getUserByUsername)
 
 rou.get('/users/:username', getUserByUsername)
 rou.put("/profileUpDate", validToken, uploadMiddleware, handleImageUpload, prifileUpDate)
-rou.post("/follow", validToken, followCntrol)
+// rou.post("/follow", validToken, followCntrol)
+rou.post("/follow/:id", validToken, followUser);
+rou.post("/unfollow/:id", validToken, unfollowUser);
 
 rou.post("/createPost", validToken, uploadMiddleware, handleImageUpload,createPost)
 rou.put("/upDatePost", validToken, uploadMiddleware, handleImageUpload, upDatePost)

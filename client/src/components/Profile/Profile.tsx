@@ -4,8 +4,6 @@ import { useEffect } from "react";
 
 import ProfileSettingsBtn from "./profileComponents/ProfileSettingsBtn";
 import SendNewProfileInfo from "./profileComponents/SendNewProfileInfo";
-import ShowFollowersBtn from "./profileComponents/ShowFollowersBtn";
-import ShowFollowingBtn from "./profileComponents/ShowFollowingBtn";
 import SendMessageBtn from "./profileComponents/SendMessageBtn";
 import FollowOrUnfollowBtn from "./profileComponents/FollowOrUnfollowBtn";
 import EditProfileBasicInfoLayout from "./profileComponents/EditProfileBasicInfoLayout";
@@ -37,6 +35,7 @@ interface profileProps {
   paramsUsername: string;
   name: string;
   profilePicture: string;
+  dataId: string
 }
 
 export default function Profile({
@@ -45,6 +44,8 @@ export default function Profile({
   paramsUsername,
   name,
   profilePicture,
+  // we need this prop for follow or unfollow btn
+  dataId,
 }: profileProps) {
   const localUsername = useSelector(
     (state: RootState) => state.userReducer.user?.username
@@ -110,7 +111,7 @@ export default function Profile({
           setEditFlag={setEditFlag}
         />
       ) : (
-        <div className="flex justify-center sm:justify-between flex-wrap my-6 gap-4 pl-2 md:pl-[50px]">
+        <div className="flex justify-center sm:justify-between flex-wrap my-6 gap-5 pl-2 md:pl-[50px]">
           <div className="flex gap-4">
             <figure className="w-16 h-16 md:w-20 md:h-20 rounded-full">
               {localUsername === dataUsername ? (
@@ -148,7 +149,7 @@ export default function Profile({
             {localUsername === dataUsername ? (
               <div className="flex flex-col gap-[.2rem]">
                 <p className="mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:mt-0">
-                  {localName}
+                  {localName || 'Enter your name'}
                 </p>
                 <p className="lg:w-[6.4rem] lg:h-[3rem]">
                   @{localUsername}
@@ -157,7 +158,7 @@ export default function Profile({
             ) : (
               <div className="flex flex-col gap-[.2rem]">
                 <p className="mt-[0.8rem] overflow-hidden font-extrabold text-[1rem] lg:text-[1.8rem] lg:mt-0">
-                  {name}
+                  {name || 'not specified'}
                 </p>
                 <p className="lg:w-[6.4rem] lg:h-[3rem]">
                   @{dataUsername}
@@ -176,8 +177,8 @@ export default function Profile({
                   setEditFlag={setEditFlag}
                 />
               ) : (<>
-                <FollowOrUnfollowBtn />
-                <SendMessageBtn />
+                <FollowOrUnfollowBtn dataUsername={dataUsername} dataId={dataId}/>
+                <SendMessageBtn/>
               </>)}
             </div>
           </div>
