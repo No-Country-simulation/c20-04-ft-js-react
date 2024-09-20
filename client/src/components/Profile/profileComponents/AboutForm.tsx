@@ -172,7 +172,9 @@ export default function AboutForm({ setEditMode, description, address, onSubmitS
 
       {/* Submit button */}
       <div className="flex gap-[.6rem]">
-        <button className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300">
+        <button className="mt-4 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300"
+          onClick={() => setEditMode(false)}
+        >
           Cancel
         </button>
 
